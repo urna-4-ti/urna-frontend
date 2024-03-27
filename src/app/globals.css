@@ -10,9 +10,26 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 142.1 76.2% 36.3%;
+    --primary-foreground: 355.7 100% 97.3%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 142.1 76.2% 36.3%;
+    --radius: 0.5rem;
   }
 }
 
@@ -30,4 +47,151 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+#main {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  justift-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  font-family: "Kanit", sans-serif;
+}
+
+#leftDiv {
+  background-color: #05B022;
+  height: 100%;
+  padding-top: 3rem;
+  padding-left: 3rem;
+}
+
+#logo {
+  cursor: pointer;
+  user-select: none;
+  pointer-events: none;
+}
+
+#rightDiv {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+#topCloud {
+  user-select: none;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+#bottomCloud {
+  user-select: none;
+  pointer-events: none;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+#bottomCircle {
+  user-select: none;
+  pointer-events: none;
+  position: absolute;
+  bottom: 0;
+  right: 40rem;
+}
+
+#registerEleitor {
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  width: 500px;
+  height: 640px;
+  border-radius: 12px;
+  box-shadow: 0 1px 20px 5px #0000008a;
+  z-index: 2;
+}
+
+#registerEleitor h1 {
+  width: 100%;
+  font-weight: 300;
+  font-size: 2.5rem;
+}
+
+#registerEleitor label {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0.9rem 0;
+}
+
+#registerEleitor label p {
+  opacity: 0.7;
+  font-size: 1.3rem;
+}
+
+#registerEleitor label input {
+  font-family: "Kanit", sans-serif;
+  border: 1px solid #00000096;
+  border-radius: 10px;
+  font-size: 1.3rem;
+  padding: 0.3rem 0.2rem;
+  color: #1b1b1b;
+}
+
+#registerEleitor label select {
+  font-family: "Kanit", sans-serif;
+  border: 1px solid #00000096;
+  border-radius: 10px;
+  font-size: 1.3rem;
+  padding: 0.3rem 0.2rem;
+  color: #1b1b1b;
+}
+
+#registerEleitor label select option {
+  background-color: red;
+}
+
+#registerEleitor button {
+  background-color: #05B022;
+  border: none;
+  width: 80%;
+  padding: 0.5rem;
+  border-radius: 20px;
+  color: #fff;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: .2s;
+}
+
+#registerEleitor #cancelButton {
+  background-color: #fff;
+  border: 1px solid;
+  width: 80%;
+  padding: 0.5rem;
+  border-radius: 20px;
+  color: #000;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: .2s;
+}
+
+#registerEleitor a {
+  padding: 0.3rem;
+}
+
+#registerEleitor button:hover {
+  opacity: 0.7;
+}
+
+#registerEleitor #cancelButton:hover {
+  background-color: #F10000;
+  border: 1px solid #fff;
+  opacity: 0.7;
 }
