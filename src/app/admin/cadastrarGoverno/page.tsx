@@ -17,11 +17,9 @@ import { Input } from "@/components/Input/Input";
 const schema = z.object({
   name: z
     .string()
-    .refine((value) => value !== ""),
-  matricrulation: z.string().refine((value) => value.length === 10, {
-    message: "Matricula invalida",
-  }),
-  email: z.string().email("O campo deve ser um email"),
+    .refine((value) => value !== "", { message: "Selecione uma opção." }),
+  number: z.number(),
+  code: z.number(),
 });
 
 type formProps = z.infer<typeof schema>;
@@ -92,19 +90,19 @@ export default function Home() {
           <Input
             label="Número"
             type="text"
-            {...register("matricrulation")}
+            {...register("number")}
           />
           {errors.name?.message ? (
             <p className="text-red-600 text-sm">
-              {errors.matricrulation?.message}
+              {errors.number?.message}
             </p>
           ) : (
             ""
           )}
 
-          <Input label="Código" type="email" {...register("email")} />
+          <Input label="Código" type="text" {...register("code")} />
           {errors.name?.message ? (
-            <p className="text-red-600 text-sm">{errors.email?.message}</p>
+            <p className="text-red-600 text-sm">{errors.code?.message}</p>
           ) : (
             ""
           )}
