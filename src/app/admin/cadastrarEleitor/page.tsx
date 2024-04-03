@@ -13,28 +13,26 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Input } from "@/components/Input/Input"
 
+import "./style.css";
+
 const schema = z.object({
 	name: z.string().min(3, "O nome de usuario deve conter pelo menos 3 caracteres."),
 	matricrulation: z.string().refine((value => value.length === 10), {
 		message: 'Matricula invalida',
 	}),
 	email: z.string().email('O campo deve ser um email'),
-
 })
 
 type formProps = z.infer<typeof schema>
 
 export default function Home() {
-
 	const {
-		handleSubmit,
-		register,
-		formState: { errors }, } = useForm<formProps>({
-			mode: 'onSubmit',
-			reValidateMode: 'onChange',
-			resolver: zodResolver(schema)
-		})
-
+		handleSubmit, register, formState: { errors },
+	} = useForm<formProps>({
+		mode: 'onSubmit',
+		reValidateMode: 'onChange',
+		resolver: zodResolver(schema)
+	})
 
 	const [selectValue, setSelectValue] = useState<string>("");
 
@@ -59,18 +57,19 @@ export default function Home() {
 				<Image id="bottomCloud" src={bottomCloud} alt=""></Image>
 				<Image id="bottomCircle" src={bottomCircle} alt=""></Image>
 
-				<button id="cancelButtonIcon" onClick={() => {
-					router.back()
-				}}>
-					<Image src={iconBack} alt="Icone botão voltar"></Image>
-				</button>
-
 				<form
 					action=""
 					id="registerEleitor"
 					onSubmit={handleSubmit(handleForm)}>
-
+					
+					
 					<h1>Cadastrar Eleitor</h1>
+
+					<button id="cancelButtonIcon" onClick={() => {
+						router.back()
+					}}>
+						<Image src={iconBack} alt="Icone botão voltar"></Image>
+					</button>
 
 					<Input label="Nome" type="text" {...register('name')} />
 					{errors.name?.message ? (
