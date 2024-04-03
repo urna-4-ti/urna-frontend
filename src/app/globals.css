@@ -327,6 +327,7 @@ body {
 }
 
 #mainList {
+  background-color: #F5F5F5;
   display: grid;
   grid-template-columns: 1fr 7fr;
   justift-content: center;
@@ -394,13 +395,33 @@ body {
   display: flex;
   justify-content: start;
   align-items: center;
+  margin-bottom: 2rem;
+
+}
+
+#mainList #rightDiv #search label {
+  width: 89%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
 }
 
 #inputSearch {
+  width: 27.313rem;
   font-family: "Kanit", sans-serif;
   border: 1px solid #00000096;
   border-radius: 10px;
   font-size: 1.3rem;
   padding: 0.2rem 0.1rem;
   color: #1b1b1b;
+  padding-left: 10px;
+}
+
+#routeBtn {
+  position: absolute;
+  width: 55px;
+  height: 55px;
+  top: 6rem;
+  left: 13rem;
 }
