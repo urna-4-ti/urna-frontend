@@ -86,16 +86,14 @@ export default function Home() {
 
 					<Input label="Nome" type="text" {...register("name")} />
 					{errors.name?.message ? (
-						<p id="err" className="text-red-600 text-sm">{errors.name.message}</p>
+						<p id="err" className="text-red-600 text-sm">
+							{errors.name.message}
+						</p>
 					) : (
 						""
 					)}
 
-					<Input
-						label="Número"
-						type="number"
-						{...register("numbervote")}
-					/>
+					<Input label="Número" type="number" {...register("numbervote")} />
 					{errors.name?.message ? (
 						<p id="err" className="text-red-600 text-sm">
 							{errors.numbervote?.message}

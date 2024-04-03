@@ -88,7 +88,9 @@ export default function Home() {
 
 					<Input label="Nome" type="text" {...register("name")} />
 					{errors.name?.message ? (
-						<p id="err" className="text-red-600 text-sm">{errors.name.message}</p>
+						<p id="err" className="text-red-600 text-sm">
+							{errors.name.message}
+						</p>
 					) : (
 						""
 					)}
@@ -108,7 +110,9 @@ export default function Home() {
 
 					<Input label="Email" type="email" {...register("email")} />
 					{errors.name?.message ? (
-						<p id="err" className="text-red-600 text-sm">{errors.email?.message}</p>
+						<p id="err" className="text-red-600 text-sm">
+							{errors.email?.message}
+						</p>
 					) : (
 						""
 					)}
@@ -119,7 +123,7 @@ export default function Home() {
 							<option value="1"></option>
 						</select>
 					</label>
-					
+
 					<div id="divButton">
 						<button>Cadastrar</button>
 					</div>
