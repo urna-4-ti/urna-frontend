@@ -9,7 +9,7 @@
 }
 
 
-body {
+body, input, button, div, span, p, h1, h2, select, textarea, a, main, form {
   font-family: "Kanit", "Inter", sans-serif;
 }
 
@@ -82,31 +82,45 @@ body {
   justify-content: center;
   padding: 4rem 2rem;
   width: 500px;
-  height: 600px;
+  height: 37.5rem;
   border-radius: 12px;
   box-shadow: 0 1px 20px 5px #0000008a;
   z-index: 2;
 }
 
-#registerEleitor h1 {
-  width: 100%;
-  font-weight: 300;
-  font-size: 2.5rem;
+#registerGoverno {
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  width: 500px;
+  height: 35.563rem;
+  border-radius: 12px;
+  box-shadow: 0 1px 20px 5px #0000008a;
+  z-index: 2;
 }
 
-#registerEleitor label {
+#registerEleitor h1, #registerGoverno h1 {
+  width: 100%;
+  font-weight: 300;
+  font-size: 2.4rem;
+}
+
+#registerEleitor label, #registerGoverno label {
   width: 100%;
   display: flex;
   flex-direction: column;
   padding: 0.9rem 0;
 }
 
-#registerEleitor label p {
+#registerEleitor label p, #registerGoverno label p {
   opacity: 0.7;
   font-size: 1.3rem;
 }
 
-#registerEleitor label input {
+#registerEleitor label input, #registerGoverno label input {
   font-family: "Kanit", sans-serif;
   border: 1px solid #00000096;
   border-radius: 10px;
@@ -115,7 +129,7 @@ body {
   color: #1b1b1b;
 }
 
-#registerEleitor label select {
+#registerEleitor label select, #registerGoverno label select {
   font-family: "Kanit", sans-serif;
   border: 1px solid #00000096;
   border-radius: 10px;
@@ -124,17 +138,17 @@ body {
   color: #1b1b1b;
 }
 
-#registerEleitor label select option {
-  background-color: red;
+#registerEleitor label select option, #registerGoverno label select option {
+  font-size: 1.2rem;
 }
 
-#registerEleitor #divButton {
+#divButton {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
   gap: 10px;
-  padding: 2px;
+  margin-top: 1.3rem;
 }
 
 
@@ -146,7 +160,7 @@ body {
   left: 40rem;
 }
 
-#registerEleitor #divButton button {
+#divButton button {
   background-color: #05B022;
   border: none;
   width: 80%;
@@ -158,7 +172,7 @@ body {
   transition: .2s;
 }
 
-#registerEleitor #divButton #cancelButton {
+#divButton #cancelButton {
   background-color: #fff;
   border: 1px solid;
   width: 80%;
@@ -170,11 +184,8 @@ body {
   transition: .2s;
 }
 
-#registerEleitor a {
-  padding: 0.3rem;
-}
 
-#registerEleitor #divButton button:hover {
+#divButton button:hover {
   opacity: 0.7;
 }
 
@@ -190,7 +201,7 @@ body {
   height: 316px;
   background-color: #D9D9D9;
   cursor: pointer;
-  left: 20rem;
+  left: 16rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -298,7 +309,6 @@ body {
   border-radius: 8px;
   color: #fff;
   font-size: 1.1rem;
-  font-family: sans-serif;
   transition: .2s;
 }
 #home-page button:hover {
@@ -358,7 +368,7 @@ body {
   font-size: 1.3rem;
 }
 #loginForm input {
-  border-radius: 6px;
+  border-radius: 12px;
   border: 1px solid #333;
   margin-top: .5rem;
 }
@@ -369,8 +379,10 @@ body {
   border-radius: 8px;
   padding: 1rem 0;
   color: #fff;
+  font-size: 1rem;
   font-weight: 600;
   transition: .2s;
+  cursor: pointer;
 }
 #loginForm button:hover {
   background-color: #05B02255;

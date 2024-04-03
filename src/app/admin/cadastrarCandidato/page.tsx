@@ -19,9 +19,7 @@ const schema = z.object({
 	name: z
 		.string()
 		.min(3, "*O nome de usuário deve conter pelo menos 3 caracteres."),
-	matricrulation: z.string().refine((value) => value.length === 10, {
-		message: "*Matrícula inválida.",
-	}),
+	numbervote: z.number(),
 	email: z.string().email("*O campo deve ser um email válido."),
 });
 
@@ -75,7 +73,7 @@ export default function Home() {
 					id="registerEleitor"
 					onSubmit={handleSubmit(handleForm)}
 				>
-					<h1>Cadastrar Eleitor</h1>
+					<h1>Cadastrar Candidato</h1>
 
 					<button
 						id="cancelButtonIcon"
@@ -94,21 +92,14 @@ export default function Home() {
 					)}
 
 					<Input
-						label="Matrícula"
-						type="text"
-						{...register("matricrulation")}
+						label="Número"
+						type="number"
+						{...register("numbervote")}
 					/>
 					{errors.name?.message ? (
 						<p id="err" className="text-red-600 text-sm">
-							{errors.matricrulation?.message}
+							{errors.numbervote?.message}
 						</p>
-					) : (
-						""
-					)}
-
-					<Input label="Email" type="email" {...register("email")} />
-					{errors.name?.message ? (
-						<p id="err" className="text-red-600 text-sm">{errors.email?.message}</p>
 					) : (
 						""
 					)}
@@ -119,7 +110,41 @@ export default function Home() {
 							<option value="1"></option>
 						</select>
 					</label>
-					
+
+					<Input
+						label="Descrição"
+						type="textarea"
+						{...register("numbervote")}
+					/>
+
+					<label htmlFor="inputImg" id="labelImg" tabIndex={0}>
+						<input
+							type="file"
+							name=""
+							id="inputImg"
+							accept="image/*"
+							onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+								const file = event.target.files?.[0];
+								if (file) {
+									setImage(URL.createObjectURL(file));
+								}
+							}}
+						/>
+						{!image ? (
+							<Image src={inputImage} alt="Imagem Input" id="uploading" />
+						) : (
+							""
+						)}
+						{image && (
+							<Image
+								src={image}
+								alt="teste"
+								id="newImage"
+								width={1}
+								height={1}
+							></Image>
+						)}
+					</label>
 					<div id="divButton">
 						<button>Cadastrar</button>
 					</div>

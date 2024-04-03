@@ -33,7 +33,12 @@ export default function Home() {
 				</div>
 
 				<div className="box-actions">
-					<div className="action">
+					<div
+						className="action"
+						onClick={() => {
+							router.push("/admin/cadastrarPartido");
+						}}
+					>
 						<div className="name">
 							<Image id="plusCross" src={plusCross} alt="Icon add"></Image>
 							<span>Cadastrar</span>
@@ -54,7 +59,12 @@ export default function Home() {
 						<div className="what-for">Eleitor</div>
 					</div>
 
-					<div className="action">
+					<div
+						className="action"
+						onClick={() => {
+							router.push("/admin/cadastrarCandidato");
+						}}
+					>
 						<div className="name">
 							<Image id="plusCross" src={plusCross} alt="Icon add"></Image>
 							<span>Cadastrar</span>
@@ -62,7 +72,12 @@ export default function Home() {
 						<div className="what-for">Candidato</div>
 					</div>
 
-					<div className="action">
+					<div
+						className="action"
+						onClick={() => {
+							router.push("/admin/cadastrarPartido");
+						}}
+					>
 						<div className="name">
 							<Image id="plusCross" src={hambList} alt="Icon add"></Image>
 							<span>Listar</span>
@@ -70,7 +85,12 @@ export default function Home() {
 						<div className="what-for">Partido</div>
 					</div>
 
-					<div className="action">
+					<div
+						className="action"
+						onClick={() => {
+							router.push("/admin/cadastrarEleitor");
+						}}
+					>
 						<div className="name">
 							<Image id="plusCross" src={hambList} alt="Icon add"></Image>
 							<span>Listar</span>
