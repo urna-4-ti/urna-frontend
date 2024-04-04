@@ -4,14 +4,13 @@ import { useRouter } from "next/navigation";
 export default function Home() {
 	const router = useRouter();
 	return (
-		<main id="home-page">
-			<h1>Página inicial</h1>
+		<main id="main">
 			<button
 				onClick={() => {
-					router.push("/login");
+					router.push("/admin/cadastrarEleitor");
 				}}
 			>
-				Faça login por aqui
+				Clique aqui
 			</button>
 		</main>
 	);
