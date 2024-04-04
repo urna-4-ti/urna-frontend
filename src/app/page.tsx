@@ -7,6 +7,7 @@ export default function Home() {
 		<main id="home-page">
 			<h1>Página inicial</h1>
 			<button
+				type="button"
 				onClick={() => {
 					router.push("/login");
 				}}

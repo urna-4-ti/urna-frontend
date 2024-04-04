@@ -10,7 +10,8 @@ export default function Modal({ isOpen, onClose }: ModalProps) {
 
 	return (
 		<div id="bodyModal">
-			<div id="blurModal" onClick={onClose} />
+			{/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
+			<div id="blurModal" onClick={() => onClose} />
 			<div id="pageModal">
 				<p>Deseja realmente desvincular este eleitor?</p>
 				<div id="btnModal">

@@ -1,5 +1,5 @@
 /* eslint-disable react/display-name */
-import { InputHTMLAttributes, forwardRef, useId } from "react";
+import { type InputHTMLAttributes, forwardRef, useId } from "react";
 
 type InputProps = InputHTMLAttributes<HTMLInputElement> & {
 	label?: string;

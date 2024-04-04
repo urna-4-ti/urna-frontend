@@ -1,19 +1,20 @@
 "use client";
-import Image from "next/image";
-import topCloud from "@/img/top-cloud.svg";
-import bottomCloud from "@/img/bottom-cloud.svg";
-import bottomCircle from "@/img/bottom-circle.svg";
-import logoUrna from "@/img/logo.svg";
-import iconBack from "@/img/icon-back.svg";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import inputImage from "@/img/uploading-icon.svg";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/Input/Input";
+import bottomCircle from "@/img/bottom-circle.svg";
+import bottomCloud from "@/img/bottom-cloud.svg";
+import iconBack from "@/img/icon-back.svg";
+import logoUrna from "@/img/logo.svg";
+import topCloud from "@/img/top-cloud.svg";
+import inputImage from "@/img/uploading-icon.svg";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 import "./style.css";
+import { stringify } from "querystring";
 
 const schema = z.object({
 	name: z
@@ -21,6 +22,7 @@ const schema = z.object({
 		.min(3, "*O nome de usuário deve conter pelo menos 3 caracteres."),
 	numbervote: z.number(),
 	email: z.string().email("*O campo deve ser um email válido."),
+	description: z.string(),
 });
 
 type formProps = z.infer<typeof schema>;
@@ -52,20 +54,21 @@ export default function Home() {
 	return (
 		<main id="main">
 			<div id="leftDiv">
-				<Image src={logoUrna} alt="" id="logo"></Image>
+				<Image src={logoUrna} alt="" id="logo" />
 			</div>
 			<div id="rightDiv">
-				<Image id="topCloud" src={topCloud} alt=""></Image>
-				<Image id="bottomCloud" src={bottomCloud} alt=""></Image>
-				<Image id="bottomCircle" src={bottomCircle} alt=""></Image>
+				<Image id="topCloud" src={topCloud} alt="" />
+				<Image id="bottomCloud" src={bottomCloud} alt="" />
+				<Image id="bottomCircle" src={bottomCircle} alt="" />
 
 				<button
+					type="button"
 					id="cancelButtonIcon"
 					onClick={() => {
 						router.back();
 					}}
 				>
-					<Image src={iconBack} alt="Icone botão voltar"></Image>
+					<Image src={iconBack} alt="Icone botão voltar" />
 				</button>
 
 				<form
@@ -76,12 +79,13 @@ export default function Home() {
 					<h1>Cadastrar Candidato</h1>
 
 					<button
+						type="button"
 						id="cancelButtonIcon"
 						onClick={() => {
 							router.back();
 						}}
 					>
-						<Image src={iconBack} alt="Icone botão voltar"></Image>
+						<Image src={iconBack} alt="Icone botão voltar" />
 					</button>
 
 					<Input label="Nome" type="text" {...register("name")} />
@@ -105,17 +109,18 @@ export default function Home() {
 					<label htmlFor="">
 						<p>Turma</p>
 						<select onChange={handleChange} value={selectValue}>
-							<option value="1"></option>
+							<option value="1" />
 						</select>
 					</label>
 
 					<Input
 						label="Descrição"
 						type="textarea"
-						{...register("numbervote")}
+						{...register("description")}
 					/>
 
-					<label htmlFor="inputImg" id="labelImg" tabIndex={0}>
+
+					<label htmlFor="inputImg" id="labelImg">
 						<input
 							type="file"
 							name=""
@@ -129,7 +134,7 @@ export default function Home() {
 							}}
 						/>
 						{!image ? (
-							<Image src={inputImage} alt="Imagem Input" id="uploading" />
+							<Image src={JSON.parse(stringify(inputImage))} alt="Imagem Input" id="uploading" />
 						) : (
 							""
 						)}
@@ -140,11 +145,11 @@ export default function Home() {
 								id="newImage"
 								width={1}
 								height={1}
-							></Image>
+							/>
 						)}
 					</label>
 					<div id="divButton">
-						<button>Cadastrar</button>
+						<button type="submit" onClick={() => {}}>Cadastrar</button>
 					</div>
 				</form>
 			</div>

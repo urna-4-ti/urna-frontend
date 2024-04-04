@@ -1,3 +1,4 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
@@ -8,6 +9,7 @@ export const metadata: Metadata = {
 	title: "IFUrna",
 	description: "Urna de votação do IFRS Campus Feliz",
 };
+const queryClient = new QueryClient();
 
 export default function RootLayout({
 	children,
@@ -24,7 +26,11 @@ export default function RootLayout({
 					rel="stylesheet"
 				/>
 			</head>
-			<body className={inter.className}>{children}</body>
+			<body className={inter.className}>
+				<QueryClientProvider client={queryClient}>
+					{children}
+				</QueryClientProvider>
+			</body>
 		</html>
 	);
 }

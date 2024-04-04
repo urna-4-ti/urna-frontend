@@ -1,17 +1,17 @@
 "use client";
-import Image from "next/image";
-import topCloud from "@/img/top-cloud.svg";
-import bottomCloud from "@/img/bottom-cloud.svg";
-import bottomCircle from "@/img/bottom-circle.svg";
-import logoUrna from "@/img/logo.svg";
-import iconBack from "@/img/icon-back.svg";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import inputImage from "@/img/uploading-icon.svg";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/Input/Input";
+import bottomCircle from "@/img/bottom-circle.svg";
+import bottomCloud from "@/img/bottom-cloud.svg";
+import iconBack from "@/img/icon-back.svg";
+import logoUrna from "@/img/logo.svg";
+import topCloud from "@/img/top-cloud.svg";
+import inputImage from "@/img/uploading-icon.svg";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 import "./style.css";
 

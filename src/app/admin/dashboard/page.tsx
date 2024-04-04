@@ -66,7 +66,7 @@ export default function Home() {
 						}}
 					>
 						<div className="name">
-							<Image id="plusCross" src={plusCross} alt="Icon add"></Image>
+							<Image id="plusCross" src={plusCross} alt="Icon add" width={27} height={27}></Image>
 							<span>Cadastrar</span>
 						</div>
 						<div className="what-for">Candidato</div>
