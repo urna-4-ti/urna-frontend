@@ -29,7 +29,7 @@ const schema = z.object({
 type formProps = z.infer<typeof schema>;
 
 export default function Home() {
-	const queryClient = new QueryClient()
+	const queryClient = new QueryClient();
 
 	const {
 		handleSubmit,

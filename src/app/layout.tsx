@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { queryClient } from "@/lib/queryClient";
+import ReactQueryClientProvider from "@/lib/ReactQueryClientProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,6 +18,7 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
+		<ReactQueryClientProvider>
 		<html lang="pt-BR">
 			<head>
 				<link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -27,10 +29,9 @@ export default function RootLayout({
 				/>
 			</head>
 			<body className={inter.className}>
-				<QueryClientProvider client={queryClient}>
-					{children}
-				</QueryClientProvider>
+				{children}
 			</body>
 		</html>
+		</ReactQueryClientProvider>
 	);
 }
