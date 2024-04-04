@@ -12,6 +12,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/Input/Input";
 
+import "./style.css";
+
 const schema = z.object({
 	name: z
 		.string()
@@ -72,8 +74,15 @@ export default function Home() {
 
 					<label htmlFor="">
 						<p>Nome</p>
+
 						<select value={selectValue} {...register("name")}>
 							<option value="">Selecione</option>
+
+						<select name="name">
+							<option value="" disabled>
+								Selecione
+							</option>
+
 							<option value="Absolutista">Monarquia Absolutista</option>
 							<option value="Constitucional">Monarquia Constitucional</option>
 							<option value="Repúblicas">República</option>
