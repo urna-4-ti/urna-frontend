@@ -10,9 +10,26 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 142.1 76.2% 36.3%;
+    --primary-foreground: 355.7 100% 97.3%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 142.1 76.2% 36.3%;
+    --radius: 0.5rem;
   }
 }
 
@@ -30,4 +47,372 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+#main {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  font-family: "Kanit", sans-serif;
+}
+
+#leftDiv {
+  background-color: #05B022;
+  height: 100%;
+  padding-top: 3rem;
+  padding-left: 3rem;
+}
+
+#logo {
+  cursor: pointer;
+  user-select: none;
+  pointer-events: none;
+}
+
+#rightDiv {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+#topCloud {
+  user-select: none;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+#bottomCloud {
+  user-select: none;
+  pointer-events: none;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+#bottomCircle {
+  user-select: none;
+  pointer-events: none;
+  position: absolute;
+  bottom: 0;
+  right: 40rem;
+}
+
+#registerEleitor {
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  width: 500px;
+  height: 37.5rem;
+  border-radius: 12px;
+  box-shadow: 0 1px 20px 5px #0000008a;
+  z-index: 2;
+}
+
+#registerGoverno {
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  width: 500px;
+  height: 35.563rem;
+  border-radius: 12px;
+  box-shadow: 0 1px 20px 5px #0000008a;
+  z-index: 2;
+}
+
+#registerEleitor h1, #registerGoverno h1 {
+  width: 100%;
+  font-weight: 300;
+  font-size: 2.4rem;
+}
+
+#registerEleitor label, #registerGoverno label {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0.9rem 0;
+}
+
+#registerEleitor label p, #registerGoverno label p {
+  opacity: 0.7;
+  font-size: 1.3rem;
+}
+
+#registerEleitor label input, #registerGoverno label input {
+  font-family: "Kanit", sans-serif;
+  border: 1px solid #00000096;
+  border-radius: 10px;
+  font-size: 1.3rem;
+  padding: 0.2rem 0.1rem;
+  color: #1b1b1b;
+}
+
+#registerEleitor label select, #registerGoverno label select {
+  font-family: "Kanit", sans-serif;
+  border: 1px solid #00000096;
+  border-radius: 10px;
+  font-size: 1.3rem;
+  padding: 0.3rem 0.2rem;
+  color: #1b1b1b;
+}
+
+#registerEleitor label select option, #registerGoverno label select option {
+  font-size: 1.2rem;
+}
+
+#divButton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 10px;
+  margin-top: 1.3rem;
+}
+
+
+#cancelButtonIcon {
+  position: absolute;
+  width: 55px;
+  height: 55px;
+  top: 6rem;
+  left: 40rem;
+}
+
+#divButton button {
+  background-color: #05B022;
+  border: none;
+  width: 80%;
+  padding: 0.5rem;
+  border-radius: 20px;
+  color: #fff;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: .2s;
+  font-weight: bold;
+}
+
+#divButton #cancelButton {
+  background-color: #fff;
+  border: 1px solid;
+  width: 80%;
+  padding: 0.5rem;
+  border-radius: 20px;
+  color: #000;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: .2s;
+}
+
+
+#divButton button:hover {
+  opacity: 0.7;
+}
+
+#unlinkBtn{
+  border: none;
+  width: 80%;
+  padding: 0.5rem;
+  border-radius: 20px;
+  color: #d40415ab;
+  font-size: 1.2rem;
+  cursor: pointer;
+  font-weight: bold;
+  transition: .2s;
+  margin-top: 20px;
+}
+
+#unlinkBtn:hover{
+  color: #d4041581;
+}
+
+#registerEleitor #divButton #cancelButton:hover {
+  background-color: #F10000;
+  border: 1px solid #fff;
+  opacity: 0.7;
+}
+
+#registerEleitor #labelImg {
+  position:absolute;
+  width: 316px;
+  height: 316px;
+  background-color: #D9D9D9;
+  cursor: pointer;
+  left: 16rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+}
+
+#labelImg #inputImg {
+  display:none;
+}
+
+#labelImg #newImage {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  border-radius: 10px;
+}
+
+#registerEleitor #divButton #modal {
+  position: absolute;
+  background-color: #fff;
+  width: 795px;
+  height: 587px;
+}
+
+#bodyModal {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#blurModal {
+  position: absolute;
+  inset: 0;
+  background-color: #000;
+  opacity: 0.5;
+}
+
+#pageModal {
+  position: relative;
+  z-index: 10;
+  width: 683px;
+  height: 395px;
+  background: #fff;
+  opacity: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  font-size: 2rem;
+  padding: 6.25rem;
+  text-align: center;
+  font-weight: 700;
+  border-radius: 2rem;
+}
+
+#pageModal #btnModal {
+  display: flex;
+  padding-top: 3.25rem;
+  gap: 2rem;
+}
+
+#pageModal #btnModal #btn1Modal {
+  width: 300px;
+  height: 70px;
+  font-size: 1.5rem;
+}
+
+#pageModal #btnModal #btn2Modal {
+  width: 300px;
+  height: 70px;
+  font-size: 1.5rem;
+  background-color: #fff;
+  color: #000;
+  border: 2px solid #000;
+}
+
+#pageModal #btnModal #btn1Modal:hover {
+  opacity: 0.8;
+  transition: .2s;
+  scale: 1.1;
+}
+
+#pageModal #btnModal #btn2Modal:hover {
+  opacity: 0.8;
+  transition: .2s;
+  scale: 1.1;
+  background-color: #D40415;
+  border: none;
+}
+
+#deleteGov{
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 883px;
+  height: 495px;
+  font-size: 40px;
+  border-radius: 30px;
+  background-color: white;
+  position: absolute;
+  top: 25vh;
+  left: 25vw;
+  z-index: 99;
+  font-weight: bold;
+  gap: 150px;
+}
+
+#deleteGov h2{
+  color: hsla(0, 0%, 0%, 0.8);
+}
+
+#deleteGov div{
+  display: flex;
+  gap: 35px;
+}
+
+#deleteGov div button{
+  width: 319px;
+  height: 101px;
+  
+}
+
+#deleteGov div #yesBtn{
+  background-color: #05B022;
+  border: none;
+  border-radius: 20px;
+  color: #fff;
+  cursor: pointer;
+  transition: .2s;
+  font-weight: bold;
+  text-align: center;
+}
+
+#deleteGov div #noBtn{
+  border: 1px solid hsla(0, 0%, 0%, 0.8);
+  border-radius: 20px;
+  color: hsla(0, 0%, 0%, 0.8);
+  cursor: pointer;
+  transition: .2s;
+  font-weight: bold;
+  text-align: center;
+}
+
+#background{
+  display: none;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(21, 20, 26, 0.3);
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 98;
+}
+
+.flex{
+  display: flex;
+}
+
+.inline{
+  display: inline;
 }
