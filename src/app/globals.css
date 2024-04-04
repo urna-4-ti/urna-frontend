@@ -33,6 +33,12 @@
   }
 }
 
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
@@ -415,4 +421,138 @@ body {
 
 .inline{
   display: inline;
+}
+
+#listMain{
+  display: grid;
+  grid-template-columns: 1fr 6fr;
+}
+
+#ifAside{
+  height: 100vh;
+  width: 10vw;
+  background-color: #05B022;
+  padding: 30px;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+}
+
+#userDiv{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  width: 268px;
+  height: 75px;
+  position: absolute;
+  top: 2vh;
+  right: 2vw;
+}
+
+#userDiv span{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  font-weight: bold;
+  font-size: 22px;
+}
+
+#userDiv button{
+  appearance: none;
+  background: none;
+  border: none;
+  font-weight: bold;
+  font-size: 22px;
+  color: rgb(234, 0, 0);
+  transition: .2s;
+  cursor: pointer;
+}
+
+#userDiv button:hover{
+  color: rgba(234, 0, 0, 0.7);
+}
+
+#listGov{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  width: 1092px;
+  height: 935px;
+}
+
+#listGov h2{
+  font-size: 50px;
+  margin-bottom: 25px;
+  margin-left: -490px;
+}
+
+#tableGov{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 34px;
+  height: inherit;
+  overflow-y: auto;
+}
+
+#searchInput{
+  display: flex;
+  align-items: center;
+}
+
+#searchInput input{
+  appearance: none;
+  border: none;
+  width: 437px;
+  height: 52px;
+  padding: 11px;
+  padding-left: 45px;
+  border-radius: 10px;
+  background-color: #F0F0F0;
+  color: rgb(116, 116, 116);
+  font-size: 20px;
+}
+
+#filterIcon{
+  margin-right: -20px;
+}
+
+#searchIcon{
+  position: relative;
+  left: 8%;
+  top: 0;
+}
+
+#tableGov{
+  height: 100vh;
+}
+
+#tableGov table{
+  font-size: 20px;
+}
+
+#tableGov table th,td{
+  padding-left: 50px;
+  padding-right: 50px;
+  padding-bottom: 30px;
+  width: 380px;
+}
+
+.userRow{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+}
+
+.userRowIcon{
+  width: 65px;
+  height: 65px;
+  border: 15px solid #05B022;
+  border-radius: 10px;
+  background-color: #05B022;
 }

@@ -1,0 +1,25 @@
+#cancelButtonIcon {
+    border: none;
+    border-radius: 50%;
+    position: absolute;
+    top: 20%;
+    left: 40%;
+}
+#divButton button {
+    width: 100%;
+    border-radius: 12px;
+}
+form #err {
+    color: #f00;
+    font-weight: 500;
+}
+#registerEleitor h1 {
+    font-weight: 600;
+}
+#registerEleitor #labelImg {
+    top: 40%;
+    left: 25%;
+}
+#labelImg #newImage {
+    object-fit: cover;
+}

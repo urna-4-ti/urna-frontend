@@ -7,17 +7,20 @@ import logoUrna from "@/img/logo.svg";
 import iconBack from "@/img/icon-back.svg";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import inputImage from "@/img/uploading-icon.svg";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/Input/Input";
 
+import "./style.css";
+
 const schema = z.object({
 	name: z
 		.string()
-		.refine((value) => value !== "", { message: "Selecione uma opção." }),
-	number: z.number(),
-	code: z.number(),
+		.min(3, "*O nome de usuário deve conter pelo menos 3 caracteres."),
+	numbervote: z.number(),
+	email: z.string().email("*O campo deve ser um email válido."),
 });
 
 type formProps = z.infer<typeof schema>;
@@ -35,19 +38,13 @@ export default function Home() {
 
 	const [selectValue, setSelectValue] = useState<string>("");
 
+	const [image, setImage] = useState<string | null>(null);
+
 	const router = useRouter();
 
 	const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
 		setSelectValue(e.target.value);
 	};
-
-	function showDeleteSection() {
-		let deleteGov = document.querySelector("#deleteGov");
-		let background = document.querySelector("#background");
-
-		background?.classList.add("inline");
-		deleteGov?.classList.add("flex");
-	}
 
 	const handleForm = () => {
 		console.log("a");
@@ -73,56 +70,83 @@ export default function Home() {
 
 				<form
 					action=""
-					id="registerGoverno"
+					id="registerEleitor"
 					onSubmit={handleSubmit(handleForm)}
 				>
-					<h1>Editar Governo</h1>
+					<h1>Cadastrar Candidato</h1>
+
+					<button
+						id="cancelButtonIcon"
+						onClick={() => {
+							router.back();
+						}}
+					>
+						<Image src={iconBack} alt="Icone botão voltar"></Image>
+					</button>
+
+					<Input label="Nome" type="text" {...register("name")} />
+					{errors.name?.message ? (
+						<p id="err" className="text-red-600 text-sm">
+							{errors.name.message}
+						</p>
+					) : (
+						""
+					)}
+
+					<Input label="Número" type="number" {...register("numbervote")} />
+					{errors.name?.message ? (
+						<p id="err" className="text-red-600 text-sm">
+							{errors.numbervote?.message}
+						</p>
+					) : (
+						""
+					)}
 
 					<label htmlFor="">
-						<p>Nome</p>
-						<select value={selectValue} {...register("name")}>
-							<option value="">Selecione</option>
-							<option value="Absolutista">Monarquia Absolutista</option>
-							<option value="Constitucional">Monarquia Constitucional</option>
-							<option value="Repúblicas">República</option>
+						<p>Turma</p>
+						<select onChange={handleChange} value={selectValue}>
+							<option value="1"></option>
 						</select>
 					</label>
-					{errors.name?.message ? (
-						<p className="text-red-600 text-sm">{errors.name.message}</p>
-					) : (
-						""
-					)}
 
-					<Input label="Número" type="text" {...register("number")} />
-					{errors.name?.message ? (
-						<p className="text-red-600 text-sm">{errors.number?.message}</p>
-					) : (
-						""
-					)}
+					<Input
+						label="Descrição"
+						type="textarea"
+						{...register("numbervote")}
+					/>
 
-					<Input label="Código" type="text" {...register("code")} />
-					{errors.name?.message ? (
-						<p className="text-red-600 text-sm">{errors.code?.message}</p>
-					) : (
-						""
-					)}
-
+					<label htmlFor="inputImg" id="labelImg" tabIndex={0}>
+						<input
+							type="file"
+							name=""
+							id="inputImg"
+							accept="image/*"
+							onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+								const file = event.target.files?.[0];
+								if (file) {
+									setImage(URL.createObjectURL(file));
+								}
+							}}
+						/>
+						{!image ? (
+							<Image src={inputImage} alt="Imagem Input" id="uploading" />
+						) : (
+							""
+						)}
+						{image && (
+							<Image
+								src={image}
+								alt="teste"
+								id="newImage"
+								width={1}
+								height={1}
+							></Image>
+						)}
+					</label>
 					<div id="divButton">
-						<button>Salvar</button>
+						<button>Cadastrar</button>
 					</div>
-					<button id="unlinkBtn" onClick={showDeleteSection}>
-						Excluir governo
-					</button>
 				</form>
-
-				<section id="deleteGov">
-					<h2>Deseja realmente excluir este governo?</h2>
-					<div>
-						<button id="yesBtn">Sim</button>
-						<button id="noBtn">Não</button>
-					</div>
-				</section>
-				<span id="background"></span>
 			</div>
 		</main>
 	);
