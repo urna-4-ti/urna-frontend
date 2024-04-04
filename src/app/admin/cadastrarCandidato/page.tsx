@@ -15,6 +15,7 @@ import { z } from "zod";
 
 import "./style.css";
 import { stringify } from "querystring";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const schema = z.object({
 	name: z
@@ -28,6 +29,8 @@ const schema = z.object({
 type formProps = z.infer<typeof schema>;
 
 export default function Home() {
+	const queryClient = new QueryClient()
+
 	const {
 		handleSubmit,
 		register,
@@ -119,7 +122,6 @@ export default function Home() {
 						{...register("description")}
 					/>
 
-
 					<label htmlFor="inputImg" id="labelImg">
 						<input
 							type="file"
@@ -134,7 +136,11 @@ export default function Home() {
 							}}
 						/>
 						{!image ? (
-							<Image src={JSON.parse(stringify(inputImage))} alt="Imagem Input" id="uploading" />
+							<Image
+								src={JSON.parse(stringify(inputImage))}
+								alt="Imagem Input"
+								id="uploading"
+							/>
 						) : (
 							""
 						)}
@@ -149,7 +155,9 @@ export default function Home() {
 						)}
 					</label>
 					<div id="divButton">
-						<button type="submit" onClick={() => {}}>Cadastrar</button>
+						<button type="submit" onClick={() => {}}>
+							Cadastrar
+						</button>
 					</div>
 				</form>
 			</div>
