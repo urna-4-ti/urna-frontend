@@ -296,6 +296,7 @@ body, input, button, div, span, p, h1, h2, select, textarea, a, main, form {
   border: none;
 }
 
+
 #home-page {
   display: flex;
   flex-direction: column;
@@ -319,12 +320,19 @@ body, input, button, div, span, p, h1, h2, select, textarea, a, main, form {
   display: grid;
   grid-template-columns: 2fr 1fr;
   justify-content: center;
+
+#mainList {
+  background-color: #F5F5F5;
+  display: grid;
+  grid-template-columns: 1fr 7fr;
+  justift-content: center;
   align-items: center;
   width: 100%;
   height: 100%;
   min-height: 100vh;
   font-family: "Kanit", sans-serif;
 }
+
 .right-panel {
   background-color: #05B022;
   height: 100%;
@@ -397,4 +405,92 @@ body, input, button, div, span, p, h1, h2, select, textarea, a, main, form {
   position: absolute;
   left: 17.4%;
   cursor: pointer;
+}
+
+#mainList #rightDiv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  height: 100%;
+}
+
+#mainList #rightDiv #divTop {
+  display: flex;
+  width: 100%;
+}
+
+#mainList #rightDiv #divTop #left {
+  font-size: 2.3rem;
+  display: flex;
+  justify-content: start;
+  width: 50%;
+  margin: 1.1rem;
+}
+
+#mainList #rightDiv #divTop #right {
+  display: flex;
+  justify-content: end;
+  width: 50%;
+  margin: 1.1rem;
+}
+
+#mainList #rightDiv #divTop #right label {
+  width: 16.75rem;
+  display: flex;
+  justify-content: end;
+}
+
+#mainList #rightDiv #divTop #right label div {
+  margin-left: 1.4rem;
+  width: 
+}
+
+#mainList #rightDiv #divTop #right label div p {
+  font-weight: 700;
+}
+
+#mainList #rightDiv #divTop #right label div span {
+  font-weight: 700;
+  color: #EA0000;
+  display: flex;
+  justify-content: end;
+  margin-right: 1rem;
+}
+
+#mainList #rightDiv #search {
+  width: 100%;
+  height: 3.75rem;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  margin-bottom: 2rem;
+
+}
+
+#mainList #rightDiv #search label {
+  width: 89%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+#inputSearch {
+  width: 27.313rem;
+  font-family: "Kanit", sans-serif;
+  border: 1px solid #00000096;
+  border-radius: 10px;
+  font-size: 1.3rem;
+  padding: 0.2rem 0.1rem;
+  color: #1b1b1b;
+  padding-left: 10px;
+}
+
+#routeBtn {
+  position: absolute;
+  width: 55px;
+  height: 55px;
+  top: 6rem;
+  left: 13rem;
 }
