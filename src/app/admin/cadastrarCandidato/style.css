@@ -1,3 +1,6 @@
+#main {
+    display: grid;
+}
 #cancelButtonIcon {
     border: none;
     border-radius: 50%;

@@ -94,7 +94,7 @@ export default function Home() {
 					<div
 						className="action"
 						onClick={() => {
-							router.push("/admin/cadastrarEleitor");
+							router.push("/admin/listarEleitor");
 						}}
 					>
 						<div className="name">
