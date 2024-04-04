@@ -18,7 +18,7 @@ import "./style.css";
 const schema = z.object({
 	name: z
 		.string()
-		.min(3, "*O nome de usuário deve conter pelo menos 3 caracteres."),
+		.min(3, "*O nome de candidato deve conter pelo menos 3 caracteres."),
 	numbervote: z.number(),
 	email: z.string().email("*O campo deve ser um email válido."),
 });

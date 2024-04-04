@@ -1,11 +1,13 @@
 "use client";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import urnaIf from "@/img/urnaif.svg";
 
 export default function Home() {
 	const router = useRouter();
 	return (
 		<main id="home-page">
-			<h1>Página inicial</h1>
+			<Image id="urnaIf" src={urnaIf} alt="Urna"></Image>
 			<button
 				onClick={() => {
 					router.push("/login");

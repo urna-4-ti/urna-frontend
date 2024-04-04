@@ -1,5 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import Image from "next/image";
 import urnaIf from "@/img/urnaif.svg";
 import plusCross from "@/img/cross.svg";
@@ -10,17 +11,22 @@ import "./style.css";
 
 export default function Home() {
 	const router = useRouter();
+	
+	useEffect(() => {
+		document.title = 'UrnaIF | Administrador';
+	}, []);
+
 	return (
 		<main id="dashboard">
 			<div className="left-panel">
-				<Image id="urnaIf" src={urnaIf} alt=""></Image>
+				<Image id="urnaIf" src={urnaIf} alt="Urna"></Image>
 			</div>
 
 			<div className="right-panel">
 				<div className="info-admin">
 					<div className="adm">
 						<Image id="userIcon" src={userIcon} alt=""></Image>
-						<span id="adminName">Júlio César Alencar</span>
+						<span id="adminName">Administrador</span>
 					</div>
 					<button
 						id="sair"
@@ -36,19 +42,6 @@ export default function Home() {
 					<div
 						className="action"
 						onClick={() => {
-							router.push("/admin/cadastrarPartido");
-						}}
-					>
-						<div className="name">
-							<Image id="plusCross" src={plusCross} alt="Icon add"></Image>
-							<span>Cadastrar</span>
-						</div>
-						<div className="what-for">Partido</div>
-					</div>
-
-					<div
-						className="action"
-						onClick={() => {
 							router.push("/admin/cadastrarEleitor");
 						}}
 					>
@@ -57,6 +50,32 @@ export default function Home() {
 							<span>Cadastrar</span>
 						</div>
 						<div className="what-for">Eleitor</div>
+					</div>
+
+					<div
+						className="action"
+						onClick={() => {
+							router.push("/admin/cadastrarGoverno");
+						}}
+					>
+						<div className="name">
+							<Image id="plusCross" src={plusCross} alt="Icon add"></Image>
+							<span>Cadastrar</span>
+						</div>
+						<div className="what-for">Governo</div>
+					</div>
+
+					<div
+						className="action"
+						onClick={() => {
+							router.push("/admin/cadastrarPartido");
+						}}
+					>
+						<div className="name">
+							<Image id="plusCross" src={plusCross} alt="Icon add"></Image>
+							<span>Cadastrar</span>
+						</div>
+						<div className="what-for">Partido</div>
 					</div>
 
 					<div
@@ -75,19 +94,6 @@ export default function Home() {
 					<div
 						className="action"
 						onClick={() => {
-							router.push("/admin/cadastrarPartido");
-						}}
-					>
-						<div className="name">
-							<Image id="plusCross" src={hambList} alt="Icon add"></Image>
-							<span>Listar</span>
-						</div>
-						<div className="what-for">Partido</div>
-					</div>
-
-					<div
-						className="action"
-						onClick={() => {
 							router.push("/admin/cadastrarEleitor");
 						}}
 					>
@@ -96,6 +102,32 @@ export default function Home() {
 							<span>Listar</span>
 						</div>
 						<div className="what-for">Eleitor</div>
+					</div>
+
+					<div
+						className="action"
+						onClick={() => {
+							router.push("/admin/cadastrarGoverno");
+						}}
+					>
+						<div className="name">
+							<Image id="plusCross" src={hambList} alt="Icon add"></Image>
+							<span>Listar</span>
+						</div>
+						<div className="what-for">Governo</div>
+					</div>
+
+					<div
+						className="action"
+						onClick={() => {
+							router.push("/admin/cadastrarPartido");
+						}}
+					>
+						<div className="name">
+							<Image id="plusCross" src={hambList} alt="Icon add"></Image>
+							<span>Listar</span>
+						</div>
+						<div className="what-for">Partido</div>
 					</div>
 
 					<div className="action">

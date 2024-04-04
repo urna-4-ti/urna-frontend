@@ -5,3 +5,13 @@
     top: 20%;
     left: 40%;
 }
+#placeholderSelect {
+    display: none;
+}
+#registerGoverno h1 {
+    font-weight: 600;
+}
+form #err {
+    color: #f00;
+    font-weight: 500;
+}
