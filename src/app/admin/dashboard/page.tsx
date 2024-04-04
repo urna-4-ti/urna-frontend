@@ -11,9 +11,9 @@ import "./style.css";
 
 export default function Home() {
 	const router = useRouter();
-	
+
 	useEffect(() => {
-		document.title = 'UrnaIF | Administrador';
+		document.title = "UrnaIF | Administrador";
 	}, []);
 
 	return (
