@@ -42,8 +42,8 @@ export default function Home() {
 	};
 
 	function showDeleteSection() {
-		let deleteGov = document.querySelector("#deleteGov");
-		let background = document.querySelector("#background");
+		let deleteGov = document.querySelector(".deleteGov");
+		let background = document.querySelector(".background");
 
 		background?.classList.add("inline");
 		deleteGov?.classList.add("flex");
@@ -115,14 +115,14 @@ export default function Home() {
 					</button>
 				</form>
 
-				<section id="deleteGov">
+				<section className="deleteGov">
 					<h2>Deseja realmente excluir este governo?</h2>
 					<div>
 						<button id="yesBtn">Sim</button>
 						<button id="noBtn">Não</button>
 					</div>
 				</section>
-				<span id="background"></span>
+				<span className="background"></span>
 			</div>
 		</main>
 	);
