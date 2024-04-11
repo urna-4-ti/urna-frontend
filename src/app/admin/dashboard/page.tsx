@@ -13,7 +13,7 @@ export default function Home() {
 	return (
 		<main id="dashboard">
 			<div className="left-panel">
-				<Image id="urnaIf" src={urnaIf} alt=""></Image>
+				<Image id="urnaIf" src={urnaIf} alt="Urna"></Image>
 			</div>
 
 			<div className="right-panel">

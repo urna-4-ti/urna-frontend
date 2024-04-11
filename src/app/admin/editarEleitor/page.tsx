@@ -36,7 +36,7 @@ export default function Home() {
 				<button
 					id="cancelButtonIcon"
 					onClick={() => {
-						router.push("/");
+						router.back();
 					}}
 				>
 					<Image src={iconBack} alt="Icone botão voltar"></Image>

@@ -12,47 +12,72 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { api } from "@/requests/api"
 
 import "./style.css";
-import { stringify } from "querystring";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { classes } from "@/lib/Classes";
+import { useQuery } from "@tanstack/react-query";
+import { getPoliticalParty } from "@/requests/politicalPart/findAll";
 
 const schema = z.object({
+	codNum: z.number(),
 	name: z
 		.string()
 		.min(3, "*O nome de usuário deve conter pelo menos 3 caracteres."),
-	numbervote: z.number(),
-	email: z.string().email("*O campo deve ser um email válido."),
-	description: z.string(),
+	photo: z.any(),
+	politicalPartyId: z.string(),
+	description: z.string().min(3, "*A sua descrição é muito curta."),
+	classParty: z.string(),
 });
+
+
+interface SelectValue {
+  value: string;
+}
 
 type formProps = z.infer<typeof schema>;
 
 export default function Home() {
-	const queryClient = new QueryClient();
 
 	const {
 		handleSubmit,
 		register,
+		watch,
 		formState: { errors },
 	} = useForm<formProps>({
 		mode: "onSubmit",
 		reValidateMode: "onChange",
 		resolver: zodResolver(schema),
+		defaultValues: {
+			name: "",
+			photo: [],
+			politicalPartyId: "",
+			description: "",
+		}
 	});
 
-	const [selectValue, setSelectValue] = useState<string>("");
+	const partysClass = watch("classParty")
 
-	const [image, setImage] = useState<string | null>(null);
+	const {data: politicalParty, refetch} = useQuery({
+		queryKey: ["get-politicalParty", partysClass],
+		queryFn: () => getPoliticalParty(partysClass),
+		enabled: false,	
+	})
+
+
+	const hasNewImage = watch('photo').length > 0
+
+	const image = watch('photo')[0]
 
 	const router = useRouter();
 
-	const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-		setSelectValue(e.target.value);
-	};
+	const handleChange = () => {
+		refetch()
+		console.log(partysClass)
+	}
 
-	const handleForm = () => {
-		console.log("a");
+	const handleForm = async (data: formProps) => {
+		console.log(classes);
 	};
 	return (
 		<main id="main">
@@ -91,19 +116,19 @@ export default function Home() {
 						<Image src={iconBack} alt="Icone botão voltar" />
 					</button>
 
-					<Input label="Nome" type="text" {...register("name")} />
+					<Input label="Nome" type="text" {...register("name")} required />
 					{errors.name?.message ? (
-						<p id="err" className="text-red-600 text-sm">
+						<p id="err" className="text-red-600 text-sm relative">
 							{errors.name.message}
 						</p>
 					) : (
 						""
 					)}
 
-					<Input label="Número" type="number" {...register("numbervote")} />
-					{errors.name?.message ? (
+					<Input label="Número" type="number" {...register("codNum", {valueAsNumber: true})} />
+					{errors.codNum?.message ? (
 						<p id="err" className="text-red-600 text-sm">
-							{errors.numbervote?.message}
+							{errors.codNum?.message}
 						</p>
 					) : (
 						""
@@ -111,8 +136,26 @@ export default function Home() {
 
 					<label htmlFor="">
 						<p>Turma</p>
-						<select onChange={handleChange} value={selectValue}>
-							<option value="1" />
+						<select 
+						value={""}
+						{...register('classParty')}
+						onChange={handleChange}
+						required>
+							<option value="" disabled>Selecione uma turma</option>
+							{classes.map(item => (
+								<option value={item.class}>{item.name}</option>
+							))}
+						</select>
+					</label>
+
+					<label htmlFor="">
+						<p>Partido</p>
+						<select>
+							<option value="" disabled>Selecione um partido</option>
+							{politicalParty?.map(item => (
+								<option value={item.politicalTypeId}>{item.name}</option>
+							))}
+
 						</select>
 					</label>
 
@@ -122,40 +165,22 @@ export default function Home() {
 						{...register("description")}
 					/>
 
-					<label htmlFor="inputImg" id="labelImg">
-						<input
-							type="file"
-							name=""
-							id="inputImg"
-							accept="image/*"
-							onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-								const file = event.target.files?.[0];
-								if (file) {
-									setImage(URL.createObjectURL(file));
-								}
-							}}
-						/>
-						{!image ? (
-							<Image
-								src={JSON.parse(stringify(inputImage))}
-								alt="Imagem Input"
-								id="uploading"
-							/>
+					<label htmlFor="inputImg" id="labelImg" tabIndex={0}>
+						{hasNewImage ? (
+							<>
+								<input id="inputImg" type="file" {...register('photo')} accept="image/*" />
+								<Image id="newImage" src={URL.createObjectURL(image)} alt="new preview" width={1} height={1} />
+							</>
 						) : (
-							""
+							<>
+								<input id="inputImg" type="file" {...register('photo')} accept="image/*"/>
+								<Image id="uploading" src={inputImage} alt="Image Input"  />
+							</>
 						)}
-						{image && (
-							<Image
-								src={image}
-								alt="teste"
-								id="newImage"
-								width={1}
-								height={1}
-							/>
-						)}
+						
 					</label>
 					<div id="divButton">
-						<button type="submit" onClick={() => {}}>
+						<button type="submit">
 							Cadastrar
 						</button>
 					</div>

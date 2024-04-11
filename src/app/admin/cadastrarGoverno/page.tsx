@@ -17,9 +17,8 @@ import "./style.css";
 const schema = z.object({
 	name: z
 		.string()
-		.refine((value) => value !== "", { message: "Selecione uma opção." }),
+		.refine((value) => value !== "null", { message: "*Selecione uma opção." }),
 	number: z.number(),
-	code: z.number(),
 });
 
 type formProps = z.infer<typeof schema>;
@@ -75,7 +74,7 @@ export default function Home() {
 					<label htmlFor="">
 						<p>Nome</p>
 						<select name="name">
-							<option value="" disabled>
+							<option value="null" id="placeholderSelect">
 								Selecione
 							</option>
 							<option value="Absolutista">Monarquia Absolutista</option>
@@ -84,21 +83,18 @@ export default function Home() {
 						</select>
 					</label>
 					{errors.name?.message ? (
-						<p className="text-red-600 text-sm">{errors.name.message}</p>
+						<p id="err" className="text-red-600 text-sm">
+							{errors.name.message}
+						</p>
 					) : (
 						""
 					)}
 
 					<Input label="Número" type="text" {...register("number")} />
 					{errors.name?.message ? (
-						<p className="text-red-600 text-sm">{errors.number?.message}</p>
-					) : (
-						""
-					)}
-
-					<Input label="Código" type="text" {...register("code")} />
-					{errors.name?.message ? (
-						<p className="text-red-600 text-sm">{errors.code?.message}</p>
+						<p id="err" className="text-red-600 text-sm">
+							{errors.number?.message}
+						</p>
 					) : (
 						""
 					)}
