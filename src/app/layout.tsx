@@ -1,9 +1,9 @@
+import ReactQueryClientProvider from "@/lib/ReactQueryClientProvider";
+import { queryClient } from "@/lib/queryClient";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { queryClient } from "@/lib/queryClient";
-import ReactQueryClientProvider from "@/lib/ReactQueryClientProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,7 +14,9 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
 	children,
+	children,
 }: Readonly<{
+	children: React.ReactNode;
 	children: React.ReactNode;
 }>) {
 	return (
