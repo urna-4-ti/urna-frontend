@@ -6,16 +6,46 @@ import bottomCircle from "@/img/bottom-circle.svg";
 import urnaIf from "@/img/urnaif.svg";
 import iconBack from "@/img/icon-back.svg";
 import { Input } from "@/components/Input/Input";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { AuthStore } from "@/store/auth";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const schema = z.object({
+	email: z.string().email("*O campo deve ser um email"),
+	password: z.string().min(6, "*Senha inválida."),
+	
+})
+
+type formProps = z.infer<typeof schema>;
 
 export default function Home() {
+
+	const {handleSubmit, register, formState: {errors}} = useForm<formProps>({
+		mode: "onSubmit",
+		reValidateMode: "onChange",
+		resolver: zodResolver(schema)
+
+	})
+
+	const {actions:{login}}= AuthStore()
+
 	const router = useRouter();
+
+	const handleForm = async(data: formProps) => {
+		const cookie = await login({...data})
+		router.push(`/admin/dashboard?acess_token=${cookie}`)
+	}
 	return (
 		<main id="login">
 			<div className="left-panel">
 				<Image id="topLeftCloud" src={topCloud} alt=""></Image>
 				<Image id="bottomLeftCircle" src={bottomCircle} alt=""></Image>
 
-				<form action="" id="loginForm">
+				<form 
+				action="" 
+				id="loginForm"
+				onSubmit={handleSubmit(handleForm)}>
 					<button
 						id="goBackLoginToHome"
 						onClick={(e) => {
@@ -27,15 +57,11 @@ export default function Home() {
 					</button>
 
 					<h1>Login</h1>
-					<Input label="Email" type="email" required />
-					<Input label="Senha" type="password" required />
+					<Input label="Email" type="email" {...register('email')} required />
+					<Input label="Senha" type="password" {...register('password')} required />
 
 					<button
 						type="submit"
-						onClick={(e) => {
-							e.preventDefault();
-							router.push("/admin/dashboard");
-						}}
 					>
 						Entrar
 					</button>
