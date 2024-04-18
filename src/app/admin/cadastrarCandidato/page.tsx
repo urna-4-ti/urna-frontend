@@ -29,7 +29,6 @@ const schema = z.object({
 	classParty: z.string(),
 });
 
-
 type formProps = z.infer<typeof schema>;
 
 export default function Home() {
@@ -144,7 +143,11 @@ export default function Home() {
 
 					<label htmlFor="">
 						<p>Turma</p>
-						<select value={watch("classParty")} {...register("classParty")} required>
+						<select
+							value={watch("classParty")}
+							{...register("classParty")}
+							required
+						>
 							<option value="" disabled>
 								Selecione uma turma
 							</option>

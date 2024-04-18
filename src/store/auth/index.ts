@@ -40,11 +40,11 @@ export const AuthStore = create<StoreProps>()(
           })
           console.log(r.data);
 
-          const {access_token} = r.data
+          const {accessToken} = r.data
 
-          console.log(access_token)
+      
           
-          const {email, id, name}:jwtType = jwtDecode(access_token)
+          const {email, id, name}:jwtType = jwtDecode(accessToken)
 
           set({
             state: {
@@ -55,7 +55,7 @@ export const AuthStore = create<StoreProps>()(
               }
             }
           })
-          return access_token
+          return accessToken
         },
         logout: () => {
           set({

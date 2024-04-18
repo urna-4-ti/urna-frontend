@@ -14,38 +14,38 @@ import { zodResolver } from "@hookform/resolvers/zod";
 const schema = z.object({
 	email: z.string().email("*O campo deve ser um email"),
 	password: z.string().min(6, "*Senha inválida."),
-	
-})
+});
 
 type formProps = z.infer<typeof schema>;
 
 export default function Home() {
-
-	const {handleSubmit, register, formState: {errors}} = useForm<formProps>({
+	const {
+		handleSubmit,
+		register,
+		formState: { errors },
+	} = useForm<formProps>({
 		mode: "onSubmit",
 		reValidateMode: "onChange",
-		resolver: zodResolver(schema)
+		resolver: zodResolver(schema),
+	});
 
-	})
-
-	const {actions:{login}}= AuthStore()
+	const {
+		actions: { login },
+	} = AuthStore();
 
 	const router = useRouter();
 
-	const handleForm = async(data: formProps) => {
-		const cookie = await login({...data})
-		router.push(`/admin/dashboard?acess_token=${cookie}`)
-	}
+	const handleForm = async (data: formProps) => {
+		const cookie = await login({ ...data });
+		router.push(`/admin/dashboard?access_token=${cookie}`);
+	};
 	return (
 		<main id="login">
 			<div className="left-panel">
 				<Image id="topLeftCloud" src={topCloud} alt=""></Image>
 				<Image id="bottomLeftCircle" src={bottomCircle} alt=""></Image>
 
-				<form 
-				action="" 
-				id="loginForm"
-				onSubmit={handleSubmit(handleForm)}>
+				<form action="" id="loginForm" onSubmit={handleSubmit(handleForm)}>
 					<button
 						id="goBackLoginToHome"
 						onClick={(e) => {
@@ -57,14 +57,15 @@ export default function Home() {
 					</button>
 
 					<h1>Login</h1>
-					<Input label="Email" type="email" {...register('email')} required />
-					<Input label="Senha" type="password" {...register('password')} required />
+					<Input label="Email" type="email" {...register("email")} required />
+					<Input
+						label="Senha"
+						type="password"
+						{...register("password")}
+						required
+					/>
 
-					<button
-						type="submit"
-					>
-						Entrar
-					</button>
+					<button type="submit">Entrar</button>
 				</form>
 			</div>
 
