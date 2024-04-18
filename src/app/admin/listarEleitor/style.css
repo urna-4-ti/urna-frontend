@@ -1,0 +1,182 @@
+
+body #list {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    min-height: 100vh;
+    overflow-y: hidden;
+}
+#list .left-panel {
+    display: flex;
+    align-items: flex-start;
+    padding-top: 2.2rem;
+    background-color: #05B022;
+    width: 180px;
+    min-height: 100vh;
+    position: fixed;
+}
+#list .right-panel {
+    margin-left: 180px;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding-right: 3rem;
+    background-color: #fff;
+}
+#list .right-panel nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+#list .right-panel nav h1 {
+    font-size: 2.3rem;
+}
+#list .info-admin {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding: 1rem .3rem;
+}
+#list .info-admin .adm {
+    display: flex;
+    gap: .5rem;
+    width: min-content;
+    align-items: center;
+    user-select: none;
+    pointer-events: none;
+}
+#list .info-admin .adm img {
+    width: 30px;
+    height: auto;
+}
+#list .info-admin .adm span {
+    text-wrap: nowrap;
+}
+#list .info-admin button {
+    border: none;
+    background-color: transparent;
+    color: #f00;
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin-top: 5px;
+}
+#list .info-admin button:hover {
+    text-decoration: underline;
+}
+#list .filter-search {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+#list .filter-search #cancelButtonIcon {
+    position: inherit;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+} #list .filter-search #cancelButtonIcon img { width: 45px;}
+#list .filter-search .act {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+}
+#list .filter-search .act #filter {
+    margin-top: 4px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+#list .filter-search .act .search {
+    display: flex;
+    background-color: #fff;
+    gap: 8px;
+}
+#list .filter-search .act .search img { cursor: pointer; }
+#list .filter-search .act .search input {
+    border: none;
+    font-size: 1.2rem;
+    width: 300px;
+    border-bottom: 1px solid #00000055;
+}
+#list .table-contents {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 3rem;
+    width: 100%;
+}
+#list .table-contents .head {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: left;
+    width: min-content;
+    align-self: center;
+    border-bottom: 1px solid #05B022;
+}
+#list .table-contents .head p {
+    font-size: 1.4rem;
+    opacity: .6;
+}
+/* Nome */
+#list .table-contents .head :nth-child(1) {
+    width: 400px;
+}
+/* Matrícula */
+#list .table-contents .head :nth-child(2) {
+    width: 170px;
+}
+/* Turma */
+#list .table-contents .head :nth-child(3) {
+    width: 110px;
+}
+/* Email */
+#list .table-contents .head :nth-child(4) {
+    width: 400px;
+}
+#list .table-contents .body-table {
+    align-self: center;
+    max-width: 1080px;
+    max-height: 65vh;
+    overflow-y: scroll;
+    scrollbar-width: thin;
+    scrollbar-color: #05B022 #fff;
+    scroll-behavior: smooth;
+}
+#list .table-contents .body-table .element {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 1rem 0;
+    transition: all .2s ease-in;
+    cursor: pointer;
+    border-radius: 6px;
+}
+#list .table-contents .body-table .element:hover {
+    background-color: #05B022aa;
+}
+#list .table-contents .element p {
+    padding-left: 5px;
+    font-size: 1rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+/* Nome */
+#list .table-contents .element :nth-child(1) {
+    width: 400px;
+}
+/* Matrícula */
+#list .table-contents .element :nth-child(2) {
+    width: 170px;
+}
+/* Turma */
+#list .table-contents .element :nth-child(3) {
+    width: 110px;
+}
+/* Email */
+#list .table-contents .element :nth-child(4) {
+    width: 400px;
+}

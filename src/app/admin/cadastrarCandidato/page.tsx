@@ -1,27 +1,38 @@
 "use client";
-import Image from "next/image";
-import topCloud from "@/img/top-cloud.svg";
-import bottomCloud from "@/img/bottom-cloud.svg";
-import bottomCircle from "@/img/bottom-circle.svg";
-import logoUrna from "@/img/logo.svg";
-import iconBack from "@/img/icon-back.svg";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import inputImage from "@/img/uploading-icon.svg";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/Input/Input";
+import bottomCircle from "@/img/bottom-circle.svg";
+import bottomCloud from "@/img/bottom-cloud.svg";
+import iconBack from "@/img/icon-back.svg";
+import logoUrna from "@/img/logo.svg";
+import topCloud from "@/img/top-cloud.svg";
+import inputImage from "@/img/uploading-icon.svg";
+import { api } from "@/requests/api";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
+import { classes } from "@/lib/Classes";
+import { getPoliticalParty } from "@/requests/politicalPart/findAll";
+import { useQuery } from "@tanstack/react-query";
 import "./style.css";
 
 const schema = z.object({
+	codNum: z.number(),
 	name: z
 		.string()
 		.min(3, "*O nome de usuário deve conter pelo menos 3 caracteres."),
-	numbervote: z.number(),
-	email: z.string().email("*O campo deve ser um email válido."),
+	photo: z.any(),
+	politicalPartyId: z.string(),
+	description: z.string().min(3, "*A sua descrição é muito curta."),
+	classParty: z.string(),
 });
+
+interface SelectValue {
+	value: string;
+}
 
 type formProps = z.infer<typeof schema>;
 
@@ -29,43 +40,55 @@ export default function Home() {
 	const {
 		handleSubmit,
 		register,
+		watch,
 		formState: { errors },
 	} = useForm<formProps>({
 		mode: "onSubmit",
 		reValidateMode: "onChange",
 		resolver: zodResolver(schema),
+		defaultValues: {
+			name: "",
+			photo: [],
+			politicalPartyId: "",
+			description: "",
+		},
 	});
 
-	const [selectValue, setSelectValue] = useState<string>("");
+	const classParty = watch("classParty");
 
-	const [image, setImage] = useState<string | null>(null);
+	const { data: politicalParty, refetch } = useQuery({
+		queryKey: ["get-politicalParty", classParty],
+		queryFn: () => getPoliticalParty(classParty),
+		// enabled: false,
+	});
+
+	const hasNewImage = watch("photo").length > 0;
+
+	const image = watch("photo")[0];
 
 	const router = useRouter();
 
-	const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-		setSelectValue(e.target.value);
-	};
-
-	const handleForm = () => {
-		console.log("a");
+	const handleForm = async (data: formProps) => {
+		console.log(classes);
 	};
 	return (
 		<main id="main">
 			<div id="leftDiv">
-				<Image src={logoUrna} alt="" id="logo"></Image>
+				<Image src={logoUrna} alt="" id="logo" />
 			</div>
 			<div id="rightDiv">
-				<Image id="topCloud" src={topCloud} alt=""></Image>
-				<Image id="bottomCloud" src={bottomCloud} alt=""></Image>
-				<Image id="bottomCircle" src={bottomCircle} alt=""></Image>
+				<Image id="topCloud" src={topCloud} alt="" />
+				<Image id="bottomCloud" src={bottomCloud} alt="" />
+				<Image id="bottomCircle" src={bottomCircle} alt="" />
 
 				<button
+					type="button"
 					id="cancelButtonIcon"
 					onClick={() => {
 						router.back();
 					}}
 				>
-					<Image src={iconBack} alt="Icone botão voltar"></Image>
+					<Image src={iconBack} alt="Icone botão voltar" />
 				</button>
 
 				<form
@@ -76,27 +99,32 @@ export default function Home() {
 					<h1>Cadastrar Candidato</h1>
 
 					<button
+						type="button"
 						id="cancelButtonIcon"
 						onClick={() => {
 							router.back();
 						}}
 					>
-						<Image src={iconBack} alt="Icone botão voltar"></Image>
+						<Image src={iconBack} alt="Icone botão voltar" />
 					</button>
 
-					<Input label="Nome" type="text" {...register("name")} />
+					<Input label="Nome" type="text" {...register("name")} required />
 					{errors.name?.message ? (
-						<p id="err" className="text-red-600 text-sm">
+						<p id="err" className="text-red-600 text-sm relative">
 							{errors.name.message}
 						</p>
 					) : (
 						""
 					)}
 
-					<Input label="Número" type="number" {...register("numbervote")} />
-					{errors.name?.message ? (
+					<Input
+						label="Número"
+						type="number"
+						{...register("codNum", { valueAsNumber: true })}
+					/>
+					{errors.codNum?.message ? (
 						<p id="err" className="text-red-600 text-sm">
-							{errors.numbervote?.message}
+							{errors.codNum?.message}
 						</p>
 					) : (
 						""
@@ -104,47 +132,67 @@ export default function Home() {
 
 					<label htmlFor="">
 						<p>Turma</p>
-						<select onChange={handleChange} value={selectValue}>
-							<option value="1"></option>
+						<select value={""} {...register("classParty")} required>
+							<option value="" disabled>
+								Selecione uma turma
+							</option>
+							{classes.map((item) => (
+								<option value={item.class}>{item.name}</option>
+							))}
+						</select>
+					</label>
+
+					<label htmlFor="">
+						<p>Partido</p>
+						<select>
+							<option value="" disabled>
+								Selecione um partido
+							</option>
+							{politicalParty &&
+								politicalParty.length > 0 &&
+								politicalParty?.map((item) => (
+									<option value={item.politicalTypeId}>{item.name}</option>
+								))}
 						</select>
 					</label>
 
 					<Input
 						label="Descrição"
 						type="textarea"
-						{...register("numbervote")}
+						{...register("description")}
 					/>
 
-					<label htmlFor="inputImg" id="labelImg" tabIndex={0}>
-						<input
-							type="file"
-							name=""
-							id="inputImg"
-							accept="image/*"
-							onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-								const file = event.target.files?.[0];
-								if (file) {
-									setImage(URL.createObjectURL(file));
-								}
-							}}
-						/>
-						{!image ? (
-							<Image src={inputImage} alt="Imagem Input" id="uploading" />
+					<label htmlFor="inputImg" id="labelImg">
+						{hasNewImage ? (
+							<>
+								<input
+									id="inputImg"
+									type="file"
+									{...register("photo")}
+									accept="image/*"
+								/>
+								<Image
+									id="newImage"
+									src={URL.createObjectURL(image)}
+									alt="new preview"
+									width={1}
+									height={1}
+								/>
+							</>
 						) : (
-							""
-						)}
-						{image && (
-							<Image
-								src={image}
-								alt="teste"
-								id="newImage"
-								width={1}
-								height={1}
-							></Image>
+							<>
+								<input
+									id="inputImg"
+									type="file"
+									{...register("photo")}
+									accept="image/*"
+								/>
+								<Image id="uploading" src={inputImage} alt="Image Input" />
+							</>
 						)}
 					</label>
 					<div id="divButton">
-						<button>Cadastrar</button>
+						<button type="submit">Cadastrar</button>
 					</div>
 				</form>
 			</div>

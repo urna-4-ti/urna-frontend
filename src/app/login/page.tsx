@@ -25,9 +25,10 @@ export default function Home() {
 					>
 						<Image id="iconBack" src={iconBack} alt="Voltar"></Image>
 					</button>
+
 					<h1>Login</h1>
-					<Input label="Email" type="email" />
-					<Input label="Senha" type="password" />
+					<Input label="Email" type="email" required />
+					<Input label="Senha" type="password" required />
 
 					<button
 						type="submit"
