@@ -64,6 +64,7 @@ body {
   height: 100%;
   min-height: 100vh;
   font-family: "Kanit", sans-serif;
+  background-color: white;
 }
 
 #leftDiv {
@@ -426,6 +427,7 @@ body {
 #listMain{
   display: grid;
   grid-template-columns: 1fr 6fr;
+  background-color: white;
 }
 
 #ifAside{
@@ -473,7 +475,7 @@ body {
   color: rgba(234, 0, 0, 0.7);
 }
 
-#listGov{
+.listTemp{
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -483,13 +485,13 @@ body {
   height: 935px;
 }
 
-#listGov h2{
+.listTemp h2{
   font-size: 50px;
   margin-bottom: 25px;
   margin-left: -490px;
 }
 
-#tableGov{
+.tableTemp{
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -497,6 +499,7 @@ body {
   gap: 34px;
   height: inherit;
   overflow-y: auto;
+  margin-left: 200px;
 }
 
 #searchInput{
@@ -527,19 +530,39 @@ body {
   top: 0;
 }
 
-#tableGov{
+.tableTemp{
   height: 100vh;
 }
 
-#tableGov table{
+.tableTemp table{
   font-size: 20px;
 }
 
-#tableGov table th,td{
+.tableTemp table th,td{
   padding-left: 50px;
   padding-right: 50px;
   padding-bottom: 30px;
   width: 380px;
+  height: 92px;
+  
+}
+
+.tableTemp table th{
+  color: #8E8E8E;
+}
+
+.tableTemp table td{
+  color: #000;
+  font-weight: bold;
+  text-align: left;
+}
+
+.tableTemp tr{
+  border-radius: 10px;
+}
+
+.tableTemp tr:hover{
+  background-color: #F1F1F1;
 }
 
 .userRow{
@@ -549,10 +572,17 @@ body {
   gap: 30px;
 }
 
-.userRowIcon{
-  width: 65px;
-  height: 65px;
-  border: 15px solid #05B022;
-  border-radius: 10px;
-  background-color: #05B022;
+.userIcon{
+  background-color: lightgreen;
+  border: 15px solid lightgreen;
+  width: 70px;
+  height: 70px;
+  border-radius: 12px;
+}
+
+.pencils{
+  appearance: none;
+  border: none;
+  background: none;
+  cursor: pointer;
 }

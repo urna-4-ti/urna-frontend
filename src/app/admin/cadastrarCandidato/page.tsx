@@ -61,6 +61,7 @@ export default function Home() {
 
 				<button
 					id="cancelButtonIcon"
+					className="iconBack"
 					onClick={() => {
 						router.back();
 					}}
