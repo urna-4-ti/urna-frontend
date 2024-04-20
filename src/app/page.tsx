@@ -5,7 +5,7 @@ export default function Home() {
 	const router = useRouter();
 	return (
 		<main id="home-page">
-			<h1>Página inicial</h1>
+			<h1>Hello World</h1>
 			<button
 				type="button"
 				onClick={() => {

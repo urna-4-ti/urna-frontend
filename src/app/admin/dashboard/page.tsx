@@ -7,9 +7,14 @@ import hambList from "@/img/hamburger.svg";
 import userIcon from "@/img/user-icon.svg";
 
 import "./style.css";
+import { AuthStore } from "@/store/auth";
 
 export default function Home() {
 	const router = useRouter();
+
+	const {
+		actions: { login },
+	} = AuthStore();
 	return (
 		<main id="dashboard">
 			<div className="left-panel">
