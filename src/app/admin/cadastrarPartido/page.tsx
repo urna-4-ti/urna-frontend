@@ -18,7 +18,6 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { createPoliticalParty } from "@/requests/politicalPart/create";
 import { classes } from "@/lib/Classes";
 
-
 const schema = z.object({
 	name: z
 		.string()
@@ -26,45 +25,40 @@ const schema = z.object({
 	description: z.string(),
 	class: z.enum([
 		"",
-	"TI_1",
-	"TI_2",
-	"TI_3",
-	"TI_4",
-	"TQ_1",
-	"TQ_2",
-	"TQ_3",
-	"TQ_4",
-	"TMA_1",
-	"TMA_2",
-	"TMA_3",
-	"TMA_4",
-	"TA_1",
-	"TA_2",
-	"TA_3",
-	"TA_4",]),
+		"TI_1",
+		"TI_2",
+		"TI_3",
+		"TI_4",
+		"TQ_1",
+		"TQ_2",
+		"TQ_3",
+		"TQ_4",
+		"TMA_1",
+		"TMA_2",
+		"TMA_3",
+		"TMA_4",
+		"TA_1",
+		"TA_2",
+		"TA_3",
+		"TA_4",
+	]),
 	politicalTypeId: z.string(),
 	photo: z.any(),
 });
 
-
-
 type formProps = z.infer<typeof schema>;
 
-
 export default function Home() {
-
-	const {data: 	governmentsForms} = useQuery({
+	const { data: governmentsForms } = useQuery({
 		queryKey: ["get-government-form"],
-		queryFn: getGovernmentForm ,
-	})
+		queryFn: getGovernmentForm,
+	});
 
-	const { mutateAsync, isError} = useMutation({
+	const { mutateAsync, isError } = useMutation({
 		mutationKey: ["createPoliticalParty"],
-		mutationFn: createPoliticalParty
-	})
+		mutationFn: createPoliticalParty,
+	});
 
-
-	
 	const {
 		handleSubmit,
 		register,
@@ -79,23 +73,17 @@ export default function Home() {
 			description: "",
 			class: "",
 			politicalTypeId: "",
-			photo: []
+			photo: [],
 		},
-		
 	});
 
-	const [valueClass, setValueSelectedClass] = useState<string>("")
-	const [valueGovernmentType, setValueGovernmentType] = useState<string>("")
+	const [valueClass, setValueSelectedClass] = useState<string>("");
+	const [valueGovernmentType, setValueGovernmentType] = useState<string>("");
 
-
-	const hasNewImage = watch('photo').length > 0
-  const image = watch('photo')[0]
-	
-
-	
+	const hasNewImage = watch("photo").length > 0;
+	const image = watch("photo")[0];
 
 	const router = useRouter();
-
 
 	const handleForm = async (data: formProps) => {
 		try {
@@ -103,10 +91,10 @@ export default function Home() {
 				name: data.name,
 				partyClass: data.class,
 				photo: data.photo,
-				politicalTypeId: data.politicalTypeId
-			})
+				politicalTypeId: data.politicalTypeId,
+			});
 		} catch (error) {
-			console.error(error)
+			console.error(error);
 		}
 	};
 
@@ -129,8 +117,6 @@ export default function Home() {
 					<Image src={iconBack} alt="Icone botão voltar"></Image>
 				</button>
 
-
-
 				<form
 					action=""
 					id="registerEleitor"
@@ -147,7 +133,7 @@ export default function Home() {
 						<Image src={iconBack} alt="Icone botão voltar"></Image>
 					</button>
 
-					<Input label="Nome" type="text" {...register("name")} required/>
+					<Input label="Nome" type="text" {...register("name")} required />
 					{errors.name?.message ? (
 						<p id="err" className="text-red-600 text-sm">
 							{errors.name.message}
@@ -158,50 +144,68 @@ export default function Home() {
 
 					<label htmlFor="">
 						<p>Turma</p>
-						<select value={valueClass}
-						 {...register("class")}
-						 onChange={(e) => setValueSelectedClass(e.target.value)}
-						  required>
-							<option value="" disabled>Selecione uma turma</option>
-							{classes.map(item => (
+						<select
+							value={valueClass}
+							{...register("class")}
+							onChange={(e) => setValueSelectedClass(e.target.value)}
+							required
+						>
+							<option value="" disabled>
+								Selecione uma turma
+							</option>
+							{classes.map((item) => (
 								<option value={item.class}>{item.name}</option>
-							)) }
+							))}
 						</select>
 					</label>
 					<label htmlFor="">
 						<p>Forma de Governo</p>
-						<select 
-						value={valueGovernmentType} 
-						id="" 
-						{...register("politicalTypeId")} 
-						onChange={(e) => setValueGovernmentType(e.target.value)}
-						required>
-							<option value="" disabled>Selecione uma forma de governo</option>
-							{governmentsForms?.map(item => (
+						<select
+							value={valueGovernmentType}
+							id=""
+							{...register("politicalTypeId")}
+							onChange={(e) => setValueGovernmentType(e.target.value)}
+							required
+						>
+							<option value="" disabled>
+								Selecione uma forma de governo
+							</option>
+							{governmentsForms?.map((item) => (
 								<option value={item.id}>{item.name}</option>
 							))}
 						</select>
 					</label>
 
-					<Input
-						label="Descrição"
-						type="text"
-						{...register("description")}
-					/>
+					<Input label="Descrição" type="text" {...register("description")} />
 
 					<label htmlFor="inputImg" id="labelImg" tabIndex={0}>
 						{hasNewImage ? (
 							<>
-								<input id="inputImg" type="file" {...register('photo')} accept="image/*" />
-								<Image id="newImage" src={URL.createObjectURL(image)} alt="new preview" width={1} height={1} />
+								<input
+									id="inputImg"
+									type="file"
+									{...register("photo")}
+									accept="image/*"
+								/>
+								<Image
+									id="newImage"
+									src={URL.createObjectURL(image)}
+									alt="new preview"
+									width={1}
+									height={1}
+								/>
 							</>
 						) : (
 							<>
-								<input id="inputImg" type="file" {...register('photo')} accept="image/*"/>
-								<Image id="uploading" src={inputImage} alt="Image Input"  />
+								<input
+									id="inputImg"
+									type="file"
+									{...register("photo")}
+									accept="image/*"
+								/>
+								<Image id="uploading" src={inputImage} alt="Image Input" />
 							</>
 						)}
-						
 					</label>
 					<div id="divButton">
 						<button type="submit">Cadastrar</button>

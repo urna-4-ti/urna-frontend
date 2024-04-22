@@ -6,18 +6,17 @@ import iconBack from "@/img/icon-back.svg";
 import logoUrna from "@/img/logo.svg";
 import topCloud from "@/img/top-cloud.svg";
 import inputImage from "@/img/uploading-icon.svg";
-import { api } from "@/requests/api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { classes } from "@/lib/Classes";
 import { getPoliticalParty } from "@/requests/politicalPart/findAll";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import "./style.css";
+import { createCandidate } from "@/requests/candidate/create";
 
 const schema = z.object({
 	codNum: z.number(),
@@ -29,10 +28,6 @@ const schema = z.object({
 	description: z.string().min(3, "*A sua descrição é muito curta."),
 	classParty: z.string(),
 });
-
-interface SelectValue {
-	value: string;
-}
 
 type formProps = z.infer<typeof schema>;
 
@@ -62,6 +57,11 @@ export default function Home() {
 		// enabled: false,
 	});
 
+	const { mutateAsync, isError } = useMutation({
+		mutationKey: ["createCandidate"],
+		mutationFn: createCandidate,
+	});
+
 	const hasNewImage = watch("photo").length > 0;
 
 	const image = watch("photo")[0];
@@ -69,7 +69,18 @@ export default function Home() {
 	const router = useRouter();
 
 	const handleForm = async (data: formProps) => {
-		console.log(classes);
+		try {
+			await mutateAsync({
+				cod: data.codNum,
+				name: data.name,
+				picPath: data.photo,
+				politicalPartyId: data.politicalPartyId,
+				description: data.description,
+			});
+		} catch (error) {
+			console.error(error);
+		}
+		// console.log(data)
 	};
 	return (
 		<main id="main">
@@ -132,7 +143,11 @@ export default function Home() {
 
 					<label htmlFor="">
 						<p>Turma</p>
-						<select value={""} {...register("classParty")} required>
+						<select
+							value={watch("classParty")}
+							{...register("classParty")}
+							required
+						>
 							<option value="" disabled>
 								Selecione uma turma
 							</option>
@@ -144,14 +159,14 @@ export default function Home() {
 
 					<label htmlFor="">
 						<p>Partido</p>
-						<select>
+						<select {...register("politicalPartyId")}>
 							<option value="" disabled>
 								Selecione um partido
 							</option>
 							{politicalParty &&
 								politicalParty.length > 0 &&
 								politicalParty?.map((item) => (
-									<option value={item.politicalTypeId}>{item.name}</option>
+									<option value={item.id}>{item.name}</option>
 								))}
 						</select>
 					</label>

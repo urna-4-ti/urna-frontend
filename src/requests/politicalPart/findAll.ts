@@ -1,6 +1,7 @@
 import { api } from "../api";
 
 type politicalPartyProps = {
+	id: string;
 	name: string;
 	partyClass: string;
 	politicalTypeId: string;
