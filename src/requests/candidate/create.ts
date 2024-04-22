@@ -13,6 +13,7 @@ export async function createCandidate({
 	cod,
 	politicalPartyId,
 	description,
+
 	picPath,
 }: candidateProps) {
 	const formdata = new FormData();
