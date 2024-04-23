@@ -45,7 +45,7 @@ export default function Home() {
 				<Image id="topLeftCloud" src={topCloud} alt=""></Image>
 				<Image id="bottomLeftCircle" src={bottomCircle} alt=""></Image>
 
-				<form action="" id="loginForm" onSubmit={handleSubmit(handleForm)}>
+				<form action="POST" id="loginForm" onSubmit={handleSubmit(handleForm)}>
 					<button
 						id="goBackLoginToHome"
 						onClick={(e) => {
