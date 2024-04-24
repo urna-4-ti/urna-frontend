@@ -6,17 +6,17 @@ import iconBack from "@/img/icon-back.svg";
 import logoUrna from "@/img/logo.svg";
 import topCloud from "@/img/top-cloud.svg";
 import inputImage from "@/img/uploading-icon.svg";
+import { classes } from "@/lib/Classes";
+import { getGovernmentForm } from "@/requests/government/findAll";
+import { createPoliticalParty } from "@/requests/politicalPart/create";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import "./style.css";
-import { getGovernmentForm } from "@/requests/government/findAll";
-import { useQuery, useMutation } from "@tanstack/react-query";
-import { createPoliticalParty } from "@/requests/politicalPart/create";
-import { classes } from "@/lib/Classes";
 
 const schema = z.object({
 	name: z
@@ -101,20 +101,21 @@ export default function Home() {
 	return (
 		<main id="main">
 			<div id="leftDiv">
-				<Image src={logoUrna} alt="" id="logo"></Image>
+				<Image src={logoUrna} alt="" id="logo" />
 			</div>
 			<div id="rightDiv">
-				<Image id="topCloud" src={topCloud} alt=""></Image>
-				<Image id="bottomCloud" src={bottomCloud} alt=""></Image>
-				<Image id="bottomCircle" src={bottomCircle} alt=""></Image>
+				<Image id="topCloud" src={topCloud} alt="" />
+				<Image id="bottomCloud" src={bottomCloud} alt="" />
+				<Image id="bottomCircle" src={bottomCircle} alt="" />
 
 				<button
+					type="button"
 					id="cancelButtonIcon"
 					onClick={() => {
 						router.back();
 					}}
 				>
-					<Image src={iconBack} alt="Icone botão voltar"></Image>
+					<Image src={iconBack} alt="Icone botão voltar" />
 				</button>
 
 				<form
@@ -125,12 +126,13 @@ export default function Home() {
 					<h1>Cadastrar Partido</h1>
 
 					<button
+						type="button"
 						id="cancelButtonIcon"
 						onClick={() => {
 							router.back();
 						}}
 					>
-						<Image src={iconBack} alt="Icone botão voltar"></Image>
+						<Image src={iconBack} alt="Icone botão voltar" />
 					</button>
 
 					<Input label="Nome" type="text" {...register("name")} required />
@@ -178,7 +180,7 @@ export default function Home() {
 
 					<Input label="Descrição" type="text" {...register("description")} />
 
-					<label htmlFor="inputImg" id="labelImg" tabIndex={0}>
+					<label htmlFor="inputImg" id="labelImg">
 						{hasNewImage ? (
 							<>
 								<input

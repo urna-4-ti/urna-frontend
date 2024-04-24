@@ -1,5 +1,5 @@
-import { StoreProps } from "@/lib/types/store";
-import { userLogin } from "@/lib/types/user";
+import type { StoreProps } from "@/lib/types/store";
+import type { userLogin } from "@/lib/types/user";
 import { api } from "@/requests/api";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
@@ -23,7 +23,7 @@ export const AuthStore = create<StoreProps>()(
 			},
 			actions: {
 				login: async (user): Promise<string> => {
-					let token = "";
+					const token = "";
 					const userData: userLogin = {
 						email: user.email,
 						password: user.password,

@@ -8,13 +8,21 @@ import userIcon from "@/img/user-icon.svg";
 
 import "./style.css";
 import { AuthStore } from "@/store/auth";
+import { useAuthStore } from "@/hooks/useAuthStore";
+import { z } from "zod";
+
+const schema = z.object({
+	email: z.string().email("*O campo deve ser um email"),
+	password: z.string().min(6, "*Senha inválida."),
+});
+
+type formProps = z.infer<typeof schema>;
 
 export default function Home() {
 	const router = useRouter();
 
-	const {
-		actions: { login },
-	} = AuthStore();
+
+	const user = useAuthStore(AuthStore, (store) => store.state.user)
 	return (
 		<main id="dashboard">
 			<div className="left-panel">
@@ -25,7 +33,7 @@ export default function Home() {
 				<div className="info-admin">
 					<div className="adm">
 						<Image id="userIcon" src={userIcon} alt=""></Image>
-						<span id="adminName">Júlio César Alencar</span>
+						<span id="adminName">{user?.name}</span>
 					</div>
 					<button
 						id="sair"
