@@ -24,7 +24,7 @@ export default function Home() {
 	const user = useAuthStore(AuthStore, (store) => store.state.user);
 
 	if (user?.id === "") {
-		return router.push('/login')
+		return router.push("/login");
 	}
 
 	if (user?.id !== "") {
@@ -33,7 +33,7 @@ export default function Home() {
 				<div className="left-panel">
 					<Image id="urnaIf" src={urnaIf} alt="Urna"></Image>
 				</div>
-	
+
 				<div className="right-panel">
 					<div className="info-admin">
 						<div className="adm">
@@ -49,7 +49,7 @@ export default function Home() {
 							Sair
 						</button>
 					</div>
-	
+
 					<div className="box-actions">
 						<div
 							className="action"
@@ -63,7 +63,7 @@ export default function Home() {
 							</div>
 							<div className="what-for">Partido</div>
 						</div>
-	
+
 						<div
 							className="action"
 							onClick={() => {
@@ -76,7 +76,7 @@ export default function Home() {
 							</div>
 							<div className="what-for">Eleitor</div>
 						</div>
-	
+
 						<div
 							className="action"
 							onClick={() => {
@@ -95,7 +95,7 @@ export default function Home() {
 							</div>
 							<div className="what-for">Candidato</div>
 						</div>
-	
+
 						<div
 							className="action"
 							onClick={() => {
@@ -108,7 +108,7 @@ export default function Home() {
 							</div>
 							<div className="what-for">Partido</div>
 						</div>
-	
+
 						<div
 							className="action"
 							onClick={() => {
@@ -121,7 +121,7 @@ export default function Home() {
 							</div>
 							<div className="what-for">Eleitor</div>
 						</div>
-	
+
 						<div className="action">
 							<div className="name">
 								<Image id="plusCross" src={hambList} alt="Icon add"></Image>
