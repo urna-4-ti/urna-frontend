@@ -121,7 +121,7 @@ export default function Home() {
 					<div
 						className="action"
 						onClick={() => {
-							router.push(`/admin/listarEleitor?`)
+							router.push(`/admin/listarEleitor?`);
 						}}
 					>
 						<div className="name">
@@ -131,10 +131,11 @@ export default function Home() {
 						<div className="what-for">Eleitor</div>
 					</div>
 
-					<div className="action"
-					onClick={() => {
-						router.push(``)
-					}}
+					<div
+						className="action"
+						onClick={() => {
+							router.push(``);
+						}}
 					>
 						<div className="name">
 							<Image id="plusCross" src={hambList} alt="Icon add" />

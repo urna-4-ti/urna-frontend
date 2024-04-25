@@ -44,24 +44,23 @@ export default function Home() {
 		mutationFn: createGovernment,
 	});
 
-
-	const handleForm = async (data : formProps) => {
+	const handleForm = async (data: formProps) => {
 		// Check if the name property is set
 		if (!data.name) {
 			console.error("Name property is required");
 			return;
 		}
-	
+
 		// Check if the cod property is a valid number
-		if (typeof data.cod !== 'number' || isNaN(data.cod)) {
+		if (typeof data.cod !== "number" || isNaN(data.cod)) {
 			console.error("Cod property must be a valid number");
 			return;
 		}
-	
+
 		try {
 			await mutateAsync({
 				name: data.name,
-				cod: data.cod
+				cod: data.cod,
 			});
 		} catch (error) {
 			console.log(error);
@@ -112,7 +111,11 @@ export default function Home() {
 						""
 					)}
 
-					<Input label="Número" type="number" {...register("cod", {valueAsNumber: true})} />
+					<Input
+						label="Número"
+						type="number"
+						{...register("cod", { valueAsNumber: true })}
+					/>
 					{errors.name?.message ? (
 						<p id="err" className="text-red-600 text-sm">
 							{errors.cod?.message}
