@@ -1,15 +1,15 @@
-'use client'
-import { useState, useEffect } from 'react'
+"use client";
+import { useState, useEffect } from "react";
 export const useAuthStore = <T, F>(
-  store: (callback: (state: T) => unknown) => unknown,
-  callback: (state: T) => F,
+	store: (callback: (state: T) => unknown) => unknown,
+	callback: (state: T) => F,
 ) => {
-  const result = store(callback) as F
-  const [data, setData] = useState<F>()
+	const result = store(callback) as F;
+	const [data, setData] = useState<F>();
 
-  useEffect(() => {
-    setData(result)
-  }, [result])
+	useEffect(() => {
+		setData(result);
+	}, [result]);
 
-  return data
-}
+	return data;
+};

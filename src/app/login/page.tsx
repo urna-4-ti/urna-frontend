@@ -38,6 +38,7 @@ export default function Home() {
 	const handleForm = async (data: formProps) => {
 		const cookie = await login({ ...data });
 		router.push(`/admin/dashboard?access_token=${cookie}`);
+		// console.log(data)
 	};
 	return (
 		<main id="login">

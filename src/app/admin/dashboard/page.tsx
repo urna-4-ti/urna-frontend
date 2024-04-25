@@ -21,111 +21,117 @@ type formProps = z.infer<typeof schema>;
 export default function Home() {
 	const router = useRouter();
 
+	const user = useAuthStore(AuthStore, (store) => store.state.user);
 
-	const user = useAuthStore(AuthStore, (store) => store.state.user)
-	return (
-		<main id="dashboard">
-			<div className="left-panel">
-				<Image id="urnaIf" src={urnaIf} alt="Urna"></Image>
-			</div>
+	if (user?.id === "") {
+		return router.push('/login')
+	}
 
-			<div className="right-panel">
-				<div className="info-admin">
-					<div className="adm">
-						<Image id="userIcon" src={userIcon} alt=""></Image>
-						<span id="adminName">{user?.name}</span>
-					</div>
-					<button
-						id="sair"
-						onClick={() => {
-							router.push("/");
-						}}
-					>
-						Sair
-					</button>
+	if (user?.id !== "") {
+		return (
+			<main id="dashboard">
+				<div className="left-panel">
+					<Image id="urnaIf" src={urnaIf} alt="Urna"></Image>
 				</div>
-
-				<div className="box-actions">
-					<div
-						className="action"
-						onClick={() => {
-							router.push("/admin/cadastrarPartido");
-						}}
-					>
-						<div className="name">
-							<Image id="plusCross" src={plusCross} alt="Icon add"></Image>
-							<span>Cadastrar</span>
+	
+				<div className="right-panel">
+					<div className="info-admin">
+						<div className="adm">
+							<Image id="userIcon" src={userIcon} alt=""></Image>
+							<span id="adminName">{user?.id !== "" ? user?.name : ""}</span>
 						</div>
-						<div className="what-for">Partido</div>
+						<button
+							id="sair"
+							onClick={() => {
+								router.push("/");
+							}}
+						>
+							Sair
+						</button>
 					</div>
-
-					<div
-						className="action"
-						onClick={() => {
-							router.push("/admin/cadastrarEleitor");
-						}}
-					>
-						<div className="name">
-							<Image id="plusCross" src={plusCross} alt="Icon add"></Image>
-							<span>Cadastrar</span>
+	
+					<div className="box-actions">
+						<div
+							className="action"
+							onClick={() => {
+								router.push("/admin/cadastrarPartido");
+							}}
+						>
+							<div className="name">
+								<Image id="plusCross" src={plusCross} alt="Icon add"></Image>
+								<span>Cadastrar</span>
+							</div>
+							<div className="what-for">Partido</div>
 						</div>
-						<div className="what-for">Eleitor</div>
-					</div>
-
-					<div
-						className="action"
-						onClick={() => {
-							router.push("/admin/cadastrarCandidato");
-						}}
-					>
-						<div className="name">
-							<Image
-								id="plusCross"
-								src={plusCross}
-								alt="Icon add"
-								width={27}
-								height={27}
-							></Image>
-							<span>Cadastrar</span>
+	
+						<div
+							className="action"
+							onClick={() => {
+								router.push("/admin/cadastrarEleitor");
+							}}
+						>
+							<div className="name">
+								<Image id="plusCross" src={plusCross} alt="Icon add"></Image>
+								<span>Cadastrar</span>
+							</div>
+							<div className="what-for">Eleitor</div>
 						</div>
-						<div className="what-for">Candidato</div>
-					</div>
-
-					<div
-						className="action"
-						onClick={() => {
-							router.push("/admin/cadastrarPartido");
-						}}
-					>
-						<div className="name">
-							<Image id="plusCross" src={hambList} alt="Icon add"></Image>
-							<span>Listar</span>
+	
+						<div
+							className="action"
+							onClick={() => {
+								router.push("/admin/cadastrarCandidato");
+							}}
+						>
+							<div className="name">
+								<Image
+									id="plusCross"
+									src={plusCross}
+									alt="Icon add"
+									width={27}
+									height={27}
+								></Image>
+								<span>Cadastrar</span>
+							</div>
+							<div className="what-for">Candidato</div>
 						</div>
-						<div className="what-for">Partido</div>
-					</div>
-
-					<div
-						className="action"
-						onClick={() => {
-							router.push("/admin/cadastrarEleitor");
-						}}
-					>
-						<div className="name">
-							<Image id="plusCross" src={hambList} alt="Icon add"></Image>
-							<span>Listar</span>
+	
+						<div
+							className="action"
+							onClick={() => {
+								router.push("/admin/cadastrarPartido");
+							}}
+						>
+							<div className="name">
+								<Image id="plusCross" src={hambList} alt="Icon add"></Image>
+								<span>Listar</span>
+							</div>
+							<div className="what-for">Partido</div>
 						</div>
-						<div className="what-for">Eleitor</div>
-					</div>
-
-					<div className="action">
-						<div className="name">
-							<Image id="plusCross" src={hambList} alt="Icon add"></Image>
-							<span>Listar</span>
+	
+						<div
+							className="action"
+							onClick={() => {
+								router.push("/admin/cadastrarEleitor");
+							}}
+						>
+							<div className="name">
+								<Image id="plusCross" src={hambList} alt="Icon add"></Image>
+								<span>Listar</span>
+							</div>
+							<div className="what-for">Eleitor</div>
 						</div>
-						<div className="what-for">Candidato</div>
+	
+						<div className="action">
+							<div className="name">
+								<Image id="plusCross" src={hambList} alt="Icon add"></Image>
+								<span>Listar</span>
+							</div>
+							<div className="what-for">Candidato</div>
+						</div>
 					</div>
 				</div>
-			</div>
-		</main>
-	);
+			</main>
+		);
+	}
 }

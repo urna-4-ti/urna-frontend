@@ -32,12 +32,12 @@ export const AuthStore = create<StoreProps>()(
 					formdata.append("email", userData.email);
 					formdata.append("password", userData.password);
 
-					const r = await api.post("auth/signIn", formdata, {
+					const r = await api.post("/auth/signIn", formdata, {
 						headers: {
 							"Content-Type": "multipart/form-data",
 						},
 					});
-					console.log(r.data);
+					console.log("log: ", r.data);
 
 					const { accessToken } = r.data;
 
