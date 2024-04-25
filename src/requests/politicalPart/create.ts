@@ -4,6 +4,7 @@ type politicalPartyProps = {
 	name: string;
 	partyClass: string;
 	politicalTypeId: string;
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 	photo: any;
 };
 
