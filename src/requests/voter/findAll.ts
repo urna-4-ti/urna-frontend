@@ -8,6 +8,6 @@ type voterProps = {
 	class: string;
 };
 export async function getVoters(): Promise<voterProps[]> {
-	const data = (await api.get("/voter")).data.voters;
+	const data = (await api.get("/voter")).data.data;
 	return data;
 }
