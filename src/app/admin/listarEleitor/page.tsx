@@ -8,9 +8,17 @@ import iconFilter from "@/img/filter.svg";
 import iconSearch from "@/img/search.svg";
 
 import "./style.css";
+import { useQuery } from "@tanstack/react-query";
+import { getVoters } from "@/requests/voter/findAll";
 
 export default function Home() {
 	const router = useRouter();
+
+	const { data: getAllVoter } = useQuery({
+		queryKey: ["get-all-voter"],
+		queryFn: getVoters,
+	});
+
 
 	return (
 		<main id="list">
@@ -68,20 +76,22 @@ export default function Home() {
 					</div>
 
 					<div className="body-table">
-						<div
+						{getAllVoter?.map((item) => (
+							<div
 							className="element"
 							onClick={() => {
-								router.push("/admin/editarEleitor");
+								router.push("");
 							}}
 						>
-							<p>Luis Felipe Assmann</p>
-							<p>2020304562</p>
-							<p>4TI</p>
-							<p>luis.assmannnnn@aluno.feliz.ifrs.edu.br</p>
+							<p>{item.name}</p>
+							<p>{item.enrollment}</p>
+							<p>{item.class}</p>
+							<p>{item.email}</p>
 
 							{/* Elemento armazenando a uuid do usuário para ancorar a tela de edição */}
 							<span id="UUID" style={{ display: "none" }}></span>
 						</div>
+						))}
 					</div>
 				</div>
 			</div>

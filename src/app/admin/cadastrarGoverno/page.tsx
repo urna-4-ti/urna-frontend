@@ -13,12 +13,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/Input/Input";
 
 import "./style.css";
+import { createGovernment } from "@/requests/government/create";
+import { useMutation } from "@tanstack/react-query";
 
 const schema = z.object({
-	name: z
-		.string()
-		.refine((value) => value !== "null", { message: "*Selecione uma opção." }),
-	number: z.number(),
+	name: z.string(),
+	cod: z.number().min(3),
 });
 
 type formProps = z.infer<typeof schema>;
@@ -27,6 +27,7 @@ export default function Home() {
 	const {
 		handleSubmit,
 		register,
+		watch,
 		formState: { errors },
 	} = useForm<formProps>({
 		mode: "onSubmit",
@@ -38,12 +39,33 @@ export default function Home() {
 
 	const router = useRouter();
 
-	const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-		setSelectValue(e.target.value);
-	};
+	const { mutateAsync, isError } = useMutation({
+		mutationKey: ["createGovernment"],
+		mutationFn: createGovernment,
+	});
 
-	const handleForm = () => {
-		console.log("a");
+
+	const handleForm = async (data : formProps) => {
+		// Check if the name property is set
+		if (!data.name) {
+			console.error("Name property is required");
+			return;
+		}
+	
+		// Check if the cod property is a valid number
+		if (typeof data.cod !== 'number' || isNaN(data.cod)) {
+			console.error("Cod property must be a valid number");
+			return;
+		}
+	
+		try {
+			await mutateAsync({
+				name: data.name,
+				cod: data.cod
+			});
+		} catch (error) {
+			console.log(error);
+		}
 	};
 	return (
 		<main id="main">
@@ -73,8 +95,8 @@ export default function Home() {
 
 					<label htmlFor="">
 						<p>Nome</p>
-						<select name="name">
-							<option value="null" id="placeholderSelect">
+						<select value={watch("name")} {...register("name")} name="name">
+							<option value="" id="placeholderSelect">
 								Selecione
 							</option>
 							<option value="Absolutista">Monarquia Absolutista</option>
@@ -90,17 +112,17 @@ export default function Home() {
 						""
 					)}
 
-					<Input label="Número" type="text" {...register("number")} />
+					<Input label="Número" type="number" {...register("cod", {valueAsNumber: true})} />
 					{errors.name?.message ? (
 						<p id="err" className="text-red-600 text-sm">
-							{errors.number?.message}
+							{errors.cod?.message}
 						</p>
 					) : (
 						""
 					)}
 
 					<div id="divButton">
-						<button>Cadastrar</button>
+						<button type="submit">Cadastrar</button>
 					</div>
 				</form>
 			</div>

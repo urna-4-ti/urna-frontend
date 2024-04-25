@@ -1,15 +1,15 @@
 "use client";
-import { useRouter } from "next/navigation";
-import Image from "next/image";
-import urnaIf from "@/img/urnaif.svg";
 import plusCross from "@/img/cross.svg";
 import hambList from "@/img/hamburger.svg";
+import urnaIf from "@/img/urnaif.svg";
 import userIcon from "@/img/user-icon.svg";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 
-import "./style.css";
-import { AuthStore } from "@/store/auth";
 import { useAuthStore } from "@/hooks/useAuthStore";
+import { AuthStore } from "@/store/auth";
 import { z } from "zod";
+import "./style.css";
 
 const schema = z.object({
 	email: z.string().email("*O campo deve ser um email"),
@@ -21,117 +21,129 @@ type formProps = z.infer<typeof schema>;
 export default function Home() {
 	const router = useRouter();
 
-	const user = useAuthStore(AuthStore, (store) => store.state.user);
+	const {
+		actions: { logout, login },
+		state: { user },
+	} = AuthStore();
 
-	if (user?.id === "") {
-		return router.push("/login");
-	}
+	// const getCookie = async (data : formProps) => {
+	// 	const cookie = await login({...data})
+	// 	return cookie
+	// }
+	return (
+		<main id="dashboard">
+			<div className="left-panel">
+				<Image id="urnaIf" src={urnaIf} alt="Urna" />
+			</div>
 
-	if (user?.id !== "") {
-		return (
-			<main id="dashboard">
-				<div className="left-panel">
-					<Image id="urnaIf" src={urnaIf} alt="Urna"></Image>
+			<div className="right-panel">
+				<div className="info-admin">
+					<div className="adm">
+						<Image id="userIcon" src={userIcon} alt="" />
+						<span id="adminName">{user?.name}</span>
+					</div>
+					<button
+						type="button"
+						id="sair"
+						onClick={async () => {
+							await logout();
+							router.push("/auth/logout");
+						}}
+					>
+						Sair
+					</button>
 				</div>
 
-				<div className="right-panel">
-					<div className="info-admin">
-						<div className="adm">
-							<Image id="userIcon" src={userIcon} alt=""></Image>
-							<span id="adminName">{user?.id !== "" ? user?.name : ""}</span>
+				<div className="box-actions">
+					{/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
+					<div
+						className="action"
+						onClick={() => {
+							router.push("/admin/cadastrarPartido");
+						}}
+					>
+						<div className="name">
+							<Image id="plusCross" src={plusCross} alt="Icon add" />
+							<span>Cadastrar</span>
 						</div>
-						<button
-							id="sair"
-							onClick={() => {
-								router.push("/");
-							}}
-						>
-							Sair
-						</button>
+						<div className="what-for">Partido</div>
 					</div>
 
-					<div className="box-actions">
-						<div
-							className="action"
-							onClick={() => {
-								router.push("/admin/cadastrarPartido");
-							}}
-						>
-							<div className="name">
-								<Image id="plusCross" src={plusCross} alt="Icon add"></Image>
-								<span>Cadastrar</span>
-							</div>
-							<div className="what-for">Partido</div>
+					{/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
+					<div
+						className="action"
+						onClick={() => {
+							router.push("/admin/cadastrarEleitor");
+						}}
+					>
+						<div className="name">
+							<Image id="plusCross" src={plusCross} alt="Icon add" />
+							<span>Cadastrar</span>
 						</div>
+						<div className="what-for">Eleitor</div>
+					</div>
 
-						<div
-							className="action"
-							onClick={() => {
-								router.push("/admin/cadastrarEleitor");
-							}}
-						>
-							<div className="name">
-								<Image id="plusCross" src={plusCross} alt="Icon add"></Image>
-								<span>Cadastrar</span>
-							</div>
-							<div className="what-for">Eleitor</div>
+					{/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
+					<div
+						className="action"
+						onClick={() => {
+							router.push("/admin/cadastrarCandidato");
+						}}
+					>
+						<div className="name">
+							<Image
+								id="plusCross"
+								src={plusCross}
+								alt="Icon add"
+								width={27}
+								height={27}
+							/>
+							<span>Cadastrar</span>
 						</div>
+						<div className="what-for">Candidato</div>
+					</div>
 
-						<div
-							className="action"
-							onClick={() => {
-								router.push("/admin/cadastrarCandidato");
-							}}
-						>
-							<div className="name">
-								<Image
-									id="plusCross"
-									src={plusCross}
-									alt="Icon add"
-									width={27}
-									height={27}
-								></Image>
-								<span>Cadastrar</span>
-							</div>
-							<div className="what-for">Candidato</div>
+					{/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
+					<div
+						className="action"
+						onClick={() => {
+							router.push("/admin/cadastrarPartido");
+						}}
+					>
+						<div className="name">
+							<Image id="plusCross" src={hambList} alt="Icon add" />
+							<span>Listar</span>
 						</div>
+						<div className="what-for">Partido</div>
+					</div>
 
-						<div
-							className="action"
-							onClick={() => {
-								router.push("/admin/cadastrarPartido");
-							}}
-						>
-							<div className="name">
-								<Image id="plusCross" src={hambList} alt="Icon add"></Image>
-								<span>Listar</span>
-							</div>
-							<div className="what-for">Partido</div>
+					{/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
+					<div
+						className="action"
+						onClick={() => {
+							router.push(`/admin/listarEleitor?`)
+						}}
+					>
+						<div className="name">
+							<Image id="plusCross" src={hambList} alt="Icon add" />
+							<span>Listar</span>
 						</div>
+						<div className="what-for">Eleitor</div>
+					</div>
 
-						<div
-							className="action"
-							onClick={() => {
-								router.push("/admin/cadastrarEleitor");
-							}}
-						>
-							<div className="name">
-								<Image id="plusCross" src={hambList} alt="Icon add"></Image>
-								<span>Listar</span>
-							</div>
-							<div className="what-for">Eleitor</div>
+					<div className="action"
+					onClick={() => {
+						router.push(``)
+					}}
+					>
+						<div className="name">
+							<Image id="plusCross" src={hambList} alt="Icon add" />
+							<span>Listar</span>
 						</div>
-
-						<div className="action">
-							<div className="name">
-								<Image id="plusCross" src={hambList} alt="Icon add"></Image>
-								<span>Listar</span>
-							</div>
-							<div className="what-for">Candidato</div>
-						</div>
+						<div className="what-for">Candidato</div>
 					</div>
 				</div>
-			</main>
-		);
-	}
+			</div>
+		</main>
+	);
 }
