@@ -13,10 +13,10 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { classes } from "@/lib/Classes";
+import { createCandidate } from "@/requests/candidate/create";
 import { getPoliticalParty } from "@/requests/politicalPart/findAll";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import "./style.css";
-import { createCandidate } from "@/requests/candidate/create";
 
 const schema = z.object({
 	codNum: z.number(),
@@ -80,7 +80,6 @@ export default function Home() {
 		} catch (error) {
 			console.error(error);
 		}
-		// console.log(data)
 	};
 	return (
 		<main id="main">
