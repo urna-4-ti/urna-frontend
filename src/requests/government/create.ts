@@ -1,22 +1,17 @@
 import { api } from "../api";
 
 type governmentProps = {
-  cod: number,
-  name: string,
+	cod: number;
+	name: string;
 };
 
-export async function createGovernment({
-	cod,
-	name,
-}: governmentProps) {
+export async function createGovernment({ cod, name }: governmentProps) {
 	const formdata = new FormData();
-
 
 	formdata.append("cod", cod.toString());
 	formdata.append("name", name);
 
-  console.log(formdata)
-
+	console.log(formdata);
 
 	await api.post("/government/form", formdata, {
 		headers: {
