@@ -1,29 +1,30 @@
 "use client";
+import iconFilter from "@/img/filter.svg";
+import iconBack from "@/img/icon-back.svg";
+import ifLogo from "@/img/if.svg";
+import iconSearch from "@/img/search.svg";
+import userIcon from "@/img/user-icon.svg";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import ifLogo from "@/img/if.svg";
-import userIcon from "@/img/user-icon.svg";
-import iconBack from "@/img/icon-back.svg";
-import iconFilter from "@/img/filter.svg";
-import iconSearch from "@/img/search.svg";
 
-import "./style.css";
-import { useQuery } from "@tanstack/react-query";
 import { getVoters } from "@/requests/voter/findAll";
+import { useQuery } from "@tanstack/react-query";
+import "./style.css";
 
 export default function Home() {
 	const router = useRouter();
 
-	const { data: getAllVoter } = useQuery({
-		queryKey: ["get-all-voter"],
+	const { data: voters } = useQuery({
+		queryKey: ["get voters"],
 		queryFn: getVoters,
 	});
 
+	console.log(voters)
 
 	return (
 		<main id="list">
 			<div className="left-panel">
-				<Image id="urnaIf" src={ifLogo} alt="Urna"></Image>
+				<Image id="urnaIf" src={ifLogo} alt="Urna" />
 			</div>
 
 			<div className="right-panel">
@@ -32,10 +33,11 @@ export default function Home() {
 
 					<div className="info-admin">
 						<div className="adm">
-							<Image id="userIcon" src={userIcon} alt=""></Image>
+							<Image id="userIcon" src={userIcon} alt="" />
 							<span id="adminName">Administrador</span>
 						</div>
 						<button
+							type="button"
 							id="sair"
 							onClick={() => {
 								router.push("/");
@@ -48,26 +50,27 @@ export default function Home() {
 
 				<div className="filter-search">
 					<button
+						type="button"
 						id="cancelButtonIcon"
 						onClick={() => {
 							router.back();
 						}}
 					>
-						<Image src={iconBack} alt="Icone botão voltar"></Image>
+						<Image src={iconBack} alt="Icone botão voltar" />
 					</button>
 
 					<div className="act">
-						<button id="filter">
-							<Image src={iconFilter} alt="Icon filtragem"></Image>
+						<button type="button" id="filter">
+							<Image src={iconFilter} alt="Icon filtragem" />
 						</button>
 
 						<div className="search">
-							<Image src={iconSearch} alt="Icon busca"></Image>
+							<Image src={iconSearch} alt="Icon busca" />
 							<input placeholder="Pesquisar..." type="text" id="busca" />
 						</div>
 					</div>
 
-					<div className="pontomorto"></div>
+					<div className="pontomorto" />
 				</div>
 
 				<div className="table-contents">
@@ -76,21 +79,22 @@ export default function Home() {
 					</div>
 
 					<div className="body-table">
-						{getAllVoter?.map((item) => (
+						{voters?.map((item) => (
+							// biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
 							<div
-							className="element"
-							onClick={() => {
-								router.push("");
-							}}
-						>
-							<p>{item.name}</p>
-							<p>{item.enrollment}</p>
-							<p>{item.class}</p>
-							<p>{item.email}</p>
+								className="element"
+								onClick={() => {
+									router.push("");
+								}}
+							>
+								<p>{item.name}</p>
+								<p>{item.enrollment}</p>
+								<p>{item.class}</p>
+								<p>{item.email}</p>
 
-							{/* Elemento armazenando a uuid do usuário para ancorar a tela de edição */}
-							<span id="UUID" style={{ display: "none" }}></span>
-						</div>
+								{/* Elemento armazenando a uuid do usuário para ancorar a tela de edição */}
+								<span id="UUID" style={{ display: "none" }} />
+							</div>
 						))}
 					</div>
 				</div>

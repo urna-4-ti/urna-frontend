@@ -2,12 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
-*, *::after, *::before {
+*,
+*::after,
+*::before {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
 }
-body, input, button, div, span, p, h1, h2, select, textarea, a, main, form {
+
+body,
+input,
+button,
+div,
+span,
+p,
+h1,
+h2,
+select,
+textarea,
+a,
+main,
+form {
   font-family: "Kanit", "Inter", sans-serif;
 }
 
@@ -106,25 +121,29 @@ body, input, button, div, span, p, h1, h2, select, textarea, a, main, form {
   z-index: 2;
 }
 
-#registerEleitor h1, #registerGoverno h1 {
+#registerEleitor h1,
+#registerGoverno h1 {
   width: 100%;
   font-weight: 300;
   font-size: 2.4rem;
 }
 
-#registerEleitor label, #registerGoverno label {
+#registerEleitor label,
+#registerGoverno label {
   width: 100%;
   display: flex;
   flex-direction: column;
   padding-top: .2rem;
 }
 
-#registerEleitor label p, #registerGoverno label p {
+#registerEleitor label p,
+#registerGoverno label p {
   opacity: 0.7;
   font-size: 1.3rem;
 }
 
-#registerEleitor label input, #registerGoverno label input {
+#registerEleitor label input,
+#registerGoverno label input {
   font-family: "Kanit", sans-serif;
   border: 1px solid #00000096;
   border-radius: 10px;
@@ -133,7 +152,8 @@ body, input, button, div, span, p, h1, h2, select, textarea, a, main, form {
   color: #1b1b1b;
 }
 
-#registerEleitor label select, #registerGoverno label select {
+#registerEleitor label select,
+#registerGoverno label select {
   font-family: "Kanit", sans-serif;
   border: 1px solid #00000096;
   border-radius: 10px;
@@ -142,7 +162,8 @@ body, input, button, div, span, p, h1, h2, select, textarea, a, main, form {
   color: #1b1b1b;
 }
 
-#registerEleitor label select option, #registerGoverno label select option {
+#registerEleitor label select option,
+#registerGoverno label select option {
   font-size: 1.2rem;
 }
 
@@ -200,7 +221,7 @@ body, input, button, div, span, p, h1, h2, select, textarea, a, main, form {
 }
 
 #registerEleitor #labelImg {
-  position:absolute;
+  position: absolute;
   width: 316px;
   height: 316px;
   background-color: #D9D9D9;
@@ -213,7 +234,7 @@ body, input, button, div, span, p, h1, h2, select, textarea, a, main, form {
 }
 
 #labelImg #inputImg {
-  display:none;
+  display: none;
 }
 
 #labelImg #newImage {
@@ -307,6 +328,7 @@ body, input, button, div, span, p, h1, h2, select, textarea, a, main, form {
   align-items: center;
   justify-content: center;
 }
+
 #home-page button {
   background-color: #05B022;
   border: none;
@@ -316,10 +338,12 @@ body, input, button, div, span, p, h1, h2, select, textarea, a, main, form {
   font-size: 1.1rem;
   transition: .2s;
 }
+
 #home-page button:hover {
   background-color: #05B022aa;
   cursor: pointer;
 }
+
 #login {
   display: grid;
   grid-template-columns: 2fr 1fr;
@@ -349,23 +373,27 @@ body, input, button, div, span, p, h1, h2, select, textarea, a, main, form {
   padding-top: 3rem;
   padding-left: 3rem;
 }
+
 .left-panel {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100%;
 }
+
 #topLeftCloud {
   position: absolute;
   transform: rotate(270deg);
   top: -2rem;
   left: 0;
 }
+
 #bottomLeftCircle {
   position: absolute;
   bottom: 0;
   left: 2rem;
 }
+
 #loginForm {
   display: flex;
   align-items: center;
@@ -380,16 +408,20 @@ body, input, button, div, span, p, h1, h2, select, textarea, a, main, form {
   background-color: #fff;
   z-index: 2;
 }
-#loginForm label, #loginForm input {
+
+#loginForm label,
+#loginForm input {
   width: 100%;
   padding: .5rem;
   font-size: 1.3rem;
 }
+
 #loginForm input {
   border-radius: 12px;
   border: 1px solid #333;
   margin-top: .5rem;
 }
+
 #loginForm button {
   border: none;
   background-color: #05B022;
@@ -402,10 +434,12 @@ body, input, button, div, span, p, h1, h2, select, textarea, a, main, form {
   transition: .2s;
   cursor: pointer;
 }
+
 #loginForm button:hover {
   background-color: #05B02255;
   color: #555;
 }
+
 #loginForm #goBackLoginToHome {
   background-color: #fff;
   width: auto;
@@ -453,7 +487,7 @@ body, input, button, div, span, p, h1, h2, select, textarea, a, main, form {
 
 #mainList #rightDiv #divTop #right label div {
   margin-left: 1.4rem;
-  width: 
+  width:
 }
 
 #mainList #rightDiv #divTop #right label div p {
