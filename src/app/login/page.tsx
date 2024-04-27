@@ -48,7 +48,7 @@ export default function Home() {
 			}
 		};
 		toast.promise(executeLogin, {
-			loading: "Carregando...",
+			loading: "Loading...",
 			duration: 3000,
 
 			success: (cookie) => {
