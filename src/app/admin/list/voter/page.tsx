@@ -24,7 +24,6 @@ export default function listCandidate() {
 		queryFn: getVoters,
 	});
 
-
 	return (
 		<main id="admin">
 			<div id="left-column">
@@ -86,7 +85,11 @@ export default function listCandidate() {
 									<td>{item.class}</td>
 									<td>{item.email}</td>
 									<td>
-										<button onClick={() => router.push(`/admin/edit/${item.id}/voter`)}>
+										<button
+											onClick={() =>
+												router.push(`/admin/edit/${item.id}/voter`)
+											}
+										>
 											<Image src={pencilIcon} alt="" />
 										</button>
 									</td>

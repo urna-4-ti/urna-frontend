@@ -17,7 +17,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import "./style.css";
-import {toast} from 'sonner'
+import { toast } from "sonner";
 
 const schema = z.object({
 	name: z
@@ -98,23 +98,23 @@ export default function Home() {
 			} catch (error) {
 				console.error(error);
 			}
-		}
+		};
 
 		toast.promise(inviteForm, {
 			loading: "Carregando...",
 			duration: 4000,
 
 			success: () => {
-				router.back()
-				return "Partido Registrado"
+				router.back();
+				return "Partido Registrado";
 			},
 
 			error: "Erro ao registrar o partido",
 
 			style: {
-				boxShadow: "1px 2px 20px 6px #555"
-			}
-		})
+				boxShadow: "1px 2px 20px 6px #555",
+			},
+		});
 	};
 
 	return (

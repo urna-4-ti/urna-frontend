@@ -23,10 +23,11 @@ export default function listCandidate() {
 		queryFn: getCandidate,
 	});
 
-
-	console.log(candidates?.map((value) => {
-		value.picPath
-	}))
+	console.log(
+		candidates?.map((value) => {
+			value.picPath;
+		}),
+	);
 
 	return (
 		<main id="admin">
@@ -88,12 +89,12 @@ export default function listCandidate() {
 									<td id="th-logo-partido">
 										<i>
 											<Image
-											id="imageParty"
-											src={`http://localhost:4000/public/${item.picPath}`}
-											width={60}
-											height={60}
-											alt=""
-										/>
+												id="imageParty"
+												src={`http://localhost:4000/public/${item.picPath}`}
+												width={60}
+												height={60}
+												alt=""
+											/>
 										</i>
 									</td>
 									<td>{item.name}</td>
@@ -101,7 +102,12 @@ export default function listCandidate() {
 									<td>4 TI</td>
 									<td>Partido</td>
 									<td>
-										<button style={{"border": "none"}} onClick={() => router.push(`/admin/edit/${item.id}/voter`)}>
+										<button
+											style={{ border: "none" }}
+											onClick={() =>
+												router.push(`/admin/edit/${item.id}/voter`)
+											}
+										>
 											<Image src={pencilIcon} alt="" />
 										</button>
 									</td>

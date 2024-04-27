@@ -10,7 +10,7 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { AuthStore } from "@/store/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {toast} from 'sonner'
+import { toast } from "sonner";
 import React from "react";
 
 const schema = z.object({
@@ -41,30 +41,29 @@ export default function Home() {
 		const executeLogin = async () => {
 			const cookie = await login({ ...data });
 
-			if(cookie !== undefined) {
-				return cookie
+			if (cookie !== undefined) {
+				return cookie;
 			} else {
-				throw new Error("Email e/ou senha incorretos!")
+				throw new Error("Email e/ou senha incorretos!");
 			}
-		}
+		};
 		toast.promise(executeLogin, {
-			loading: 'Carregando...',
+			loading: "Carregando...",
 			duration: 3000,
 
 			success: (cookie) => {
 				router.push(`/admin/dashboard?access_token=${cookie}`);
-				return "Login efetuado"
+				return "Login efetuado";
 			},
-			error: 'Email e/ou senha incorretos',
+			error: "Email e/ou senha incorretos",
 
 			style: {
 				position: "absolute",
 				right: "60rem",
-				boxShadow: "1px 2px 20px 6px #555"
+				boxShadow: "1px 2px 20px 6px #555",
+			},
+		});
 
-			}
-		})
-		
 		// console.log(data)
 	};
 	return (

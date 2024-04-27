@@ -10,10 +10,9 @@ import { useRouter } from "next/navigation";
 import Modal from "@/components/Modal/Modal";
 import inputImage from "@/img/uploading-icon.svg";
 import { Input } from "@/components/Input/Input";
-import "./style.css"
+import "./style.css";
 
 export default function Home() {
-
 	const [selectValue, setSelectValue] = useState<string>("");
 
 	const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);

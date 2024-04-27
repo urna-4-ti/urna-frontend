@@ -19,9 +19,9 @@ const schema = z.object({
 type formProps = z.infer<typeof schema>;
 
 export default function Home() {
-	const path = usePathname()
+	const path = usePathname();
 
-	console.log("CAMINHO:", path)
+	console.log("CAMINHO:", path);
 
 	const router = useRouter();
 

@@ -52,7 +52,6 @@ const schema = z.object({
 type formProps = z.infer<typeof schema>;
 
 export default function Home() {
-
 	const [valueClass, setValueSelectedClass] = useState<string>("");
 
 	const {
@@ -89,28 +88,28 @@ export default function Home() {
 					password: data.enrollment,
 					role: "VOTER",
 					enrollment: data.enrollment,
-					class: data.class
+					class: data.class,
 				});
 			} catch (error) {
 				console.error(error);
 			}
-		}
+		};
 
 		toast.promise(inviteForm, {
 			loading: "Carregando...",
 			duration: 4000,
 
 			success: () => {
-				router.back()
-				return "Eleitor Registrado"
+				router.back();
+				return "Eleitor Registrado";
 			},
 
 			error: "Erro ao registrar o eleitor",
 
 			style: {
-				boxShadow: "1px 2px 20px 6px #555"
-			}
-		})
+				boxShadow: "1px 2px 20px 6px #555",
+			},
+		});
 	};
 	return (
 		<main id="main">
@@ -162,7 +161,13 @@ export default function Home() {
 						""
 					)}
 
-					<Input label="Matrícula" type="text" {...register("enrollment")} maxLength={10} min={10} />
+					<Input
+						label="Matrícula"
+						type="text"
+						{...register("enrollment")}
+						maxLength={10}
+						min={10}
+					/>
 					{errors.name?.message ? (
 						<p id="err" className="text-red-600 text-sm">
 							{errors.enrollment?.message}
@@ -173,11 +178,12 @@ export default function Home() {
 
 					<label htmlFor="">
 						<p>Turma</p>
-						<select 
-						value={valueClass} 
-						{...register("class")} 
-						onChange={(e) => setValueSelectedClass(e.target.value)}
-						required>
+						<select
+							value={valueClass}
+							{...register("class")}
+							onChange={(e) => setValueSelectedClass(e.target.value)}
+							required
+						>
 							<option value="" disabled>
 								Selecione uma turma
 							</option>

@@ -34,7 +34,6 @@ const schema = z.object({
 type formProps = z.infer<typeof schema>;
 
 export default function Home() {
-
 	const [valueClass, setValueSelectedClass] = useState<string>("");
 
 	const {
@@ -74,16 +73,16 @@ export default function Home() {
 
 	const router = useRouter();
 
-	const [value, setValueLength] = useState<string>()
+	const [value, setValueLength] = useState<string>();
 
-	const handleChange = (e : React.ChangeEvent<HTMLInputElement>) => {
-		const newValue = e.target.value
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const newValue = e.target.value;
 		if (newValue.length > 5) {
-			setValueLength(newValue.substring(0, 5))
+			setValueLength(newValue.substring(0, 5));
 		} else {
-			setValueLength(newValue)
+			setValueLength(newValue);
 		}
-	}
+	};
 
 	const handleForm = async (data: formProps) => {
 		const inviteForm = async () => {
@@ -98,23 +97,23 @@ export default function Home() {
 			} catch (error) {
 				console.error(error);
 			}
-		}
+		};
 
 		toast.promise(inviteForm, {
 			loading: "Carregando...",
 			duration: 4000,
 
 			success: () => {
-				router.back()
-				return "Candidato Registrado"
+				router.back();
+				return "Candidato Registrado";
 			},
 
 			error: "Erro ao registrar o candidato",
 
 			style: {
-				boxShadow: "1px 2px 20px 6px #555"
-			}
-		})
+				boxShadow: "1px 2px 20px 6px #555",
+			},
+		});
 	};
 	return (
 		<main id="main">
@@ -179,13 +178,12 @@ export default function Home() {
 
 					<label htmlFor="">
 						<p>Turma</p>
-						<select 
-						value={watch("classParty")} 
-						{...register("classParty")} 
-						required>
-							<option defaultValue={""}>
-								Selecione uma turma
-							</option>
+						<select
+							value={watch("classParty")}
+							{...register("classParty")}
+							required
+						>
+							<option defaultValue={""}>Selecione uma turma</option>
 							{classes.map((item) => (
 								<option value={item.class}>{item.name}</option>
 							))}
