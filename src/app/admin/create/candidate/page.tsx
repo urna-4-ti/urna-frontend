@@ -17,6 +17,8 @@ import { createCandidate } from "@/requests/candidate/create";
 import { getPoliticalParty } from "@/requests/politicalPart/findAll";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import "./style.css";
+import { useState } from "react";
+import { toast } from "sonner";
 
 const schema = z.object({
 	codNum: z.number(),
@@ -32,10 +34,14 @@ const schema = z.object({
 type formProps = z.infer<typeof schema>;
 
 export default function Home() {
+
+	const [valueClass, setValueSelectedClass] = useState<string>("");
+
 	const {
 		handleSubmit,
 		register,
 		watch,
+		setValue,
 		formState: { errors },
 	} = useForm<formProps>({
 		mode: "onSubmit",
@@ -68,18 +74,47 @@ export default function Home() {
 
 	const router = useRouter();
 
-	const handleForm = async (data: formProps) => {
-		try {
-			await mutateAsync({
-				cod: data.codNum,
-				name: data.name,
-				picPath: data.photo,
-				politicalPartyId: data.politicalPartyId,
-				description: data.description,
-			});
-		} catch (error) {
-			console.error(error);
+	const [value, setValueLength] = useState<string>()
+
+	const handleChange = (e : React.ChangeEvent<HTMLInputElement>) => {
+		const newValue = e.target.value
+		if (newValue.length > 5) {
+			setValueLength(newValue.substring(0, 5))
+		} else {
+			setValueLength(newValue)
 		}
+	}
+
+	const handleForm = async (data: formProps) => {
+		const inviteForm = async () => {
+			try {
+				await mutateAsync({
+					cod: data.codNum,
+					name: data.name,
+					picPath: data.photo,
+					politicalPartyId: data.politicalPartyId,
+					description: data.description,
+				});
+			} catch (error) {
+				console.error(error);
+			}
+		}
+
+		toast.promise(inviteForm, {
+			loading: "Carregando...",
+			duration: 4000,
+
+			success: () => {
+				router.back()
+				return "Candidato Registrado"
+			},
+
+			error: "Erro ao registrar o candidato",
+
+			style: {
+				boxShadow: "1px 2px 20px 6px #555"
+			}
+		})
 	};
 	return (
 		<main id="main">
@@ -130,7 +165,9 @@ export default function Home() {
 					<Input
 						label="Número"
 						type="number"
+						value={value}
 						{...register("codNum", { valueAsNumber: true })}
+						onChange={handleChange}
 					/>
 					{errors.codNum?.message ? (
 						<p id="err" className="text-red-600 text-sm">
@@ -142,12 +179,11 @@ export default function Home() {
 
 					<label htmlFor="">
 						<p>Turma</p>
-						<select
-							value={watch("classParty")}
-							{...register("classParty")}
-							required
-						>
-							<option value="" disabled>
+						<select 
+						value={watch("classParty")} 
+						{...register("classParty")} 
+						required>
+							<option defaultValue={""}>
 								Selecione uma turma
 							</option>
 							{classes.map((item) => (
@@ -158,7 +194,7 @@ export default function Home() {
 
 					<label htmlFor="">
 						<p>Partido</p>
-						<select {...register("politicalPartyId")}>
+						<select {...register("politicalPartyId")} required>
 							<option value="" disabled>
 								Selecione um partido
 							</option>
@@ -174,6 +210,7 @@ export default function Home() {
 						label="Descrição"
 						type="textarea"
 						{...register("description")}
+						required
 					/>
 
 					<label htmlFor="inputImg" id="labelImg">

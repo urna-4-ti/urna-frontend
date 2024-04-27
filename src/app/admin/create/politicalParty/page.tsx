@@ -17,6 +17,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import "./style.css";
+import {toast} from 'sonner'
 
 const schema = z.object({
 	name: z
@@ -86,16 +87,34 @@ export default function Home() {
 	const router = useRouter();
 
 	const handleForm = async (data: formProps) => {
-		try {
-			await mutateAsync({
-				name: data.name,
-				partyClass: data.class,
-				photo: data.photo,
-				politicalTypeId: data.politicalTypeId,
-			});
-		} catch (error) {
-			console.error(error);
+		const inviteForm = async () => {
+			try {
+				await mutateAsync({
+					name: data.name,
+					partyClass: data.class,
+					photo: data.photo,
+					politicalTypeId: data.politicalTypeId,
+				});
+			} catch (error) {
+				console.error(error);
+			}
 		}
+
+		toast.promise(inviteForm, {
+			loading: "Carregando...",
+			duration: 4000,
+
+			success: () => {
+				router.back()
+				return "Partido Registrado"
+			},
+
+			error: "Erro ao registrar o partido",
+
+			style: {
+				boxShadow: "1px 2px 20px 6px #555"
+			}
+		})
 	};
 
 	return (
@@ -204,6 +223,7 @@ export default function Home() {
 									type="file"
 									{...register("photo")}
 									accept="image/*"
+									required
 								/>
 								<Image id="uploading" src={inputImage} alt="Image Input" />
 							</>

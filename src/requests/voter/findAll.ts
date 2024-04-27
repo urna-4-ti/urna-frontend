@@ -6,7 +6,7 @@ type votersProps = {
 	email: string;
 	enrollment: string;
 	name: string;
-}
+};
 
 export async function getVoters(): Promise<votersProps[]> {
 	const data = (await api.get("/voter")).data.data;

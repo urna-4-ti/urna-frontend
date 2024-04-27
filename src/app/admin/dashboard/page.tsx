@@ -1,10 +1,10 @@
 "use client";
 import plusCross from "@/img/cross.svg";
 import hambList from "@/img/hamburger.svg";
-import urnaIf from "@/img/urnaif.svg";
+import urnaIf from "@/img/if.svg";
 import userIcon from "@/img/user-icon.svg";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 import { useAuthStore } from "@/hooks/useAuthStore";
 import { AuthStore } from "@/store/auth";
@@ -19,6 +19,10 @@ const schema = z.object({
 type formProps = z.infer<typeof schema>;
 
 export default function Home() {
+	const path = usePathname()
+
+	console.log("CAMINHO:", path)
+
 	const router = useRouter();
 
 	const {
@@ -30,6 +34,7 @@ export default function Home() {
 	// 	const cookie = await login({...data})
 	// 	return cookie
 	// }
+
 	return (
 		<main id="dashboard">
 			<div className="left-panel">
@@ -66,6 +71,19 @@ export default function Home() {
 							<Image id="plusCross" src={plusCross} alt="Icon add" />
 							<span>Cadastrar</span>
 						</div>
+						<div className="what-for">Sistema de Governo</div>
+					</div>
+
+					<div
+						className="action"
+						onClick={() => {
+							router.push("/admin/create/politicalParty");
+						}}
+					>
+						<div className="name">
+							<Image id="plusCross" src={plusCross} alt="Icon add" />
+							<span>Cadastrar</span>
+						</div>
 						<div className="what-for">Partido</div>
 					</div>
 
@@ -73,7 +91,7 @@ export default function Home() {
 					<div
 						className="action"
 						onClick={() => {
-							router.push("/admin/cadastrarEleitor");
+							router.push(``);
 						}}
 					>
 						<div className="name">
@@ -87,7 +105,7 @@ export default function Home() {
 					<div
 						className="action"
 						onClick={() => {
-							router.push("/admin/cadastrarCandidato");
+							router.push("/admin/create/candidate");
 						}}
 					>
 						<div className="name">
@@ -114,6 +132,19 @@ export default function Home() {
 							<Image id="plusCross" src={hambList} alt="Icon add" />
 							<span>Listar</span>
 						</div>
+						<div className="what-for">Sistema de Governo</div>
+					</div>
+
+					<div
+						className="action"
+						onClick={() => {
+							router.push("/admin/list/politicalParty");
+						}}
+					>
+						<div className="name">
+							<Image id="plusCross" src={hambList} alt="Icon add" />
+							<span>Listar</span>
+						</div>
 						<div className="what-for">Partido</div>
 					</div>
 
@@ -121,7 +152,7 @@ export default function Home() {
 					<div
 						className="action"
 						onClick={() => {
-							router.push(`/admin/listarEleitor?`);
+							router.push(`/admin/list/voter`);
 						}}
 					>
 						<div className="name">
@@ -134,7 +165,7 @@ export default function Home() {
 					<div
 						className="action"
 						onClick={() => {
-							router.push("/admin/listarCandidato");
+							router.push("/admin/list/candidate");
 						}}
 					>
 						<div className="name">

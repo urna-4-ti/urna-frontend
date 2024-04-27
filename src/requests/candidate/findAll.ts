@@ -5,8 +5,8 @@ type candidateProps = {
 	name: string;
 	cod: number;
 	picPath: string;
-  description: string;
-  politicalPartyId: string;
+	description: string;
+	politicalPartyId: string;
 };
 
 export async function getCandidate(): Promise<candidateProps[]> {
