@@ -58,8 +58,6 @@ export default function Home() {
 			error: "Email e/ou senha incorretos",
 
 			style: {
-				position: "absolute",
-				right: "60rem",
 				boxShadow: "1px 2px 20px 6px #555",
 			},
 		});
