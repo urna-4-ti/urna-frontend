@@ -1,17 +1,17 @@
 "use client";
-import { useRouter } from "next/navigation";
-import Image from "next/image";
-import topCloud from "@/img/top-cloud.svg";
-import bottomCircle from "@/img/bottom-circle.svg";
-import urnaIf from "@/img/urnaif.svg";
-import iconBack from "@/img/icon-back.svg";
 import { Input } from "@/components/Input/Input";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
+import bottomCircle from "@/img/bottom-circle.svg";
+import iconBack from "@/img/icon-back.svg";
+import topCloud from "@/img/top-cloud.svg";
+import urnaIf from "@/img/urnaif.svg";
 import { AuthStore } from "@/store/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from "sonner";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 
 const schema = z.object({
 	email: z.string().email("*O campo deve ser um email"),
@@ -43,9 +43,8 @@ export default function Home() {
 
 			if (cookie !== undefined) {
 				return cookie;
-			} else {
-				throw new Error("Email e/ou senha incorretos!");
 			}
+			throw new Error("Email e/ou senha incorretos!");
 		};
 		toast.promise(executeLogin, {
 			loading: "Loading...",
@@ -67,20 +66,10 @@ export default function Home() {
 	return (
 		<main id="login">
 			<div className="left-panel">
-				<Image id="topLeftCloud" src={topCloud} alt=""></Image>
-				<Image id="bottomLeftCircle" src={bottomCircle} alt=""></Image>
+				<Image id="topLeftCloud" src={topCloud} alt="" />
+				<Image id="bottomLeftCircle" src={bottomCircle} alt="" />
 
 				<form action="POST" id="loginForm" onSubmit={handleSubmit(handleForm)}>
-					<button
-						id="goBackLoginToHome"
-						onClick={(e) => {
-							e.preventDefault();
-							router.back();
-						}}
-					>
-						<Image id="iconBack" src={iconBack} alt="Voltar"></Image>
-					</button>
-
 					<h1>Login</h1>
 					<Input label="Email" type="email" {...register("email")} required />
 					<Input
@@ -95,7 +84,7 @@ export default function Home() {
 			</div>
 
 			<div className="right-panel">
-				<Image id="urnaIf" src={urnaIf} alt=""></Image>
+				<Image id="urnaIf" src={urnaIf} alt="" />
 			</div>
 		</main>
 	);
