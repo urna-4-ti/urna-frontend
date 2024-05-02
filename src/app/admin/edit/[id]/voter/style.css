@@ -27,3 +27,14 @@ form #err {
 #labelImg #newImage {
   object-fit: cover;
 }
+
+#divButton #buttonEdit {
+  background-color: #05B022;
+  width: 80%;
+  padding: 0.5rem;
+  border-radius: 20px;
+  color: #fff;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: .2s;
+}

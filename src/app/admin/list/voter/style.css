@@ -159,6 +159,7 @@ tr :nth-child(2) {
 }
 
 tr :last-child {
+    background-color: transparent;
     min-width: 50px;
     color: #05B022;
     font-size: 2rem;

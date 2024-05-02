@@ -1,17 +1,17 @@
 "use client";
 
-import IFImg from "@/img/if.svg";
-import searchIcon from "@/img/search.svg";
 import filterIcon from "@/img/filter.svg";
-import userIcon from "@/img/user-icon.svg";
-import pencilIcon from "@/img/pencil.svg";
 import iconBack from "@/img/icon-back.svg";
+import IFImg from "@/img/if.svg";
+import pencilIcon from "@/img/pencil.svg";
+import searchIcon from "@/img/search.svg";
+import userIcon from "@/img/user-icon.svg";
+import { getCandidate } from "@/requests/candidate/findAll";
+import { getVoters } from "@/requests/voter/findAll";
+import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import "./style.css";
-import { useQuery } from "@tanstack/react-query";
-import { getCandidate } from "@/requests/candidate/findAll";
-import { getVoters } from "@/requests/voter/findAll";
 
 export default function listCandidate() {
 	const router = useRouter();
@@ -75,7 +75,7 @@ export default function listCandidate() {
 								<th>Turma</th>
 								<th>Email</th>
 								<th>
-									<a href=""></a>
+									<a href="" />
 								</th>
 							</tr>
 							{candidates?.map((item) => (
@@ -85,6 +85,7 @@ export default function listCandidate() {
 									<td>{item.class}</td>
 									<td>{item.email}</td>
 									<td>
+										{/* biome-ignore lint/a11y/useButtonType: <explanation> */}
 										<button
 											onClick={() =>
 												router.push(`/admin/edit/${item.id}/voter`)

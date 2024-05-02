@@ -40,6 +40,8 @@ export default function Home({ params }: { params: { id: string } }) {
 		queryFn: () => getCandidateId(params.id),
 	});
 
+	console.log(candidate);
+
 	const { mutateAsync, isError } = useMutation({
 		mutationKey: ["edit-candidate"],
 		mutationFn: editCandidate,
@@ -64,8 +66,6 @@ export default function Home({ params }: { params: { id: string } }) {
 			photo: [],
 		},
 	});
-
-	// Use the candidate data to set the default values
 
 	const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
 
@@ -263,7 +263,7 @@ export default function Home({ params }: { params: { id: string } }) {
 						)}
 					</label>
 					<div id="divButton">
-						<button type="submit" onClick={() => console.log("click")}>
+						<button id="buttonEdit" type="submit">
 							Editar
 						</button>
 

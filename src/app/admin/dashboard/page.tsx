@@ -4,7 +4,7 @@ import hambList from "@/img/hamburger.svg";
 import urnaIf from "@/img/if.svg";
 import userIcon from "@/img/user-icon.svg";
 import Image from "next/image";
-import { useRouter, usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import { useAuthStore } from "@/hooks/useAuthStore";
 import { AuthStore } from "@/store/auth";
@@ -74,6 +74,7 @@ export default function Home() {
 						<div className="what-for">Sistema de Governo</div>
 					</div>
 
+					{/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
 					<div
 						className="action"
 						onClick={() => {
@@ -91,7 +92,7 @@ export default function Home() {
 					<div
 						className="action"
 						onClick={() => {
-							router.push(``);
+							router.push("/admin/create/voter");
 						}}
 					>
 						<div className="name">
@@ -135,6 +136,7 @@ export default function Home() {
 						<div className="what-for">Sistema de Governo</div>
 					</div>
 
+					{/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
 					<div
 						className="action"
 						onClick={() => {
@@ -152,7 +154,7 @@ export default function Home() {
 					<div
 						className="action"
 						onClick={() => {
-							router.push(`/admin/list/voter`);
+							router.push("/admin/list/voter");
 						}}
 					>
 						<div className="name">
@@ -162,6 +164,7 @@ export default function Home() {
 						<div className="what-for">Eleitor</div>
 					</div>
 
+					{/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
 					<div
 						className="action"
 						onClick={() => {
