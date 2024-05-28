@@ -1,14 +1,21 @@
 "use client";
-import { Input } from "@/components/Input/Input";
-import bottomCircle from "@/img/bottom-circle.svg";
-import iconBack from "@/img/icon-back.svg";
-import topCloud from "@/img/top-cloud.svg";
-import urnaIf from "@/img/urnaif.svg";
+import { Button } from "@/components/ui/button";
+import {
+	Card,
+	CardContent,
+	CardFooter,
+	CardHeader,
+	CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import cloudBottom from "@/img/cloud-bottom-left.svg";
+import cloudTop from "@/img/cloud-top-left.svg";
+import logo from "@/img/logo-name.svg";
 import { AuthStore } from "@/store/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -20,7 +27,7 @@ const schema = z.object({
 
 type formProps = z.infer<typeof schema>;
 
-export default function Home() {
+const Login = () => {
 	const {
 		handleSubmit,
 		register,
@@ -63,29 +70,72 @@ export default function Home() {
 
 		// console.log(data)
 	};
+
 	return (
-		<main id="login">
-			<div className="left-panel">
-				<Image id="topLeftCloud" src={topCloud} alt="" />
-				<Image id="bottomLeftCircle" src={bottomCircle} alt="" />
+		<main className="grid grid-cols-3 mx-auto min-h-screen">
+			<div className="col-span-2 relative flex justify-center items-center">
+				<Image
+					className="absolute top-0 left-0"
+					src={cloudTop}
+					alt="Nuvem esquerda topo"
+				/>
+				<Image
+					className="absolute bottom-0 left-20"
+					src={cloudBottom}
+					alt="Nuvem esquerda baixo"
+				/>
 
-				<form action="POST" id="loginForm" onSubmit={handleSubmit(handleForm)}>
-					<h1>Login</h1>
-					<Input label="Email" type="email" {...register("email")} required />
-					<Input
-						label="Senha"
-						type="password"
-						{...register("password")}
-						required
-					/>
+				<Card className="2xl:w-[34rem] w-[25rem]  shadow-xl">
+					<CardHeader>
+						<CardTitle className="text-4xl px-2 2xl:pt-14 2xl:pb-10 pt-10 font-normal">
+							Login
+						</CardTitle>
+					</CardHeader>
+					<CardContent>
+						<form className="space-y-6" onSubmit={handleSubmit(handleForm)}>
+							<div className="space-y-1.5">
+								<Label
+									className="text-lg font-normal text-muted-foreground"
+									htmlFor="email"
+								>
+									Email
+								</Label>
+								<Input
+									className="2xl:h-[48px] h-[42px] border border-black"
+									id="email"
+									type="email"
+									{...register("email")}
+								/>
+							</div>
+							<div className="space-y-1.5">
+								<Label
+									className="text-lg font-normal text-muted-foreground"
+									htmlFor="pass"
+								>
+									Senha
+								</Label>
+								<Input
+									className="2xl:h-[48px] h-[42px] border border-black"
+									id="pass"
+									type="password"
+									{...register("password")}
+								/>
+							</div>
 
-					<button type="submit">Entrar</button>
-				</form>
+							<div className="flex justify-center 2xl:py-14 py-10">
+								<Button className="w-full 2xl:h-[48px] h-[42px] rounded-2xl text-lg font-bold bg-primary">
+									Entrar
+								</Button>
+							</div>
+						</form>
+					</CardContent>
+				</Card>
 			</div>
-
-			<div className="right-panel">
-				<Image id="urnaIf" src={urnaIf} alt="" />
+			<div className="bg-primary py-16 p-16">
+				<Image src={logo} alt="Logo da IFUrna" />
 			</div>
 		</main>
 	);
-}
+};
+
+export default Login;

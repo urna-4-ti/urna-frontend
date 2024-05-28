@@ -10,6 +10,7 @@ import {
 	AlertDialogHeader,
 	AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+/* eslint-disable react-hooks/rules-of-hooks */
 import { Button } from "@/components/ui/button";
 import {
 	DropdownMenu,
@@ -28,49 +29,43 @@ import {
 import filter from "@/img/filter.svg";
 import iconBack from "@/img/icon-back.svg";
 import logoIf from "@/img/logo-if.svg";
-import { deleteCandidate } from "@/requests/candidate/delete";
-import { getCandidate } from "@/requests/candidate/findAll";
+import { deletePoliticalParty } from "@/requests/politicalPart/delete";
+import { getAllPoliticalParty } from "@/requests/politicalPart/findAll";
 import { AuthStore } from "@/store/auth";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { CirclePlus, EllipsisVertical, Plus, UserRound } from "lucide-react";
+import { CirclePlus, EllipsisVertical, UserRound } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 
-const Candidates = () => {
+const pageListPoliticalParty = () => {
+	const router = useRouter();
 	const [isOpen, setIsOpen] = useState(false);
 	const [isAlert, setIsAlert] = useState(false);
-	const [isDropOpen, setIsDropOpen] = useState(false);
 	const [id, setId] = useState("");
-
-	const { data: candidates } = useQuery({
-		queryKey: ["get candidate"],
-		queryFn: getCandidate,
-	});
-
-	const { mutateAsync: candidateDel } = useMutation({
-		mutationKey: ["delete-candidate", id],
-		mutationFn: () => deleteCandidate(id),
-	});
 
 	const {
 		actions: { logout },
 		state: { user },
 	} = AuthStore();
 
-	const handleClick = (id: string) => {
-		setId(id);
-		setIsAlert(true);
-	};
+	const { data: politicalParty, refetch } = useQuery({
+		queryKey: ["get-politicalParty"],
+		queryFn: () => getAllPoliticalParty(),
+		// enabled: false,
+	});
 
-	const router = useRouter();
+	const { mutateAsync: politicalPartyDelete } = useMutation({
+		mutationKey: ["delete-political", id],
+		mutationFn: () => deletePoliticalParty(id),
+	});
 
 	const handleDelete = async () => {
 		const inviteForm = async () => {
 			try {
-				await candidateDel();
+				await politicalPartyDelete();
 			} catch (error) {}
 		};
 
@@ -79,17 +74,21 @@ const Candidates = () => {
 			duration: 4000,
 
 			success: () => {
-				setIsAlert(false);
 				router.back();
-				return "Candidato Removido";
+				return "Partido Removido";
 			},
 
-			error: "Erro ao remover o candidato",
+			error: "Erro ao remover o partido",
 
 			style: {
 				boxShadow: "1px 2px 20px 6px #555",
 			},
 		});
+	};
+
+	const handleClick = (id: string) => {
+		setId(id);
+		setIsAlert(true);
 	};
 
 	return (
@@ -100,11 +99,11 @@ const Candidates = () => {
 						<Image src={logoIf} alt="Logo do IFRS" />
 					</div>
 				</div>
-				<div className="col-span-9 bg-white 2xl:mx-10">
+				<div className="col-span-9 bg-white 2xl:mx-6">
 					<div className="flex justify-between px-4 2xl:px-2">
 						<div className="px-6 py-12">
 							<h1 className="text-3xl font-medium 2xl:text-4xl">
-								Listagem de Candidatos
+								Listagem de Partidos
 							</h1>
 						</div>
 						<div className="mt-6">
@@ -113,7 +112,7 @@ const Candidates = () => {
 								variant="ghost"
 								onClick={() => setIsOpen(true)}
 							>
-								<UserRound className=" hover:opacity-80 h-[30px] w-[30px] 2xl:w-[45px] 2xl:h-[45px]" />
+								<UserRound className=" hover:opacity-80 h-6 w-6 2xl:w-10 2xl:h-10" />
 							</Button>
 						</div>
 					</div>
@@ -148,102 +147,84 @@ const Candidates = () => {
 						</div>
 					</div>
 					{/* MAIN */}
-					<div className="grid grid-cols-6 2xl:grid-cols-8 px-10 2xl:px-32 pt-8 2xl:pt-10 pb-4 2xl:text-xl">
-						<div className="col-span-2 grid grid-cols-2 2xl:grid-cols-2 2xl:col-span-3 text-[#8E8E8E]">
-							<div className="col-span-1" />
-							<div className="flex 2xl:px-6 px-4 col-span-1">
+					<div className="grid grid-cols-party px-16 2xl:px-32 pt-8 2xl:pt-10 pb-4 2xl:text-xl">
+						<div className="grid grid-cols-nameparty text-[#8E8E8E]">
+							<div />
+							<div className="2xl:px-6 px-10">
 								<span>Nome</span>
 							</div>
 						</div>
-						<div className="px-4 2xl:px-3">
-							<span className="text-[#8E8E8E]">Número</span>
+						<div className="flex justify-center">
+							<span className="text-[#8E8E8E] 2xl:pr-4">Tipo</span>
 						</div>
-						<div className="">
-							<span className="text-[#8E8E8E]">Turma</span>
+						<div className="flex justify-center">
+							<span className="text-[#8E8E8E] pl-4">Turma</span>
 						</div>
-						<div className="col-span-2 2xl:col-span-3 flex items-center justify-between px-6">
-							<span className="text-[#8E8E8E]">Descrição</span>
-							<Link href="/admin/create/candidate">
+						<div className=" flex items-center justify-end px-6">
+							<Link href="/admin/add/candidate">
 								<CirclePlus className="h-[25px] w-[25px] 2xl:h-[32px] 2xl:w-[32px]" />
 							</Link>
 						</div>
 					</div>
-					{candidates?.length ? (
-						<>
-							{candidates?.map((item) => (
-								<div key={item.id} className="py-4">
-									<div className="grid grid-cols-6 2xl:grid-cols-8 px-10 2xl:px-32 h-[75px] 2xl:h-[80px] items-center 2xl:text-xl">
-										<div className="col-span-2 2xl:col-span-3 grid grid-cols-3 items-center">
-											<div className="flex justify-end items-center">
-												<div className="w-14 2xl:w-16 2xl:h-16 h-14 relative">
-													<Image
-														className="object-cover rounded-xl select-none"
-														src={`http://localhost:4000/public/${item.picPath}`}
-														alt="Foto candidato"
-														fill
-													/>
-												</div>
-											</div>
-											<div className="flex px-28 col-span-2 2xl:pr-2">
-												<LimitedParagraph
-													text={item.name}
-													characterLimit={19}
-												/>
-											</div>
-										</div>
-										<div className="px-4 col-span-1">
-											<span className="">{item.cod}</span>
-										</div>
-										<div className="2xl:px-1">
-											<span className=" col-span-1">
-												{item.PoliticalParty.class}
-											</span>
-										</div>
-										<div className="col-span-2 grid grid-cols-2 2xl:col-span-3 px-6">
-											<div className="flex items-center">
-												<span className="truncate">{item.description}</span>
-											</div>
-											<div className="flex justify-end">
-												<DropdownMenu>
-													<DropdownMenuTrigger asChild>
-														<Button variant="ghost">
-															<EllipsisVertical className="h-[25px] w-[25px]" />
-														</Button>
-													</DropdownMenuTrigger>
-													<DropdownMenuContent className="w-20">
-														<DropdownMenuGroup>
-															<DropdownMenuItem
-																onClick={() =>
-																	router.push(
-																		`/admin/edit/${item.id}/candidate`,
-																	)
-																}
-															>
-																Editar
-															</DropdownMenuItem>
-															<DropdownMenuItem
-																className="text-red-500 focus:text-red-400"
-																onClick={() => handleClick(item.id)}
-															>
-																Remover
-															</DropdownMenuItem>
-														</DropdownMenuGroup>
-													</DropdownMenuContent>
-												</DropdownMenu>
-											</div>
+					{politicalParty?.map((item) => (
+						<div key={item.id} className="py-4">
+							<div className="grid grid-cols-party px-20 2xl:px-32 h-[75px] 2xl:h-[80px] items-center 2xl:text-xl">
+								<div className="grid grid-cols-nameparty items-center">
+									<div className="flex justify-center">
+										<div className="w-14 2xl:w-16 2xl:h-16 h-14 relative">
+											<Image
+												className="object-cover rounded-xl select-none"
+												src={`http://localhost:4000/public/${item.photoUrl}`}
+												alt="Foto candidato"
+												fill
+											/>
 										</div>
 									</div>
+									<div className="flex px-6">
+										<span className="truncate font-normal text-[#121212]">
+											{item.name}
+										</span>
+									</div>
 								</div>
-							))}
-						</>
-					) : (
-						<div className="w-full py-32 flex justify-center">
-							<p className="text-2xl">
-								Infelizmente não foi encontrado nenhum resultado para a sua
-								busca!
-							</p>
+								<div className="flex justify-center">
+									<span className="2xl:pl-4">{item.politicalType.name}</span>
+								</div>
+								<div className="flex justify-center 2xl: pl-2">
+									<span className="truncate">{item.class}</span>
+								</div>
+								<div className=" items-center">
+									<div className="flex justify-end items-center">
+										<DropdownMenu>
+											<DropdownMenuTrigger asChild>
+												<Button variant="ghost">
+													<EllipsisVertical className="h-[25px] w-[25px]" />
+												</Button>
+											</DropdownMenuTrigger>
+											<DropdownMenuContent className="w-20">
+												<DropdownMenuGroup>
+													<DropdownMenuItem
+														onClick={() =>
+															router.push(
+																`/admin/edit/${item.id}/politicalParty`,
+															)
+														}
+													>
+														Editar
+													</DropdownMenuItem>
+													<DropdownMenuItem
+														className="text-red-500 focus:text-red-400"
+														onClick={() => handleClick(item.id)}
+													>
+														Remover
+													</DropdownMenuItem>
+												</DropdownMenuGroup>
+											</DropdownMenuContent>
+										</DropdownMenu>
+									</div>
+								</div>
+							</div>
 						</div>
-					)}
+					))}
 				</div>
 			</main>
 			<Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -280,13 +261,18 @@ const Candidates = () => {
 							Você realmente tem certeza disso?
 						</AlertDialogTitle>
 						<AlertDialogDescription>
-							Você está prestes a remover um candidato. Deseja realmente
+							Você está prestes a remover um Partido. Deseja realmente
 							continuar?
 						</AlertDialogDescription>
 					</AlertDialogHeader>
 					<AlertDialogFooter>
 						<AlertDialogCancel>Cancelar</AlertDialogCancel>
-						<AlertDialogAction onClick={handleDelete}>
+						<AlertDialogAction
+							onClick={() => {
+								setIsAlert(false);
+								handleDelete();
+							}}
+						>
 							Continuar
 						</AlertDialogAction>
 					</AlertDialogFooter>
@@ -296,4 +282,4 @@ const Candidates = () => {
 	);
 };
 
-export default Candidates;
+export default pageListPoliticalParty;

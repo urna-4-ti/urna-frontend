@@ -1,25 +1,50 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 "use client";
-import { Input } from "@/components/Input/Input";
-import Modal from "@/components/Modal/Modal";
-import bottomCircle from "@/img/bottom-circle.svg";
-import bottomCloud from "@/img/bottom-cloud.svg";
+import {
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+	Select,
+	SelectContent,
+	SelectGroup,
+	SelectItem,
+	SelectLabel,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+import cloudBottomMid from "@/img/cloud-bottom-mid.svg";
+import cloudBottomRight from "@/img/cloud-bottom-right.svg";
+import cloudTopRight from "@/img/cloud-top-right.svg";
 import iconBack from "@/img/icon-back.svg";
-import logoUrna from "@/img/logo.svg";
-import topCloud from "@/img/top-cloud.svg";
-import inputImage from "@/img/uploading-icon.svg";
+import input from "@/img/input.svg";
+import logo from "@/img/logo-name.svg";
 import { classes } from "@/lib/Classes";
+import { createCandidate } from "@/requests/candidate/create";
 import { deleteCandidate } from "@/requests/candidate/delete";
 import { editCandidate } from "@/requests/candidate/edit";
 import { getCandidateId } from "@/requests/candidate/findAll";
+import { getPoliticalParty } from "@/requests/politicalPart/findAll";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { Trash2 } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-import "./style.css";
 
 const schema = z.object({
 	codNum: z.number(),
@@ -34,14 +59,16 @@ const schema = z.object({
 
 type formProps = z.infer<typeof schema>;
 
-export default function Home({ params }: { params: { id: string } }) {
+const pageEditCandidate = ({ params }: { params: { id: string } }) => {
+	const [isOpen, setIsOpen] = useState(false);
+	const router = useRouter();
+
 	const { data: candidate, isLoading } = useQuery({
 		queryKey: ["get-candidate-id", params.id],
 		queryFn: () => getCandidateId(params.id),
 	});
 
-	console.log(candidate);
-
+	const [valueInput, setValueInput] = useState<string>("");
 	const { mutateAsync, isError } = useMutation({
 		mutationKey: ["edit-candidate"],
 		mutationFn: editCandidate,
@@ -64,27 +91,12 @@ export default function Home({ params }: { params: { id: string } }) {
 		resolver: zodResolver(schema),
 		defaultValues: {
 			photo: [],
+			codNum: Number(candidate?.cod),
 		},
 	});
 
-	const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
-
-	const [value, setValueLength] = useState<string>();
-
-	const router = useRouter();
-
-	const hasNewImage = watch("photo").length > 0;
-
 	const image = watch("photo")[0];
-
-	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const newValue = e.target.value;
-		if (newValue.length > 5) {
-			setValueLength(newValue.substring(0, 5));
-		} else {
-			setValueLength(newValue);
-		}
-	};
+	const hasNewImage = watch("photo").length > 0;
 
 	const handleForm = async (data: formProps) => {
 		const inviteForm = async () => {
@@ -118,10 +130,10 @@ export default function Home({ params }: { params: { id: string } }) {
 
 			success: () => {
 				router.back();
-				return "Candidato Registrado";
+				return "Candidato Editado";
 			},
 
-			error: "Erro ao registrar o candidato",
+			error: "Erro ao editar o candidato",
 
 			style: {
 				boxShadow: "1px 2px 20px 6px #555",
@@ -154,6 +166,12 @@ export default function Home({ params }: { params: { id: string } }) {
 	};
 
 	useEffect(() => {
+		if (candidate?.cod) {
+			setValueInput(candidate.cod.toString());
+		}
+	}, [candidate]);
+
+	useEffect(() => {
 		if (candidate) {
 			setValue("name", candidate.name);
 			setValue("description", candidate.description);
@@ -162,128 +180,185 @@ export default function Home({ params }: { params: { id: string } }) {
 		}
 	}, [candidate, setValue]);
 	return (
-		<main id="main">
-			<div id="leftDiv">
-				<Image src={logoUrna} alt="" id="logo" />
-			</div>
-			<div id="rightDiv">
-				<Image id="topCloud" src={topCloud} alt="" />
-				<Image id="bottomCloud" src={bottomCloud} alt="" />
-				<Image id="bottomCircle" src={bottomCircle} alt="" />
-
-				{/* biome-ignore lint/a11y/useButtonType: <explanation> */}
-				<button
-					id="cancelButtonIcon"
-					onClick={() => {
-						router.back();
-					}}
-				>
-					<Image src={iconBack} alt="Icone botão voltar" />
-				</button>
-
-				<form
-					id="registerEleitor"
-					onSubmit={(e) => handleSubmit(handleForm)(e)}
-				>
-					<h1>Editar Candidato</h1>
-
-					<button
-						type="button"
-						id="cancelButtonIcon"
-						onClick={() => {
-							router.back();
-						}}
-					>
-						<Image src={iconBack} alt="Icone botão voltar" />
-					</button>
-
-					<Input label="Nome" type="text" {...register("name")} required />
-					{errors.name?.message ? (
-						<p id="err" className="text-red-600 text-sm relative">
-							{errors.name.message}
-						</p>
-					) : (
-						""
-					)}
-
-					<Input
-						label="Número"
-						defaultValue={candidate?.cod}
-						type="number"
-						value={value}
-						{...register("codNum", { valueAsNumber: true })}
-						onChange={handleChange}
+		<>
+			<main className="grid grid-cols-3 mx-auto min-h-screen">
+				<div className="bg-primary py-16 p-16">
+					<Image src={logo} alt="Logo da IFUrna" />
+				</div>
+				<div className="col-span-2 relative flex justify-center items-center">
+					<Image
+						className="absolute top-0 right-0 select-none"
+						src={cloudTopRight}
+						alt="Nuvem direita-cima"
 					/>
-					{errors.codNum?.message ? (
-						<p id="err" className="text-red-600 text-sm">
-							{errors.codNum?.message}
-						</p>
-					) : (
-						""
-					)}
-
-					<Input
-						label="Descrição"
-						type="text"
-						{...register("description")}
-						required
+					<Image
+						className="absolute bottom-0 right-0 select-none"
+						src={cloudBottomRight}
+						alt="Nuvem direita-baixo"
+					/>
+					<Image
+						className="absolute bottom-0 left-28 select-none"
+						src={cloudBottomMid}
+						alt="Nuvem direita-baixo"
 					/>
 
-					<label htmlFor="inputImg" id="labelImg">
-						{hasNewImage ? (
-							<>
-								<input
-									id="inputImg"
-									type="file"
-									{...register("photo")}
-									accept="image/*"
-								/>
-								<Image
-									id="newImage"
-									src={URL.createObjectURL(image)}
-									alt="new preview"
-									fill
-								/>
-							</>
-						) : (
-							<>
-								<input
-									id="inputImg"
-									type="file"
-									{...register("photo")}
-									accept="image/*"
-								/>
-								<Image
-									id="uploading"
-									src={`http://localhost:4000/public/${candidate?.picPath}`}
-									alt="Image Input"
-									fill
-								/>
-							</>
-						)}
-					</label>
-					<div id="divButton">
-						<button id="buttonEdit" type="submit">
-							Editar
-						</button>
-
-						<button
-							type="button"
-							id="cancelButton"
-							onClick={() => setModalIsOpen(!modalIsOpen)}
+					<div className="flex items-center px-5 absolute 2xl:top-28 top-14 left-24 2xl:left-52">
+						<Button
+							className="hover:bg-transparent"
+							variant="ghost"
+							onClick={() => router.back()}
 						>
-							Desvincular
-						</button>
-
-						<Modal
-							isOpen={modalIsOpen}
-							onClose={() => setModalIsOpen(!modalIsOpen)}
-							modalFunction={handleDelete}
-							text="Deseja realmente desvincular este candidato?"
-						/>
+							<Image
+								className="h-12 2xl:h-14 2xl:w-14 w-12"
+								src={iconBack}
+								alt="Ícone voltar"
+							/>
+						</Button>
 					</div>
-				</form>
-			</div>
-		</main>
+
+					<Card className="2xl:w-[38rem] w-[30rem]  shadow-xl fixed">
+						<CardHeader>
+							<CardTitle className="text-4xl 2xl:text-5xl px-2 2xl:pt-10 2xl:pb-6 flex justify-between pt-6 font-normal">
+								Editar Candidato
+								<Button variant="ghost" onClick={() => setIsOpen(true)}>
+									<Trash2 className="text-red-500" />
+								</Button>
+							</CardTitle>
+						</CardHeader>
+						<CardContent>
+							<form
+								className="space-y-2 2xl:space-y-4"
+								onSubmit={handleSubmit(handleForm)}
+							>
+								<div className="space-y-1">
+									<Label
+										className="text-lg 2xl:text-xl font-normal text-muted-foreground"
+										htmlFor="name"
+									>
+										Nome
+									</Label>
+									<Input
+										className="2xl:h-[48px] h-[40px] 2xl:text-xl border-black focus:border-primary"
+										id="name"
+										type="text"
+										defaultValue={candidate?.name}
+										{...register("name")}
+									/>
+								</div>
+								<div className="space-y-1.5">
+									<Label
+										className="text-lg 2xl:text-xl font-normal text-muted-foreground"
+										htmlFor="number"
+									>
+										Número
+									</Label>
+									<Input
+										className="2xl:h-[48px] 2xl:text-xl h-[40px] border-black focus:border-primary"
+										id="number"
+										type="number"
+										defaultValue={candidate?.cod?.toString()}
+										value={valueInput}
+										{...register("codNum", {
+											valueAsNumber: true,
+										})}
+										onChange={(e) => {
+											const maxLength = 4;
+											const newValue = e.target.value.replace(/\D+/g, ""); // remove non-numeric characters
+											if (newValue.length <= maxLength) {
+												setValueInput(newValue);
+											}
+										}}
+										required
+									/>
+								</div>
+								<div className="space-y-1.5">
+									<Label
+										className="text-lg font-normal 2xl:text-xl text-muted-foreground"
+										htmlFor="description"
+									>
+										Descrição
+									</Label>
+									<Textarea
+										id="description"
+										{...register("description")}
+										placeholder="Digite a descrição do candidato..."
+										defaultValue={candidate?.description}
+										className="border-black 2xl:text-xl 2xl:h-24 focus:border-primary resize-none text-base font-base"
+									/>
+								</div>
+
+								<div className="absolute bottom-28 2xl:bottom-44 2xl:right-[810px] right-[580px]">
+									<Label className="2xl:w-[280px] 2xl:h-[280px] w-[230px] h-[230px] bg-[#D9D9D9] cursor-pointer flex items-center justify-center border rounded-xl">
+										{hasNewImage ? (
+											<>
+												<Input
+													id=""
+													className="hidden"
+													type="file"
+													accept="image/*"
+													{...register("photo")}
+												/>
+												<div className="w-full h-full flex justify-center items-center relative rounded-lg">
+													<Image
+														className="object-cover rounded-lg"
+														src={URL.createObjectURL(image)}
+														alt="Imagem carregada"
+														fill
+													/>
+												</div>
+											</>
+										) : (
+											<>
+												<Input
+													className="hidden"
+													type="file"
+													accept="image/*"
+													{...register("photo")}
+												/>
+												<div className="w-full h-full flex justify-center items-center">
+													<Image
+														src={`http://localhost:4000/public/${candidate?.picPath}`}
+														alt="Imagem input"
+														className="rounded-lg object-cover"
+														fill
+													/>
+												</div>
+											</>
+										)}
+									</Label>
+								</div>
+
+								<div className="flex justify-center 2xl:py-8 py-4">
+									<Button className="w-full 2xl:h-[48px] h-[42px] rounded-2xl text-lg font-bold bg-primary">
+										Entrar
+									</Button>
+								</div>
+							</form>
+						</CardContent>
+					</Card>
+				</div>
+			</main>
+			<AlertDialog open={isOpen} onOpenChange={setIsOpen}>
+				<AlertDialogContent className="bg-white">
+					<AlertDialogHeader>
+						<AlertDialogTitle>
+							Você realmente tem certeza disso?
+						</AlertDialogTitle>
+						<AlertDialogDescription>
+							Você está prestes a remover um candidato. Deseja realmente
+							continuar?
+						</AlertDialogDescription>
+					</AlertDialogHeader>
+					<AlertDialogFooter>
+						<AlertDialogCancel>Cancelar</AlertDialogCancel>
+						<AlertDialogAction onClick={handleDelete}>
+							Continuar
+						</AlertDialogAction>
+					</AlertDialogFooter>
+				</AlertDialogContent>
+			</AlertDialog>
+		</>
 	);
-}
+};
+
+export default pageEditCandidate;

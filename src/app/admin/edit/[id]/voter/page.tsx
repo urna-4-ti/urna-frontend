@@ -1,25 +1,48 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 "use client";
-import { Input } from "@/components/Input/Input";
-import Modal from "@/components/Modal/Modal";
-import bottomCircle from "@/img/bottom-circle.svg";
-import bottomCloud from "@/img/bottom-cloud.svg";
+
+import {
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+	Select,
+	SelectContent,
+	SelectGroup,
+	SelectItem,
+	SelectLabel,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
+import cloudBottomMid from "@/img/cloud-bottom-mid.svg";
+import cloudBottomRight from "@/img/cloud-bottom-right.svg";
+import cloudTopRight from "@/img/cloud-top-right.svg";
 import iconBack from "@/img/icon-back.svg";
-import logoUrna from "@/img/logo.svg";
-import topCloud from "@/img/top-cloud.svg";
-import inputImage from "@/img/uploading-icon.svg";
+import logo from "@/img/logo-name.svg";
 import { classes } from "@/lib/Classes";
+import { createVoter } from "@/requests/voter/create";
 import { deleteVoter } from "@/requests/voter/delete";
 import { editVoter } from "@/requests/voter/edit";
 import { getVoterId } from "@/requests/voter/findAll";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { Trash2 } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-import "./style.css";
 
 const schema = z.object({
 	name: z
@@ -30,77 +53,55 @@ const schema = z.object({
 	}),
 	email: z.string().email("*O campo deve ser um email válido."),
 	class: z.string(),
-	password: z.string(),
 });
 
 type formProps = z.infer<typeof schema>;
 
-export default function Home({ params }: { params: { id: string } }) {
-	const { data: voter, isLoading } = useQuery({
-		queryKey: ["get-voter-id", params.id],
+const pageEditVoter = ({ params }: { params: { id: string } }) => {
+	const [valueInput, setValueInput] = useState("");
+	const [selectValue, setSelectValue] = useState("");
+	const [isOpen, setIsOpen] = useState(false);
+	const router = useRouter();
+
+	const { data: voter } = useQuery({
+		queryKey: ["get-voter", params.id],
 		queryFn: () => getVoterId(params.id),
 	});
 
-	const { mutateAsync: voterEdit, isError } = useMutation({
-		mutationKey: ["edit-candidate"],
+	const { mutateAsync, isError } = useMutation({
+		mutationKey: ["edit-voter"],
 		mutationFn: editVoter,
 	});
 
-	const { mutateAsync: voterDel } = useMutation({
+	const { mutateAsync: voterDelete } = useMutation({
 		mutationKey: ["delete-voter", params.id],
 		mutationFn: () => deleteVoter(params.id),
 	});
 
-	const [selectValue, setSelectValue] = useState<string>("");
-
-	const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
-
-	const [name, setName] = useState<string>("");
-
-	const router = useRouter();
-
 	const {
 		handleSubmit,
 		register,
-		formState: { errors },
-		watch,
 		setValue,
+		formState: { errors },
 	} = useForm<formProps>({
 		mode: "onSubmit",
 		reValidateMode: "onChange",
 		resolver: zodResolver(schema),
-		defaultValues: {
-			email: "",
-			enrollment: "",
-			name: "",
-		},
 	});
 
-	const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-		setSelectValue(e.target.value);
-	};
-
-	const nameClass = (target: string) => {
-		const foundClass = classes.find((item) => item.class === target);
-		if (foundClass) {
-			return foundClass.name;
-		}
-		return null; // ou algum outro valor padrão
-	};
-
-	const handleForm = async (data: formProps) => {
+	const handleForm = (data: formProps) => {
 		const inviteForm = async () => {
 			try {
-				await voterEdit({
+				await mutateAsync({
 					id: params.id,
 					name: data.name,
-					email: data.email,
-					enrollment: data.enrollment,
 					classVoter: data.class,
-					password: data.enrollment,
+					enrollment: data.enrollment,
+					email: data.email,
+					role: "VOTER",
 				});
 			} catch (error) {
-				console.log(error);
+				console.error(error);
 			}
 		};
 
@@ -109,7 +110,8 @@ export default function Home({ params }: { params: { id: string } }) {
 			duration: 4000,
 
 			success: () => {
-				return "Eleitor editado";
+				router.back();
+				return "Eleitor Editado";
 			},
 
 			error: "Erro ao editar o eleitor",
@@ -123,7 +125,7 @@ export default function Home({ params }: { params: { id: string } }) {
 	const handleDelete = async () => {
 		const inviteForm = async () => {
 			try {
-				await voterDel();
+				await voterDelete();
 			} catch (error) {}
 		};
 
@@ -133,10 +135,10 @@ export default function Home({ params }: { params: { id: string } }) {
 
 			success: () => {
 				router.back();
-				return "Eleitor Removido";
+				return "Candidato Removido";
 			},
 
-			error: "Erro ao remover o eleitor",
+			error: "Erro ao remover o candidato",
 
 			style: {
 				boxShadow: "1px 2px 20px 6px #555",
@@ -145,86 +147,206 @@ export default function Home({ params }: { params: { id: string } }) {
 	};
 
 	useEffect(() => {
+		if (voter?.class && voter?.enrollment) {
+			setSelectValue(voter.class);
+			setValueInput(voter.enrollment);
+		}
+	}, [voter]);
+
+	useEffect(() => {
 		if (voter) {
 			setValue("name", voter.name);
 			setValue("enrollment", voter.enrollment);
 			setValue("email", voter.email);
 			setValue("class", voter.class);
-			setValue("password", voter.enrollment);
 		}
 	}, [voter, setValue]);
+
 	return (
-		<main id="main">
-			<div id="leftDiv">
-				<Image src={logoUrna} alt="" id="logo" />
-			</div>
-			<div id="rightDiv">
-				<Image id="topCloud" src={topCloud} alt="" />
-				<Image id="bottomCloud" src={bottomCloud} alt="" />
-				<Image id="bottomCircle" src={bottomCircle} alt="" />
-
-				{/* biome-ignore lint/a11y/useButtonType: <explanation> */}
-				<button
-					id="cancelButtonIcon"
-					onClick={() => {
-						router.back();
-					}}
-				>
-					<Image src={iconBack} alt="Icone botão voltar" />
-				</button>
-
-				<form id="registerEleitor" onSubmit={handleSubmit(handleForm)}>
-					<h1>Editar Eleitor</h1>
-
-					<Input label="Nome" type="text" {...register("name")} />
-
-					<Input
-						label="Matricula"
-						type="text"
-						{...register("enrollment")}
-						{...register("password")}
+		<>
+			<main className="grid grid-cols-3 mx-auto min-h-screen">
+				<div className="bg-primary py-16 p-16">
+					<Image src={logo} alt="Logo da IFUrna" />
+				</div>
+				<div className="col-span-2 relative flex justify-center items-center">
+					<Image
+						className="absolute top-0 right-0 select-none"
+						src={cloudTopRight}
+						alt="Nuvem direita-cima"
+					/>
+					<Image
+						className="absolute bottom-0 right-0 select-none"
+						src={cloudBottomRight}
+						alt="Nuvem direita-baixo"
+					/>
+					<Image
+						className="absolute bottom-0 left-28 select-none"
+						src={cloudBottomMid}
+						alt="Nuvem direita-baixo"
 					/>
 
-					<Input label="Email" type="email" {...register("email")} />
-
-					<label htmlFor="">
-						<p>Turma</p>
-						<select
-							value={selectValue}
-							{...register("class")}
-							onChange={handleChange}
+					<div className="flex items-center px-5 absolute 2xl:top-28 top-14 left-24 2xl:left-52 select-none">
+						<Button
+							className="hover:bg-transparent"
+							variant="ghost"
+							onClick={() => router.back()}
 						>
-							<option value={voter?.class}>
-								{nameClass(voter?.class as string)}
-							</option>
-							{classes.map((item) => (
-								<option value={item.class}>{item.name}</option>
-							))}
-						</select>
-					</label>
-
-					<div id="divButton">
-						<button id="buttonEdit" type="submit">
-							Editar
-						</button>
-
-						<button
-							type="button"
-							id="cancelButton"
-							onClick={() => setModalIsOpen(!modalIsOpen)}
-						>
-							Desvincular
-						</button>
-
-						<Modal
-							isOpen={modalIsOpen}
-							onClose={() => setModalIsOpen(!modalIsOpen)}
-							text="Deseja realmente desvincular este eleitor?"
-							modalFunction={handleDelete}
-						/>
+							<Image
+								className="h-12 2xl:h-14 2xl:w-14 w-12"
+								src={iconBack}
+								alt="Ícone voltar"
+							/>
+						</Button>
 					</div>
-				</form>
-			</div>
-		</main>
+
+					<Card className="2xl:w-[38rem] w-[30rem]  shadow-xl fixed">
+						<CardHeader>
+							<CardTitle className="text-4xl 2xl:text-5xl px-2 flex justify-between 2xl:pt-10 2xl:pb-6 pt-6 font-normal">
+								Editar Eleitor
+								<Button variant="ghost" onClick={() => setIsOpen(true)}>
+									<Trash2 className="text-red-500" />
+								</Button>
+							</CardTitle>
+						</CardHeader>
+						<CardContent>
+							<form
+								className="space-y-2 2xl:space-y-4"
+								onSubmit={handleSubmit(handleForm)}
+							>
+								<div className="space-y-1.5">
+									<Label
+										className="text-lg 2xl:text-xl font-normal text-muted-foreground"
+										htmlFor="name"
+									>
+										Nome
+									</Label>
+									<Input
+										className="2xl:h-[48px] h-[40px] 2xl:text-xl border-black focus:border-primary"
+										id="name"
+										type="text"
+										defaultValue={voter?.name}
+										{...register("name")}
+										required
+									/>
+								</div>
+
+								<div className="space-y-1.5">
+									<Label
+										className="text-lg 2xl:text-xl font-normal text-muted-foreground"
+										htmlFor="email"
+									>
+										Email
+									</Label>
+									<Input
+										className="2xl:h-[48px] h-[40px] 2xl:text-xl border-black focus:border-primary"
+										id="email"
+										type="email"
+										defaultValue={voter?.email}
+										{...register("email")}
+										required
+									/>
+								</div>
+
+								<div className="space-y-1.5">
+									<Label
+										className="text-lg 2xl:text-xl font-normal text-muted-foreground"
+										htmlFor="enrollment"
+									>
+										Matrícula
+									</Label>
+									<Input
+										className="2xl:h-[48px] h-[40px] 2xl:text-xl border-black focus:border-primary"
+										id="enrollment"
+										type="text"
+										value={valueInput}
+										{...register("enrollment")}
+										onChange={(e) => {
+											const maxLength = 10;
+											const newValue = e.target.value.replace(/\D+/g, ""); // remove non-numeric characters
+											if (newValue.length <= maxLength) {
+												setValueInput(newValue);
+											}
+										}}
+										required
+									/>
+								</div>
+
+								<div className="space-y-1.5">
+									<Label
+										className="text-lg 2xl:text-xl font-normal text-muted-foreground"
+										htmlFor="select1"
+									>
+										Turma
+									</Label>
+									<Select
+										onValueChange={(value) => {
+											setValue("class", value);
+											setSelectValue(value);
+										}}
+										value={selectValue}
+										{...register("class")}
+										required
+									>
+										<SelectTrigger
+											className="h-[40px] 2xl:h-[48px] 2xl:text-xl border-black focus:border-primary text-base text-muted-foreground"
+											id="select1"
+										>
+											<SelectValue placeholder="Selecione uma Turma" />
+										</SelectTrigger>
+										<SelectContent>
+											<SelectGroup className="h-28 text-sm 2xl:h-32">
+												<SelectLabel className="2xl:text-xl">
+													Turmas
+												</SelectLabel>
+												{classes.map((item) => (
+													<SelectItem
+														className="2xl:text-lg"
+														key={item.class}
+														value={item.class}
+													>
+														{item.name}
+													</SelectItem>
+												))}
+											</SelectGroup>
+										</SelectContent>
+									</Select>
+								</div>
+								<div className="flex justify-center 2xl:py-8 py-4">
+									<Button className="w-full 2xl:h-[48px] h-[42px] rounded-2xl text-lg font-bold bg-primary">
+										Entrar
+									</Button>
+								</div>
+							</form>
+						</CardContent>
+					</Card>
+				</div>
+			</main>
+			<AlertDialog open={isOpen} onOpenChange={setIsOpen}>
+				<AlertDialogContent className="bg-white">
+					<AlertDialogHeader>
+						<AlertDialogTitle>
+							Você realmente tem certeza disso?
+						</AlertDialogTitle>
+						<AlertDialogDescription>
+							Você está prestes a remover um Eleitor. Deseja realmente
+							continuar?
+						</AlertDialogDescription>
+					</AlertDialogHeader>
+					<AlertDialogFooter>
+						<AlertDialogCancel>Cancelar</AlertDialogCancel>
+						<AlertDialogAction
+							onClick={() => {
+								setIsOpen(false);
+								handleDelete();
+							}}
+						>
+							Continuar
+						</AlertDialogAction>
+					</AlertDialogFooter>
+				</AlertDialogContent>
+			</AlertDialog>
+		</>
 	);
-}
+};
+
+export default pageEditVoter;

@@ -1,11 +1,24 @@
 "use client";
-import { Input } from "@/components/Input/Input";
-import bottomCircle from "@/img/bottom-circle.svg";
-import bottomCloud from "@/img/bottom-cloud.svg";
+/* eslint-disable react-hooks/rules-of-hooks */
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+	Select,
+	SelectContent,
+	SelectGroup,
+	SelectItem,
+	SelectLabel,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
+import cloudBottomMid from "@/img/cloud-bottom-mid.svg";
+import cloudBottomRight from "@/img/cloud-bottom-right.svg";
+import cloudTopRight from "@/img/cloud-top-right.svg";
 import iconBack from "@/img/icon-back.svg";
-import logoUrna from "@/img/logo.svg";
-import topCloud from "@/img/top-cloud.svg";
-import inputImage from "@/img/uploading-icon.svg";
+import input from "@/img/input.svg";
+import logo from "@/img/logo-name.svg";
 import { classes } from "@/lib/Classes";
 import { getGovernmentForm } from "@/requests/government/findAll";
 import { createPoliticalParty } from "@/requests/politicalPart/create";
@@ -15,55 +28,31 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
-import "./style.css";
 import { toast } from "sonner";
+import { z } from "zod";
 
 const schema = z.object({
 	name: z
 		.string()
 		.min(3, "*O nome de partido deve conter pelo menos 3 caracteres."),
 	description: z.string(),
-	class: z.enum([
-		"",
-		"TI_1",
-		"TI_2",
-		"TI_3",
-		"TI_4",
-		"TQ_1",
-		"TQ_2",
-		"TQ_3",
-		"TQ_4",
-		"TMA_1",
-		"TMA_2",
-		"TMA_3",
-		"TMA_4",
-		"TA_1",
-		"TA_2",
-		"TA_3",
-		"TA_4",
-	]),
+	class: z.string(),
 	politicalTypeId: z.string(),
 	photo: z.any(),
 });
 
 type formProps = z.infer<typeof schema>;
 
-export default function Home() {
-	const { data: governmentsForms } = useQuery({
-		queryKey: ["get-government-form"],
-		queryFn: getGovernmentForm,
-	});
-
-	const { mutateAsync, isError } = useMutation({
-		mutationKey: ["createPoliticalParty"],
-		mutationFn: createPoliticalParty,
-	});
+const pageCreatePoliticalParty = () => {
+	const router = useRouter();
+	const [selectValue, setSelectValue] = useState("");
+	const [selectTypeValue, setSelectTypeValue] = useState("");
 
 	const {
 		handleSubmit,
 		register,
 		watch,
+		setValue,
 		formState: { errors },
 	} = useForm<formProps>({
 		mode: "onSubmit",
@@ -78,13 +67,18 @@ export default function Home() {
 		},
 	});
 
-	const [valueClass, setValueSelectedClass] = useState<string>("");
-	const [valueGovernmentType, setValueGovernmentType] = useState<string>("");
-
 	const hasNewImage = watch("photo").length > 0;
 	const image = watch("photo")[0];
 
-	const router = useRouter();
+	const { data: governmentsForms } = useQuery({
+		queryKey: ["get-government-form"],
+		queryFn: getGovernmentForm,
+	});
+
+	const { mutateAsync, isError } = useMutation({
+		mutationKey: ["createPoliticalParty"],
+		mutationFn: createPoliticalParty,
+	});
 
 	const handleForm = async (data: formProps) => {
 		const inviteForm = async () => {
@@ -116,124 +110,195 @@ export default function Home() {
 			},
 		});
 	};
-
 	return (
-		<main id="main">
-			<div id="leftDiv">
-				<Image src={logoUrna} alt="" id="logo" />
+		<main className="grid grid-cols-3 mx-auto min-h-screen">
+			<div className="bg-primary py-16 p-16">
+				<Image src={logo} alt="Logo da IFUrna" />
 			</div>
-			<div id="rightDiv">
-				<Image id="topCloud" src={topCloud} alt="" />
-				<Image id="bottomCloud" src={bottomCloud} alt="" />
-				<Image id="bottomCircle" src={bottomCircle} alt="" />
+			<div className="col-span-2 relative flex justify-center items-center">
+				<Image
+					className="absolute top-0 right-0 select-none"
+					src={cloudTopRight}
+					alt="Nuvem direita-cima"
+				/>
+				<Image
+					className="absolute bottom-0 right-0 select-none"
+					src={cloudBottomRight}
+					alt="Nuvem direita-baixo"
+				/>
+				<Image
+					className="absolute bottom-0 left-28 select-none"
+					src={cloudBottomMid}
+					alt="Nuvem direita-baixo"
+				/>
 
-				<button
-					type="button"
-					id="cancelButtonIcon"
-					onClick={() => {
-						router.back();
-					}}
-				>
-					<Image src={iconBack} alt="Icone botão voltar" />
-				</button>
-
-				<form
-					action=""
-					id="registerEleitor"
-					onSubmit={handleSubmit(handleForm)}
-				>
-					<h1>Cadastrar Partido</h1>
-
-					<button
-						type="button"
-						id="cancelButtonIcon"
-						onClick={() => {
-							router.back();
-						}}
+				<div className="flex items-center px-5 absolute 2xl:top-28 top-14 left-24 2xl:left-52 select-none">
+					<Button
+						className="hover:bg-transparent"
+						variant="ghost"
+						onClick={() => router.back()}
 					>
-						<Image src={iconBack} alt="Icone botão voltar" />
-					</button>
+						<Image
+							className="h-12 2xl:h-14 2xl:w-14 w-12"
+							src={iconBack}
+							alt="Ícone voltar"
+						/>
+					</Button>
+				</div>
 
-					<Input label="Nome" type="text" {...register("name")} required />
-					{errors.name?.message ? (
-						<p id="err" className="text-red-600 text-sm">
-							{errors.name.message}
-						</p>
-					) : (
-						""
-					)}
-
-					<label htmlFor="">
-						<p>Turma</p>
-						<select
-							value={valueClass}
-							{...register("class")}
-							onChange={(e) => setValueSelectedClass(e.target.value)}
-							required
+				<Card className="2xl:w-[38rem] w-[30rem]  shadow-xl fixed">
+					<CardHeader>
+						<CardTitle className="text-4xl 2xl:text-5xl px-2 2xl:pt-10 2xl:pb-6 pt-6 font-normal">
+							Cadastrar Partido
+						</CardTitle>
+					</CardHeader>
+					<CardContent>
+						<form
+							className="space-y-2 2xl:space-y-4"
+							onSubmit={handleSubmit(handleForm)}
 						>
-							<option value="" disabled>
-								Selecione uma turma
-							</option>
-							{classes.map((item) => (
-								<option value={item.class}>{item.name}</option>
-							))}
-						</select>
-					</label>
-					<label htmlFor="">
-						<p>Forma de Governo</p>
-						<select
-							value={valueGovernmentType}
-							id=""
-							{...register("politicalTypeId")}
-							onChange={(e) => setValueGovernmentType(e.target.value)}
-							required
-						>
-							<option value="" disabled>
-								Selecione uma forma de governo
-							</option>
-							{governmentsForms?.map((item) => (
-								<option value={item.id}>{item.name}</option>
-							))}
-						</select>
-					</label>
-
-					<Input label="Descrição" type="text" {...register("description")} />
-
-					<label htmlFor="inputImg" id="labelImg">
-						{hasNewImage ? (
-							<>
-								<input
-									id="inputImg"
-									type="file"
-									{...register("photo")}
-									accept="image/*"
-								/>
-								<Image
-									id="newImage"
-									src={URL.createObjectURL(image)}
-									alt="new preview"
-									width={1}
-									height={1}
-								/>
-							</>
-						) : (
-							<>
-								<input
-									id="inputImg"
-									type="file"
-									{...register("photo")}
-									accept="image/*"
+							<div className="space-y-1">
+								<Label
+									className="text-lg 2xl:text-xl font-normal text-muted-foreground"
+									htmlFor="name"
+								>
+									Nome
+								</Label>
+								<Input
+									className="2xl:h-[48px] h-[40px] 2xl:text-xl border-black focus:border-primary"
+									id="name"
+									type="text"
+									{...register("name")}
 									required
 								/>
-								<Image id="uploading" src={inputImage} alt="Image Input" />
-							</>
-						)}
-					</label>
-					<div id="divButton">
-						<button type="submit">Cadastrar</button>
-					</div>
-				</form>
+							</div>
+
+							<div className="space-y-1.5">
+								<Label
+									className="text-lg 2xl:text-xl font-normal text-muted-foreground"
+									htmlFor="select1"
+								>
+									Turma
+								</Label>
+								<Select
+									onValueChange={(value) => {
+										setValue("class", value);
+										setSelectValue(value);
+									}}
+									value={selectValue}
+									{...register("class")}
+									required
+								>
+									<SelectTrigger
+										className="h-[40px] 2xl:h-[48px] 2xl:text-xl border-black focus:border-primary text-base text-muted-foreground"
+										id="select1"
+									>
+										<SelectValue placeholder="Selecione uma Turma" />
+									</SelectTrigger>
+									<SelectContent>
+										<SelectGroup className="h-28 text-sm 2xl:h-32">
+											<SelectLabel className="2xl:text-xl">Turmas</SelectLabel>
+											{classes.map((item) => (
+												<SelectItem
+													className="2xl:text-lg"
+													key={item.class}
+													value={item.class}
+												>
+													{item.name}
+												</SelectItem>
+											))}
+										</SelectGroup>
+									</SelectContent>
+								</Select>
+							</div>
+
+							<div className="space-y-1.5">
+								<Label
+									className="text-lg 2xl:text-xl font-normal text-muted-foreground"
+									htmlFor="select1"
+								>
+									Forma de Governo
+								</Label>
+								<Select
+									onValueChange={(value) => {
+										setValue("politicalTypeId", value);
+										setSelectTypeValue(value);
+									}}
+									value={selectTypeValue}
+									{...register("politicalTypeId")}
+									required
+								>
+									<SelectTrigger
+										className="h-[40px] 2xl:h-[48px] 2xl:text-xl border-black focus:border-primary text-base text-muted-foreground"
+										id="select1"
+									>
+										<SelectValue placeholder="Selecione uma Forma de Governo" />
+									</SelectTrigger>
+									<SelectContent>
+										<SelectGroup className="h-28 text-sm 2xl:h-32">
+											<SelectLabel className="2xl:text-xl">
+												Formas de Governo
+											</SelectLabel>
+											{governmentsForms?.map((item) => (
+												<SelectItem
+													className="2xl:text-lg"
+													key={item.id}
+													value={item.id}
+												>
+													{item.name}
+												</SelectItem>
+											))}
+										</SelectGroup>
+									</SelectContent>
+								</Select>
+							</div>
+							<div className="absolute bottom-20 right-[590px] 2xl:right-[800px] rounded-xl">
+								<Label className=" w-[220px] h-[220px] 2xl:w-[280px] 2xl:h-[280px] bg-[#D9D9D9] cursor-pointer flex items-center justify-center rounded-xl">
+									{hasNewImage ? (
+										<>
+											<Input
+												id=""
+												className="hidden"
+												type="file"
+												accept="image/*"
+												{...register("photo")}
+											/>
+											<div className="w-full h-full flex justify-center items-center relative rounded-xl">
+												<Image
+													className="object-cover rounded-lg"
+													src={URL.createObjectURL(image)}
+													alt="Imagem carregada"
+													fill
+												/>
+											</div>
+										</>
+									) : (
+										<>
+											<Input
+												className="hidden"
+												type="file"
+												accept="image/*"
+												{...register("photo")}
+											/>
+											<div className="w-full h-full flex justify-center items-center">
+												<Image src={input} alt="Imagem input" />
+											</div>
+										</>
+									)}
+								</Label>
+							</div>
+
+							<div className="flex justify-center 2xl:py-8 py-4">
+								<Button className="w-full 2xl:h-[48px] h-[42px] rounded-2xl text-lg font-bold bg-primary">
+									Entrar
+								</Button>
+							</div>
+						</form>
+					</CardContent>
+				</Card>
 			</div>
 		</main>
 	);
-}
+};
+
+export default pageCreatePoliticalParty;

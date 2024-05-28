@@ -1,20 +1,33 @@
 "use client";
-import Image from "next/image";
-import topCloud from "@/img/top-cloud.svg";
-import bottomCloud from "@/img/bottom-cloud.svg";
-import bottomCircle from "@/img/bottom-circle.svg";
-import logoUrna from "@/img/logo.svg";
-import iconBack from "@/img/icon-back.svg";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "@/components/Input/Input";
+/* eslint-disable react-hooks/rules-of-hooks */
 
-import "./style.css";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+	Select,
+	SelectContent,
+	SelectGroup,
+	SelectItem,
+	SelectLabel,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
+import cloudBottomMid from "@/img/cloud-bottom-mid.svg";
+import cloudBottomRight from "@/img/cloud-bottom-right.svg";
+import cloudTopRight from "@/img/cloud-top-right.svg";
+import iconBack from "@/img/icon-back.svg";
+import logo from "@/img/logo-name.svg";
 import { createGovernment } from "@/requests/government/create";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 
 const schema = z.object({
 	name: z.string(),
@@ -23,7 +36,9 @@ const schema = z.object({
 
 type formProps = z.infer<typeof schema>;
 
-export default function Home() {
+const pageCreateGovernment = () => {
+	const [valueInput, setValueInput] = useState("");
+
 	const {
 		handleSubmit,
 		register,
@@ -35,100 +50,177 @@ export default function Home() {
 		resolver: zodResolver(schema),
 	});
 
-	const [selectValue, setSelectValue] = useState<string>("");
-
-	const router = useRouter();
-
 	const { mutateAsync, isError } = useMutation({
 		mutationKey: ["createGovernment"],
 		mutationFn: createGovernment,
 	});
 
 	const handleForm = async (data: formProps) => {
-		// Check if the name property is set
-		if (!data.name) {
-			console.error("Name property is required");
-			return;
-		}
+		const inviteForm = async () => {
+			try {
+				await mutateAsync({
+					name: data.name,
+					cod: data.cod,
+				});
+			} catch (error) {
+				console.log(error);
+			}
+		};
 
-		// Check if the cod property is a valid number
-		if (typeof data.cod !== "number" || isNaN(data.cod)) {
-			console.error("Cod property must be a valid number");
-			return;
-		}
+		toast.promise(inviteForm, {
+			loading: "Carregando...",
+			duration: 4000,
 
-		try {
-			await mutateAsync({
-				name: data.name,
-				cod: data.cod,
-			});
-		} catch (error) {
-			console.log(error);
-		}
+			success: () => {
+				router.back();
+				return "Sistema de Governo Registrado";
+			},
+
+			error: "Erro ao registrar o Sistema de Governo",
+
+			style: {
+				boxShadow: "1px 2px 20px 6px #555",
+			},
+		});
 	};
+
+	const router = useRouter();
 	return (
-		<main id="main">
-			<div id="leftDiv">
-				<Image src={logoUrna} alt="" id="logo"></Image>
+		<main className="grid grid-cols-3 mx-auto min-h-screen">
+			<div className="bg-primary py-16 p-16">
+				<Image src={logo} alt="Logo da IFUrna" />
 			</div>
-			<div id="rightDiv">
-				<Image id="topCloud" src={topCloud} alt=""></Image>
-				<Image id="bottomCloud" src={bottomCloud} alt=""></Image>
-				<Image id="bottomCircle" src={bottomCircle} alt=""></Image>
+			<div className="col-span-2 relative flex justify-center items-center">
+				<Image
+					className="absolute top-0 right-0 select-none"
+					src={cloudTopRight}
+					alt="Nuvem direita-cima"
+				/>
+				<Image
+					className="absolute bottom-0 right-0 select-none"
+					src={cloudBottomRight}
+					alt="Nuvem direita-baixo"
+				/>
+				<Image
+					className="absolute bottom-0 left-28 select-none"
+					src={cloudBottomMid}
+					alt="Nuvem direita-baixo"
+				/>
 
-				<button
-					id="cancelButtonIcon"
-					onClick={() => {
-						router.back();
-					}}
-				>
-					<Image src={iconBack} alt="Icone botão voltar"></Image>
-				</button>
+				<div className="flex items-center px-5 absolute 2xl:top-28 top-14 left-24 2xl:left-52 select-none">
+					<Button
+						className="hover:bg-transparent"
+						variant="ghost"
+						onClick={() => router.back()}
+					>
+						<Image
+							className="h-12 2xl:h-14 2xl:w-14 w-12"
+							src={iconBack}
+							alt="Ícone voltar"
+						/>
+					</Button>
+				</div>
 
-				<form
-					action=""
-					id="registerGoverno"
-					onSubmit={handleSubmit(handleForm)}
-				>
-					<h1>Cadastrar Governo</h1>
+				<Card className="2xl:w-[38rem] w-[30rem]  shadow-xl fixed">
+					<CardHeader>
+						<CardTitle className="text-4xl 2xl:text-5xl px-2 2xl:pt-10 2xl:pb-6 pt-6 font-normal">
+							Cadastrar Sistema de Governo
+						</CardTitle>
+					</CardHeader>
+					<CardContent>
+						<form
+							className="space-y-2 2xl:space-y-4"
+							onSubmit={handleSubmit(handleForm)}
+						>
+							<div className="space-y-1.5">
+								<Label
+									className="text-lg 2xl:text-xl font-normal text-muted-foreground"
+									htmlFor="name"
+								>
+									Nome
+								</Label>
+								<Input
+									className="2xl:h-[48px] h-[40px] 2xl:text-xl border-black focus:border-primary"
+									id="name"
+									type="text"
+									{...register("name")}
+									required
+								/>
+							</div>
 
-					<label htmlFor="">
-						<p>Nome</p>
-						<select value={watch("name")} {...register("name")} name="name">
-							<option value="" id="placeholderSelect">
-								Selecione
-							</option>
-							<option value="Absolutista">Monarquia Absolutista</option>
-							<option value="Constitucional">Monarquia Constitucional</option>
-							<option value="Repúblicas">República</option>
-						</select>
-					</label>
-					{errors.name?.message ? (
-						<p id="err" className="text-red-600 text-sm">
-							{errors.name.message}
-						</p>
-					) : (
-						""
-					)}
+							<div className="space-y-1.5">
+								<Label
+									className="text-lg 2xl:text-xl font-normal text-muted-foreground"
+									htmlFor="cod"
+								>
+									Código
+								</Label>
+								<Input
+									className="2xl:h-[48px] h-[40px] 2xl:text-xl border-black focus:border-primary"
+									id="cod"
+									type="number"
+									value={valueInput}
+									{...register("cod", { valueAsNumber: true })}
+									onChange={(e) => {
+										const maxLength = 2;
+										const newValue = e.target.value.replace(/\D+/g, ""); // remove non-numeric characters
+										if (newValue.length <= maxLength) {
+											setValueInput(newValue);
+										}
+									}}
+									required
+								/>
+							</div>
 
-					<Input
-						label="Número"
-						type="number"
-						{...register("cod", { valueAsNumber: true })}
-					/>
-					{errors.name?.message ? (
-						<p id="err" className="text-red-600 text-sm">
-							{errors.cod?.message}
-						</p>
-					) : (
-						""
-					)}
-
-					<div id="divButton">
-						<button type="submit">Cadastrar</button>
-					</div>
-				</form>
+							{/* <div className="space-y-1.5">
+								<Label
+									className="text-lg 2xl:text-xl font-normal text-muted-foreground"
+									htmlFor="select1"
+								>
+									Turma
+								</Label>
+								<Select
+									onValueChange={(value) => {
+										setValue("class", value);
+										setSelectValue(value);
+									}}
+									value={selectValue}
+									{...register("class")}
+									required
+								>
+									<SelectTrigger
+										className="h-[40px] 2xl:h-[48px] 2xl:text-xl border-black focus:border-primary text-base text-muted-foreground"
+										id="select1"
+									>
+										<SelectValue placeholder="Selecione uma Turma" />
+									</SelectTrigger>
+									<SelectContent>
+										<SelectGroup className="h-28 text-sm 2xl:h-32">
+											<SelectLabel className="2xl:text-xl">Turmas</SelectLabel>
+											<SelectItem className="2xl:text-lg" value="Absolutista">
+												Monarquia Absolutista
+											</SelectItem>
+                      <SelectItem className="2xl:text-lg" value="Constitucional">
+												Monarquia Constitucional
+											</SelectItem>
+                      <SelectItem className="2xl:text-lg" value="República">
+												República
+											</SelectItem>
+										</SelectGroup>
+									</SelectContent>
+								</Select>
+							</div> */}
+							<div className="flex justify-center 2xl:py-8 py-4">
+								<Button className="w-full 2xl:h-[48px] h-[42px] rounded-2xl text-lg font-bold bg-primary">
+									Entrar
+								</Button>
+							</div>
+						</form>
+					</CardContent>
+				</Card>
 			</div>
 		</main>
 	);
-}
+};
+
+export default pageCreateGovernment;

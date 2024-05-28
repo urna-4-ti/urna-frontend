@@ -1,184 +1,157 @@
 "use client";
-import plusCross from "@/img/cross.svg";
-import hambList from "@/img/hamburger.svg";
-import urnaIf from "@/img/if.svg";
-import userIcon from "@/img/user-icon.svg";
-import Image from "next/image";
-import { usePathname, useRouter } from "next/navigation";
-
-import { useAuthStore } from "@/hooks/useAuthStore";
+import Card from "@/components/card";
+import { Avatar } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import {
+	Sheet,
+	SheetContent,
+	SheetHeader,
+	SheetTitle,
+} from "@/components/ui/sheet";
+import hamburguer from "@/img/hamburguer.svg";
+import logoIf from "@/img/logo-if.svg";
+import plus from "@/img/plus.svg";
 import { AuthStore } from "@/store/auth";
-import { z } from "zod";
-import "./style.css";
+import { AvatarFallback } from "@radix-ui/react-avatar";
+import { UserRound } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
-const schema = z.object({
-	email: z.string().email("*O campo deve ser um email"),
-	password: z.string().min(6, "*Senha inválida."),
-});
-
-type formProps = z.infer<typeof schema>;
-
-export default function Home() {
-	const path = usePathname();
-
-	console.log("CAMINHO:", path);
-
+const DashBoard = () => {
+	const [isOpen, setIsOpen] = useState(false);
 	const router = useRouter();
 
 	const {
-		actions: { logout, login },
+		actions: { logout },
 		state: { user },
 	} = AuthStore();
-
-	// const getCookie = async (data : formProps) => {
-	// 	const cookie = await login({...data})
-	// 	return cookie
-	// }
-
 	return (
-		<main id="dashboard">
-			<div className="left-panel">
-				<Image id="urnaIf" src={urnaIf} alt="Urna" />
-			</div>
-
-			<div className="right-panel">
-				<div className="info-admin">
-					<div className="adm">
-						<Image id="userIcon" src={userIcon} alt="" />
-						<span id="adminName">{user?.name}</span>
+		<>
+			<main className="grid grid-cols-10 mx-auto min-h-screen">
+				<div className="bg-primary">
+					<div className="w-full flex justify-center mt-12">
+						<Image src={logoIf} alt="Logo do IFRS" />
 					</div>
-					<button
-						type="button"
-						id="sair"
-						onClick={async () => {
-							await logout();
-							router.push("/auth/logout");
-						}}
-					>
-						Sair
-					</button>
 				</div>
 
-				<div className="box-actions">
-					{/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
-					<div
-						className="action"
-						onClick={() => {
-							router.push("/admin/cadastrarPartido");
-						}}
-					>
-						<div className="name">
-							<Image id="plusCross" src={plusCross} alt="Icon add" />
-							<span>Cadastrar</span>
-						</div>
-						<div className="what-for">Sistema de Governo</div>
+				<div className="col-span-9 bg-white">
+					{/* HEADER */}
+					<div className="flex justify-end mt-6 px-4 2xl:px-2">
+						<Button
+							className="hover:bg-transparent"
+							variant="ghost"
+							onClick={() => setIsOpen(true)}
+						>
+							<UserRound className=" hover:opacity-80 h-[30px] w-[30px] 2xl:w-[45px] 2xl:h-[45px]" />
+						</Button>
 					</div>
-
-					{/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
-					<div
-						className="action"
-						onClick={() => {
-							router.push("/admin/create/politicalParty");
-						}}
-					>
-						<div className="name">
-							<Image id="plusCross" src={plusCross} alt="Icon add" />
-							<span>Cadastrar</span>
-						</div>
-						<div className="what-for">Partido</div>
+					<div className="py-4 2xl:py-6 flex justify-center">
+						<Separator />
 					</div>
-
-					{/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
-					<div
-						className="action"
-						onClick={() => {
-							router.push("/admin/create/voter");
-						}}
-					>
-						<div className="name">
-							<Image id="plusCross" src={plusCross} alt="Icon add" />
-							<span>Cadastrar</span>
+					{/* BASE CARDS */}
+					<div className="px-5 2xl:px-7 flex flex-col justify-center mt-6 space-y-4">
+						<div>
+							<span className="font-default text-muted-foreground 2xl:text-xl">
+								Cadastros:
+							</span>
 						</div>
-						<div className="what-for">Eleitor</div>
-					</div>
-
-					{/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
-					<div
-						className="action"
-						onClick={() => {
-							router.push("/admin/create/candidate");
-						}}
-					>
-						<div className="name">
-							<Image
-								id="plusCross"
-								src={plusCross}
-								alt="Icon add"
-								width={27}
-								height={27}
+						<div className="flex justify-center space-x-4 2xl:space-x-6">
+							<Card
+								title="Sistema de Governo"
+								fn="Cadastrar"
+								image={plus}
+								linkPage="/admin/create/government"
 							/>
-							<span>Cadastrar</span>
+							<Card
+								title="Partido"
+								fn="Cadastrar"
+								image={plus}
+								linkPage="/admin/create/politicalParty"
+							/>
+							<Card
+								title="Eleitor"
+								fn="Cadastrar"
+								image={plus}
+								linkPage="/admin/create/voter"
+							/>
+							<Card
+								title="Candidato"
+								fn="Cadastrar"
+								image={plus}
+								linkPage="/admin/create/candidate"
+							/>
 						</div>
-						<div className="what-for">Candidato</div>
 					</div>
-
-					{/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
-					<div
-						className="action"
-						onClick={() => {
-							router.push("/admin/cadastrarPartido");
-						}}
-					>
-						<div className="name">
-							<Image id="plusCross" src={hambList} alt="Icon add" />
-							<span>Listar</span>
-						</div>
-						<div className="what-for">Sistema de Governo</div>
+					<div className="py-6 2xl:py-8 flex justify-center">
+						<Separator className="w-11/12 bg-[#00E327]" />
 					</div>
-
-					{/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
-					<div
-						className="action"
-						onClick={() => {
-							router.push("/admin/list/politicalParty");
-						}}
-					>
-						<div className="name">
-							<Image id="plusCross" src={hambList} alt="Icon add" />
-							<span>Listar</span>
+					<div className="px-5 2xl:px-7 flex flex-col justify-center space-y-4 2xl:space-y-6">
+						<div>
+							<span className="font-default text-muted-foreground 2xl:text-xl">
+								Listagem:
+							</span>
 						</div>
-						<div className="what-for">Partido</div>
-					</div>
-
-					{/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
-					<div
-						className="action"
-						onClick={() => {
-							router.push("/admin/list/voter");
-						}}
-					>
-						<div className="name">
-							<Image id="plusCross" src={hambList} alt="Icon add" />
-							<span>Listar</span>
+						<div className="flex justify-center space-x-4 2xl:space-x-6">
+							<Card
+								title="Sistema de Governo"
+								fn="Listar"
+								image={hamburguer}
+								linkPage="/admin/list/government"
+							/>
+							<Card
+								title="Partido"
+								fn="Listar"
+								image={hamburguer}
+								linkPage="/admin/list/politicalParty"
+							/>
+							<Card
+								title="Eleitor"
+								fn="Listar"
+								image={hamburguer}
+								linkPage="/admin/list/voter"
+							/>
+							<Card
+								title="Candidato"
+								fn="Listar"
+								image={hamburguer}
+								linkPage="/admin/list/candidate"
+							/>
 						</div>
-						<div className="what-for">Eleitor</div>
-					</div>
-
-					{/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
-					<div
-						className="action"
-						onClick={() => {
-							router.push("/admin/list/candidate");
-						}}
-					>
-						<div className="name">
-							<Image id="plusCross" src={hambList} alt="Icon add" />
-							<span>Listar</span>
-						</div>
-						<div className="what-for">Candidato</div>
 					</div>
 				</div>
-			</div>
-		</main>
+			</main>
+			<Sheet open={isOpen} onOpenChange={setIsOpen}>
+				<SheetContent className="bg-white w-[334px] 2xl:w-[384px]">
+					<SheetHeader>
+						<SheetTitle className="font-normal text-muted-foreground">
+							Informações
+						</SheetTitle>
+					</SheetHeader>
+					<div className="grid gap-4 py-4">
+						<div className="flex flex-col items-center justify-center mt-6 space-y-6">
+							<div className="h-[60px] w-[60px] border border-muted-foreground rounded-full flex items-center justify-center">
+								<UserRound size={35} />
+							</div>
+							<div className="flex justify-between w-full">
+								<span className="2xl:text-xl text-lg text-[#121212]">
+									{user?.name}
+								</span>
+								<Link
+									href="/auth/logout"
+									className="text-[#EA0000] 2xl:text-xl text-lg cursor-pointer hover:border-b hover:border-b-[#EA0000]"
+								>
+									Sair
+								</Link>
+							</div>
+						</div>
+					</div>
+				</SheetContent>
+			</Sheet>
+		</>
 	);
-}
+};
+
+export default DashBoard;
