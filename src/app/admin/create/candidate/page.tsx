@@ -73,7 +73,7 @@ const addCandidate = () => {
 	const { data: politicalParty, refetch } = useQuery({
 		queryKey: ["get-politicalParty", selectValue],
 		queryFn: () => getPoliticalParty(selectValue),
-		// enabled: false,
+		enabled: !!selectValue,
 	});
 
 	const { mutateAsync, isError } = useMutation({
