@@ -14,7 +14,7 @@ interface cardProps {
 const Card = ({ title, fn, linkPage, image, bgTailWind }: cardProps) => {
 	return (
 		<Link href={linkPage}>
-			<div className={`w-52 2xl:px-2 2xl:w-72 2xl:h-64 h-48 ${bgTailWind} drop-shadow-lg rounded-[30px]`}>
+			<div className={`transition-all shadow-xl hover:shadow-md hover:opacity-50 w-52 2xl:px-2 2xl:w-72 2xl:h-64 h-48 ${bgTailWind} drop-shadow-lg rounded-[30px]`}>
 				<div className="flex items-center justify-center space-x-4 2xl:space-x-6 py-6 2xl:py-8">
 					<div className="h-[26px] w-[26px] 2xl:h-[31px] 2xl:w-[31px] relative">
 						<Image src={image} alt="Plus" fill />
