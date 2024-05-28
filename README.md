@@ -1,36 +1,50 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<div align='center'>
+    <img width="120" src="http://217.196.61.74/logo.png"></img>
+    <h1>Urna IFRS <i>Campus</i> Feliz</h1>
+</div>
 
-## Getting Started
 
-First, run the development server:
+## Introdução
+
+Projeto interdisciplinar do 4° ano do Curso Técnico em Informática, das disciplinas de Sociologia e Tópicos Avançados em Informática, visando entender e desenvolver um sistema de votação para ser usado no <i>Campus</i>.
+
+## Rodando o projeto
+
+Esse é um projeto [Next.js](https://nextjs.org/) iniciado com o [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+
+Primeiro, rode o servidor de desenvolvimento:
 
 ```bash
 npm run dev
-# or
+# ou
 yarn dev
-# or
+# ou
 pnpm dev
-# or
+# ou
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abra [http://localhost:3000](http://localhost:3000) no navegador para checar os resultados.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Equipe de Desenvolvimento
 
-## Learn More
+### Front-end
 
-To learn more about Next.js, take a look at the following resources:
+- Felipe Estevo Gomes (felipe.gomes@aluno.feliz.ifrs.edu.br);
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Kauã De Oliveira Vieira (kaua.vieira@aluno.feliz.ifrs.edu.br);
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- Luis Felipe Assmann (luis.assmann@aluno.feliz.ifrs.edu.br).
 
-## Deploy on Vercel
+### Back-end
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Gustavo Porto Chaplin (gustavo.chaplin@aluno.feliz.ifrs.edu.br);
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- Nicole Luiza Stein Thewes (nicole.thewes@aluno.feliz.ifrs.edu.br);
+
+- Rafael Mattos De Vargas (rafael.vargas@aluno.feliz.ifrs.edu.br).
+
+## Licença
+
+- GNU General Public License Version 3.
