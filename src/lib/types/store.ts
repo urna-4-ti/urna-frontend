@@ -1,4 +1,4 @@
-import { userDataType, userLogin } from "./user";
+import type { userDataType, userLogin } from "./user";
 
 export type ActionsProps = {
 	login: (user: userLogin) => void;

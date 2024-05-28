@@ -1,13 +1,20 @@
 import { api } from "../api";
 
-type voterProps = {
+type votersProps = {
 	id: string;
-	name: string;
-	enrollment: string;
-	email: string;
 	class: string;
+	email: string;
+	enrollment: string;
+	name: string;
 };
-export async function getVoters(): Promise<voterProps[]> {
+
+export async function getVoters(): Promise<votersProps[]> {
 	const data = (await api.get("/voter")).data.data;
 	return data;
+}
+
+export async function getVoterId(idVoter: string): Promise<votersProps> {
+	const response = await api.get(`/voter/${idVoter}`);
+	const voters = response.data.data;
+	return voters;
 }

@@ -1,506 +1,64 @@
+@import url("https://fonts.googleapis.com/css2?family=M+PLUS+2:wght@100..900&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-*, *::after, *::before {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-}
-body, input, button, div, span, p, h1, h2, select, textarea, a, main, form {
-  font-family: "Kanit", "Inter", sans-serif;
+.mplus {
+  font-family: "M PLUS 2", sans-serif;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+:root {
+  --background: #F5F5F5;
+  --foreground: 240 10% 3.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 240 10% 3.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 240 10% 3.9%;
+  --primary: 142.1 76.2% 36.3%;
+  --primary-foreground: 355.7 100% 97.3%;
+  --secondary: 240 4.8% 95.9%;
+  --secondary-foreground: 240 5.9% 10%;
+  --muted: 240 4.8% 95.9%;
+  --muted-foreground: 240 3.8% 46.1%;
+  --accent: 240 4.8% 95.9%;
+  --accent-foreground: 240 5.9% 10%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 240 5.9% 90%;
+  --input: 240 5.9% 90%;
+  --ring: 142.1 76.2% 36.3%;
+  --radius: 0.5rem;
+}
+
+.dark {
+  --background: 356 50% 10%;
+  --foreground: 356 5% 100%;
+  --card: 356 50% 10%;
+  --card-foreground: 356 5% 100%;
+  --popover: 356 50% 5%;
+  --popover-foreground: 356 5% 100%;
+  --primary: 356 83% 51.6%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 356 30% 20%;
+  --secondary-foreground: 0 0% 100%;
+  --muted: 318 30% 25%;
+  --muted-foreground: 225 8% 53%;
+  --accent: 318 30% 25%;
+  --accent-foreground: 356 5% 95%;
+  --destructive: 0 100% 50%;
+  --destructive-foreground: 356 5% 100%;
+  --border: 356 30% 50%;
+  --input: 356 30% 50%;
+  --ring: 356 83% 51.6%;
+  --radius: 0.75rem;
+}
+
+@layer base {
+  * {
+    @apply box-border;
   }
-}
 
-#home-page img {
-  filter: invert(100%);
-  width: 200px;
-  padding: 1rem 0;
-}
-
-#main {
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  min-height: 100vh;
-  font-family: "Kanit", sans-serif;
-}
-
-#leftDiv {
-  background-color: #05B022;
-  height: 100%;
-  padding-top: 3rem;
-  padding-left: 3rem;
-}
-
-#logo {
-  cursor: pointer;
-  user-select: none;
-  pointer-events: none;
-}
-
-#rightDiv {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-}
-
-#topCloud {
-  user-select: none;
-  pointer-events: none;
-  position: absolute;
-  top: 0;
-  right: 0;
-}
-
-#bottomCloud {
-  user-select: none;
-  pointer-events: none;
-  position: absolute;
-  bottom: 0;
-  right: 0;
-}
-
-#bottomCircle {
-  user-select: none;
-  pointer-events: none;
-  position: absolute;
-  bottom: 0;
-  right: 40rem;
-}
-
-#registerEleitor {
-  background-color: #fff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 4rem 2rem;
-  width: 500px;
-  height: 37.5rem;
-  border-radius: 12px;
-  box-shadow: 0 1px 20px 5px #0000008a;
-  z-index: 2;
-}
-
-#registerGoverno {
-  background-color: #fff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 4rem 2rem;
-  width: 500px;
-  height: 35.563rem;
-  border-radius: 12px;
-  box-shadow: 0 1px 20px 5px #0000008a;
-  z-index: 2;
-}
-
-#registerEleitor h1, #registerGoverno h1 {
-  width: 100%;
-  font-weight: 300;
-  font-size: 2.4rem;
-}
-
-#registerEleitor label, #registerGoverno label {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  padding-top: .2rem;
-}
-
-#registerEleitor label p, #registerGoverno label p {
-  opacity: 0.7;
-  font-size: 1.3rem;
-}
-
-#registerEleitor label input, #registerGoverno label input {
-  font-family: "Kanit", sans-serif;
-  border: 1px solid #00000096;
-  border-radius: 10px;
-  font-size: 1.3rem;
-  padding: 0.2rem 0.1rem;
-  color: #1b1b1b;
-}
-
-#registerEleitor label select, #registerGoverno label select {
-  font-family: "Kanit", sans-serif;
-  border: 1px solid #00000096;
-  border-radius: 10px;
-  font-size: 1.3rem;
-  padding: 0.3rem 0.2rem;
-  color: #1b1b1b;
-}
-
-#registerEleitor label select option, #registerGoverno label select option {
-  font-size: 1.2rem;
-}
-
-#divButton {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  gap: 10px;
-  margin-top: 1.3rem;
-}
-
-
-#cancelButtonIcon {
-  position: absolute;
-  width: 55px;
-  height: 55px;
-  top: 6rem;
-  left: 40rem;
-}
-
-#divButton button {
-  background-color: #05B022;
-  border: none;
-  width: 80%;
-  padding: 0.5rem;
-  border-radius: 20px;
-  color: #fff;
-  font-size: 1.2rem;
-  cursor: pointer;
-  transition: .2s;
-}
-
-#divButton #cancelButton {
-  background-color: #fff;
-  border: 1px solid;
-  width: 80%;
-  padding: 0.5rem;
-  border-radius: 20px;
-  color: #000;
-  font-size: 1.2rem;
-  cursor: pointer;
-  transition: .2s;
-}
-
-
-#divButton button:hover {
-  opacity: 0.7;
-}
-
-#registerEleitor #divButton #cancelButton:hover {
-  background-color: #F10000;
-  border: 1px solid #fff;
-  opacity: 0.7;
-}
-
-#registerEleitor #labelImg {
-  position:absolute;
-  width: 316px;
-  height: 316px;
-  background-color: #D9D9D9;
-  cursor: pointer;
-  left: 16rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 10px;
-}
-
-#labelImg #inputImg {
-  display:none;
-}
-
-#labelImg #newImage {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  border-radius: 10px;
-}
-
-#registerEleitor #divButton #modal {
-  position: absolute;
-  background-color: #fff;
-  width: 795px;
-  height: 587px;
-}
-
-#bodyModal {
-  position: fixed;
-  inset: 0;
-  z-index: 50;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-#blurModal {
-  position: absolute;
-  inset: 0;
-  background-color: #000;
-  opacity: 0.5;
-}
-
-#pageModal {
-  position: relative;
-  z-index: 10;
-  width: 683px;
-  height: 395px;
-  background: #fff;
-  opacity: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  font-size: 2rem;
-  padding: 6.25rem;
-  text-align: center;
-  font-weight: 700;
-  border-radius: 2rem;
-}
-
-#pageModal #btnModal {
-  display: flex;
-  padding-top: 3.25rem;
-  gap: 2rem;
-}
-
-#pageModal #btnModal #btn1Modal {
-  width: 300px;
-  height: 70px;
-  font-size: 1.5rem;
-}
-
-#pageModal #btnModal #btn2Modal {
-  width: 300px;
-  height: 70px;
-  font-size: 1.5rem;
-  background-color: #fff;
-  color: #000;
-  border: 2px solid #000;
-}
-
-#pageModal #btnModal #btn1Modal:hover {
-  opacity: 0.8;
-  transition: .2s;
-  scale: 1.1;
-}
-
-#pageModal #btnModal #btn2Modal:hover {
-  opacity: 0.8;
-  transition: .2s;
-  scale: 1.1;
-  background-color: #D40415;
-  border: none;
-}
-
-
-#home-page {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-#home-page button {
-  background-color: #05B022;
-  border: none;
-  padding: .5rem 1rem;
-  border-radius: 8px;
-  color: #fff;
-  font-size: 1.1rem;
-  transition: .2s;
-}
-#home-page button:hover {
-  background-color: #05B022aa;
-  cursor: pointer;
-}
-#login {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  min-height: 100vh;
-  font-family: "Kanit", sans-serif;
-}
-
-#mainList {
-  background-color: #F5F5F5;
-  display: grid;
-  grid-template-columns: 1fr 7fr;
-  justift-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  min-height: 100vh;
-  font-family: "Kanit", sans-serif;
-}
-
-.right-panel {
-  background-color: #05B022;
-  height: 100%;
-  padding-top: 3rem;
-  padding-left: 3rem;
-}
-.left-panel {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-}
-#topLeftCloud {
-  position: absolute;
-  transform: rotate(270deg);
-  top: -2rem;
-  left: 0;
-}
-#bottomLeftCircle {
-  position: absolute;
-  bottom: 0;
-  left: 2rem;
-}
-#loginForm {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  flex-direction: column;
-  gap: 2rem;
-  min-width: 400px;
-  min-height: 300px;
-  padding: 2rem;
-  border-radius: 20px;
-  box-shadow: 0px 1px 20px 4px #555;
-  background-color: #fff;
-  z-index: 2;
-}
-#loginForm label, #loginForm input {
-  width: 100%;
-  padding: .5rem;
-  font-size: 1.3rem;
-}
-#loginForm input {
-  border-radius: 12px;
-  border: 1px solid #333;
-  margin-top: .5rem;
-}
-#loginForm button {
-  border: none;
-  background-color: #05B022;
-  width: 100%;
-  border-radius: 8px;
-  padding: 1rem 0;
-  color: #fff;
-  font-size: 1rem;
-  font-weight: 600;
-  transition: .2s;
-  cursor: pointer;
-}
-#loginForm button:hover {
-  background-color: #05B02255;
-  color: #555;
-}
-#loginForm #goBackLoginToHome {
-  background-color: #fff;
-  width: auto;
-  border: 1px solid transparent;
-  padding: 0;
-  border-radius: 50%;
-  position: absolute;
-  left: 20.4%;
-  cursor: pointer;
-}
-
-#mainList #rightDiv {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: start;
-  height: 100%;
-}
-
-#mainList #rightDiv #divTop {
-  display: flex;
-  width: 100%;
-}
-
-#mainList #rightDiv #divTop #left {
-  font-size: 2.3rem;
-  display: flex;
-  justify-content: start;
-  width: 50%;
-  margin: 1.1rem;
-}
-
-#mainList #rightDiv #divTop #right {
-  display: flex;
-  justify-content: end;
-  width: 50%;
-  margin: 1.1rem;
-}
-
-#mainList #rightDiv #divTop #right label {
-  width: 16.75rem;
-  display: flex;
-  justify-content: end;
-}
-
-#mainList #rightDiv #divTop #right label div {
-  margin-left: 1.4rem;
-  width: 
-}
-
-#mainList #rightDiv #divTop #right label div p {
-  font-weight: 700;
-}
-
-#mainList #rightDiv #divTop #right label div span {
-  font-weight: 700;
-  color: #EA0000;
-  display: flex;
-  justify-content: end;
-  margin-right: 1rem;
-}
-
-#mainList #rightDiv #search {
-  width: 100%;
-  height: 3.75rem;
-  display: flex;
-  justify-content: start;
-  align-items: center;
-  margin-bottom: 2rem;
-
-}
-
-#mainList #rightDiv #search label {
-  width: 89%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-}
-
-#inputSearch {
-  width: 27.313rem;
-  font-family: "Kanit", sans-serif;
-  border: 1px solid #00000096;
-  border-radius: 10px;
-  font-size: 1.3rem;
-  padding: 0.2rem 0.1rem;
-  color: #1b1b1b;
-  padding-left: 10px;
-}
-
-#routeBtn {
-  position: absolute;
-  width: 55px;
-  height: 55px;
-  top: 6rem;
-  left: 13rem;
+  body {
+    @apply text-foreground antialiased;
+  }
 }
