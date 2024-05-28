@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
+import { cookies } from "next/headers";
+
 // This function can be marked async if using await inside
 export async function middleware(request: NextRequest) {
 	if (await request.cookies.get("access_token")) {
@@ -10,10 +12,11 @@ export async function middleware(request: NextRequest) {
 	}
 	if (request.nextUrl.searchParams.get("access_token")) {
 		const queryParams = request.nextUrl.searchParams;
-		request.cookies.set(
-			"access_token",
-			queryParams.get("access_token") as string,
-		);
+		cookies().set({
+			name: "access_token",
+			value: queryParams.get("access_token") as string,
+			expires: 604800000, // 7 days
+		});
 		request.nextUrl.searchParams.delete("access_token");
 		return NextResponse.next();
 	}
