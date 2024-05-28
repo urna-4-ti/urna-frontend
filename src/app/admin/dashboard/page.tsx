@@ -64,24 +64,28 @@ const DashBoard = () => {
 								fn="Cadastrar"
 								image={plus}
 								linkPage="/admin/create/government"
+								bgTailWind="bg-[#8438FF66]"
 							/>
 							<Card
 								title="Partido"
 								fn="Cadastrar"
 								image={plus}
 								linkPage="/admin/create/politicalParty"
+								bgTailWind="bg-[#40BAFF66]"
 							/>
 							<Card
 								title="Eleitor"
 								fn="Cadastrar"
 								image={plus}
 								linkPage="/admin/create/voter"
+								bgTailWind="bg-[#00E32766]"
 							/>
 							<Card
 								title="Candidato"
 								fn="Cadastrar"
 								image={plus}
 								linkPage="/admin/create/candidate"
+								bgTailWind="bg-[#D4041566]"
 							/>
 						</div>
 					</div>
@@ -100,24 +104,28 @@ const DashBoard = () => {
 								fn="Listar"
 								image={hamburguer}
 								linkPage="/admin/list/government"
+								bgTailWind="bg-[#8438FF66]"
 							/>
 							<Card
 								title="Partido"
 								fn="Listar"
 								image={hamburguer}
 								linkPage="/admin/list/politicalParty"
+								bgTailWind="bg-[#40BAFF66]"
 							/>
 							<Card
 								title="Eleitor"
 								fn="Listar"
 								image={hamburguer}
 								linkPage="/admin/list/voter"
+								bgTailWind="bg-[#00E32766]"
 							/>
 							<Card
 								title="Candidato"
 								fn="Listar"
 								image={hamburguer}
 								linkPage="/admin/list/candidate"
+								bgTailWind="bg-[#D4041566]"
 							/>
 						</div>
 					</div>
