@@ -316,12 +316,21 @@ const pageEditCandidate = ({ params }: { params: { id: string } }) => {
 													{...register("photo")}
 												/>
 												<div className="w-full h-full flex justify-center items-center">
-													<Image
-														src={`http://localhost:4000/public/${candidate?.picPath}`}
-														alt="Imagem input"
-														className="rounded-lg object-cover"
-														fill
-													/>
+													{candidate?.picPath ? (
+														<Image
+															src={`http://localhost:4000/public/${candidate?.picPath}`}
+															alt="Imagem input"
+															className="rounded-lg object-cover"
+															fill
+														/>
+													) : (
+														<Image
+															src={input}
+															alt="Imagem input"
+															className="rounded-lg object-cover"
+															fill
+														/>
+													)}
 												</div>
 											</>
 										)}

@@ -358,12 +358,21 @@ const pageEditPoliticalParty = ({ params }: { params: { id: string } }) => {
 													{...register("photoUrl")}
 												/>
 												<div className="w-full h-full flex justify-center items-center">
-													<Image
-														src={`http://localhost:4000/public/${politicalParty?.photoUrl}`}
-														alt="Imagem input"
-														className="rounded-lg object-cover"
-														fill
-													/>
+													{politicalParty?.photoUrl ? (
+														<Image
+															src={`http://localhost:4000/public/${politicalParty.photoUrl}`}
+															alt="Imagem input"
+															className="rounded-lg object-cover"
+															fill
+														/>
+													) : (
+														<Image
+															src={input}
+															alt="Imagem input"
+															className="rounded-lg object-cover"
+															fill
+														/>
+													)}
 												</div>
 											</>
 										)}
