@@ -4,6 +4,7 @@ type governmentProps = {
 	id: string;
 	name: string;
 	cod: number;
+	description: string;
 };
 
 export async function getGovernmentForm(): Promise<governmentProps[]> {

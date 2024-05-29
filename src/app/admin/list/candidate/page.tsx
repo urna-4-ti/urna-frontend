@@ -148,21 +148,21 @@ const Candidates = () => {
 						</div>
 					</div>
 					{/* MAIN */}
-					<div className="grid grid-cols-6 2xl:grid-cols-8 px-10 2xl:px-32 pt-8 2xl:pt-10 pb-4 2xl:text-xl">
-						<div className="col-span-2 grid grid-cols-2 2xl:grid-cols-2 2xl:col-span-3 text-[#8E8E8E]">
+					<div className="mplus text-base font-medium 2xl:font-medium grid grid-cols-party 2xl:space-x-2 px-10 2xl:px-32 pt-8 2xl:pt-10 pb-4 2xl:text-lg">
+						<div className="col-span-1 grid grid-cols-2 text-[#8E8E8E]">
 							<div className="col-span-1" />
 							<div className="flex 2xl:px-6 px-4 col-span-1">
-								<span>Nome</span>
+								<span className="2xl:text-lg">Nome</span>
 							</div>
 						</div>
 						<div className="px-4 2xl:px-3">
-							<span className="text-[#8E8E8E]">Número</span>
+							<span className="text-[#8E8E8E] 2xl:text-lg">Número</span>
 						</div>
 						<div className="">
-							<span className="text-[#8E8E8E]">Turma</span>
+							<span className="text-[#8E8E8E] 2xl:text-lg">Turma</span>
 						</div>
-						<div className="col-span-2 2xl:col-span-3 flex items-center justify-between px-6">
-							<span className="text-[#8E8E8E]">Descrição</span>
+						<div className="col-span-1  flex items-center justify-between px-6">
+							<span className="text-[#8E8E8E] 2xl:text-lg">Descrição</span>
 							<Link href="/admin/create/candidate">
 								<CirclePlus className="h-[25px] w-[25px] 2xl:h-[32px] 2xl:w-[32px]" />
 							</Link>
@@ -172,9 +172,9 @@ const Candidates = () => {
 						<>
 							{candidates?.map((item) => (
 								<div key={item.id} className="py-4">
-									<div className="grid grid-cols-6 2xl:grid-cols-8 px-10 2xl:px-32 h-[75px] 2xl:h-[80px] items-center 2xl:text-xl">
-										<div className="col-span-2 2xl:col-span-3 grid grid-cols-3 items-center">
-											<div className="flex justify-end items-center">
+									<div className="mplus 2xl:font-medium 2xl:text-lg grid grid-cols-party px-10 2xl:px-32 h-[75px] 2xl:h-[80px] items-center">
+										<div className="grid grid-cols-nameparty">
+											<div className="flex items-center justify-end px-4">
 												<div className="w-14 2xl:w-16 2xl:h-16 h-14 relative">
 													<Image
 														className="object-cover rounded-xl select-none"
@@ -184,23 +184,18 @@ const Candidates = () => {
 													/>
 												</div>
 											</div>
-											<div className="flex px-28 col-span-2 2xl:pr-2">
-												<LimitedParagraph
-													text={item.name}
-													characterLimit={19}
-												/>
+											<div className="flex items-center px-8 2xl:px-10">
+												<span className="truncate">{item.name}</span>
 											</div>
 										</div>
-										<div className="px-4 col-span-1">
+										<div className="px-5 2xl:px-7">
 											<span className="">{item.cod}</span>
 										</div>
-										<div className="2xl:px-1">
-											<span className=" col-span-1">
-												{item.PoliticalParty.class}
-											</span>
+										<div className="px-2 2xl:px-4">
+											<span className="">{item.PoliticalParty.class}</span>
 										</div>
-										<div className="col-span-2 grid grid-cols-2 2xl:col-span-3 px-6">
-											<div className="flex items-center">
+										<div className="grid grid-cols-3">
+											<div className="col-span-2 flex items-center px-7 2xl:px-9">
 												<span className="truncate">{item.description}</span>
 											</div>
 											<div className="flex justify-end">

@@ -14,12 +14,15 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 import cloudBottomMid from "@/img/cloud-bottom-mid.svg";
 import cloudBottomRight from "@/img/cloud-bottom-right.svg";
 import cloudTopRight from "@/img/cloud-top-right.svg";
 import iconBack from "@/img/icon-back.svg";
 import logo from "@/img/logo-name.svg";
 import { createGovernment } from "@/requests/government/create";
+import { AuthStore } from "@/store/auth";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
@@ -30,13 +33,19 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 const schema = z.object({
-	name: z.string(),
-	cod: z.number().min(3),
+	name: z.string().min(3, "*Informe um nome de sistema válido."),
+	cod: z
+		.number({ message: "*O campo deve ser um número." })
+		.min(2, "*O campo deve conter 2 digitos."),
+	description: z
+		.string({ message: "*Este campo ainda não foi preenchido." })
+		.min(3, "*A sua descrição é muito curta."),
 });
 
 type formProps = z.infer<typeof schema>;
 
 const pageCreateGovernment = () => {
+	const [parent] = useAutoAnimate();
 	const [valueInput, setValueInput] = useState("");
 
 	const {
@@ -56,11 +65,13 @@ const pageCreateGovernment = () => {
 	});
 
 	const handleForm = async (data: formProps) => {
+		// console.log(data);
 		const inviteForm = async () => {
 			try {
 				await mutateAsync({
 					name: data.name,
 					cod: data.cod,
+					description: data.description,
 				});
 			} catch (error) {
 				console.log(error);
@@ -129,36 +140,40 @@ const pageCreateGovernment = () => {
 					</CardHeader>
 					<CardContent>
 						<form
-							className="space-y-2 2xl:space-y-4"
+							className="space-y-2 2xl:space-y-4 mplus"
 							onSubmit={handleSubmit(handleForm)}
 						>
-							<div className="space-y-1.5">
+							<div className="space-y-2.5" ref={parent}>
 								<Label
-									className="text-lg 2xl:text-xl font-normal text-muted-foreground"
+									className="text-base 2xl:text-lg font-normal text-muted-foreground"
 									htmlFor="name"
 								>
 									Nome
 								</Label>
 								<Input
-									className="2xl:h-[48px] h-[40px] 2xl:text-xl border-black focus:border-primary"
+									className="2xl:h-[48px] h-[40px] 2xl:text-xl border-black focus:border-primary 2xl:placeholder:text-lg"
 									id="name"
 									type="text"
+									placeholder="Digite o nome do sistema de governo..."
 									{...register("name")}
-									required
 								/>
+								{errors.name && (
+									<p className="text-red-500 text-sm">{errors.name.message}</p>
+								)}
 							</div>
 
-							<div className="space-y-1.5">
+							<div className="space-y-1.5" ref={parent}>
 								<Label
-									className="text-lg 2xl:text-xl font-normal text-muted-foreground"
+									className="text-base 2xl:text-lg font-normal text-muted-foreground"
 									htmlFor="cod"
 								>
 									Código
 								</Label>
 								<Input
-									className="2xl:h-[48px] h-[40px] 2xl:text-xl border-black focus:border-primary"
+									className="2xl:h-[48px] h-[40px] 2xl:text-xl border-black focus:border-primary 2xl:placeholder:text-lg"
 									id="cod"
 									type="number"
+									placeholder="Digite o código do sistema de governo..."
 									value={valueInput}
 									{...register("cod", { valueAsNumber: true })}
 									onChange={(e) => {
@@ -168,48 +183,31 @@ const pageCreateGovernment = () => {
 											setValueInput(newValue);
 										}
 									}}
-									required
 								/>
+								{errors.cod && (
+									<p className="text-red-500 text-sm">{errors.cod.message}</p>
+								)}
 							</div>
 
-							{/* <div className="space-y-1.5">
+							<div className="space-y-1.5" ref={parent}>
 								<Label
-									className="text-lg 2xl:text-xl font-normal text-muted-foreground"
-									htmlFor="select1"
+									className="text-base font-normal 2xl:text-lg text-muted-foreground"
+									htmlFor="description"
 								>
-									Turma
+									Descrição
 								</Label>
-								<Select
-									onValueChange={(value) => {
-										setValue("class", value);
-										setSelectValue(value);
-									}}
-									value={selectValue}
-									{...register("class")}
-									required
-								>
-									<SelectTrigger
-										className="h-[40px] 2xl:h-[48px] 2xl:text-xl border-black focus:border-primary text-base text-muted-foreground"
-										id="select1"
-									>
-										<SelectValue placeholder="Selecione uma Turma" />
-									</SelectTrigger>
-									<SelectContent>
-										<SelectGroup className="h-28 text-sm 2xl:h-32">
-											<SelectLabel className="2xl:text-xl">Turmas</SelectLabel>
-											<SelectItem className="2xl:text-lg" value="Absolutista">
-												Monarquia Absolutista
-											</SelectItem>
-                      <SelectItem className="2xl:text-lg" value="Constitucional">
-												Monarquia Constitucional
-											</SelectItem>
-                      <SelectItem className="2xl:text-lg" value="República">
-												República
-											</SelectItem>
-										</SelectGroup>
-									</SelectContent>
-								</Select>
-							</div> */}
+								<Textarea
+									id="description"
+									{...register("description")}
+									placeholder="Digite a descrição do candidato..."
+									className="border-black 2xl:text-xl 2xl:h-24 focus:border-primary resize-none text-base font-base 2xl:placeholder:text-lg"
+								/>
+								{errors.description && (
+									<p className="text-red-500 text-sm">
+										{errors.description.message}
+									</p>
+								)}
+							</div>
 							<div className="flex justify-center 2xl:py-8 py-4">
 								<Button className="w-full 2xl:h-[48px] h-[42px] rounded-2xl text-lg font-bold bg-primary">
 									Entrar
