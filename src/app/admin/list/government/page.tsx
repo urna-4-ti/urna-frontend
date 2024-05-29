@@ -146,7 +146,7 @@ const pageListGovernment = () => {
 						</div>
 					</div>
 					{/* MAIN */}
-					<div className="grid grid-cols-party px-16 2xl:px-32 pt-8 2xl:pt-10 pb-4 2xl:text-xl">
+					<div className="grid grid-cols-party px-16 2xl:px-32 pt-8 2xl:pt-10 pb-4 2xl:text-xl mplus font-semibold">
 						<div className="grid grid-cols-nameparty text-[#8E8E8E]">
 							<div />
 							<div className="2xl:px-6 px-10">
@@ -156,12 +156,12 @@ const pageListGovernment = () => {
 						<div className="flex justify-center">
 							<span className="text-[#8E8E8E] pl-6">Código</span>
 						</div>
-						<div className="flex justify-center">
+						<div className="2xl:px-10">
 							<span className="text-[#8E8E8E] pl-4">Descrição</span>
 						</div>
 						<div className="flex justify-end px-6">
 							<div className="flex items-center justify-end">
-								<Link href="/admin/create/voter">
+								<Link href="/admin/create/government">
 									<CirclePlus className="h-[25px] w-[25px] 2xl:h-[32px] 2xl:w-[32px]" />
 								</Link>
 							</div>
@@ -169,21 +169,25 @@ const pageListGovernment = () => {
 					</div>
 					{government?.map((item) => (
 						<div key={item.id} className="py-4">
-							<div className="grid grid-cols-party px-20 2xl:px-32 h-[75px] 2xl:h-[80px] items-center 2xl:text-xl">
+							<div className="grid grid-cols-party px-20 2xl:px-32 h-[75px] 2xl:h-[80px] items-center 2xl:text-xl mplus">
 								<div className="grid grid-cols-nameparty items-center">
 									<div className="flex justify-center" />
 
 									<div className="flex px-6">
-										<span className="truncate font-normal text-[#121212]">
+										<span className="truncate 2xl:font-medium text-lg">
 											{item.name}
 										</span>
 									</div>
 								</div>
 								<div className="flex justify-center">
-									<span className="pr-8 2xl:pr-2">{item.cod}</span>
+									<span className="pr-8 2xl:pr-2 2xl:font-medium text-lg">
+										{item.cod}
+									</span>
 								</div>
-								<div className="flex justify-center 2xl:pl-2">
-									{/* <span className="truncate">{item.class}</span> */}
+								<div className="2xl:px-14">
+									<span className="truncate 2xl:font-medium text-lg">
+										{item.description}
+									</span>
 								</div>
 								<div className="flex justify-end">
 									<div className="flex justify-end items-center">
@@ -252,8 +256,8 @@ const pageListGovernment = () => {
 							Você realmente tem certeza disso?
 						</AlertDialogTitle>
 						<AlertDialogDescription>
-							Você está prestes a remover um Eleitor. Deseja realmente
-							continuar?
+							Você está prestes a remover um sistema de governo. Deseja
+							realmente continuar?
 						</AlertDialogDescription>
 					</AlertDialogHeader>
 					<AlertDialogFooter>

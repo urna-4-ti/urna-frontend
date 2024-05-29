@@ -13,6 +13,7 @@ import cloudBottom from "@/img/cloud-bottom-left.svg";
 import cloudTop from "@/img/cloud-top-left.svg";
 import logo from "@/img/logo-name.svg";
 import { AuthStore } from "@/store/auth";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -22,12 +23,13 @@ import { z } from "zod";
 
 const schema = z.object({
 	email: z.string().email("*O campo deve ser um email"),
-	password: z.string().min(6, "*Senha inválida."),
+	password: z.string().min(6, "*Informe uma senha válida."),
 });
 
 type formProps = z.infer<typeof schema>;
 
 const Login = () => {
+	const [parent] = useAutoAnimate();
 	const {
 		handleSubmit,
 		register,
@@ -93,7 +95,7 @@ const Login = () => {
 					</CardHeader>
 					<CardContent>
 						<form className="space-y-6" onSubmit={handleSubmit(handleForm)}>
-							<div className="space-y-1.5">
+							<div className="space-y-1.5" ref={parent}>
 								<Label
 									className="text-lg font-normal text-muted-foreground"
 									htmlFor="email"
@@ -106,8 +108,11 @@ const Login = () => {
 									type="email"
 									{...register("email")}
 								/>
+								{errors.email && (
+									<p className="text-red-500">{errors.email.message}</p>
+								)}
 							</div>
-							<div className="space-y-1.5">
+							<div className="space-y-1.5" ref={parent}>
 								<Label
 									className="text-lg font-normal text-muted-foreground"
 									htmlFor="pass"
@@ -120,6 +125,9 @@ const Login = () => {
 									type="password"
 									{...register("password")}
 								/>
+								{errors.password && (
+									<p className="text-red-500">{errors.password.message}</p>
+								)}
 							</div>
 
 							<div className="flex justify-center 2xl:py-14 py-10">

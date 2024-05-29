@@ -22,6 +22,7 @@ import logo from "@/img/logo-name.svg";
 import { classes } from "@/lib/Classes";
 import { getGovernmentForm } from "@/requests/government/findAll";
 import { createPoliticalParty } from "@/requests/politicalPart/create";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import Image from "next/image";
@@ -33,17 +34,27 @@ import { z } from "zod";
 
 const schema = z.object({
 	name: z
-		.string()
+		.string({ message: "*Este campo ainda não foi preenchido." })
 		.min(3, "*O nome de partido deve conter pelo menos 3 caracteres."),
-	description: z.string(),
-	class: z.string(),
-	politicalTypeId: z.string(),
-	photo: z.any(),
+	class: z
+		.string({ message: "*Este campo ainda não foi preenchido." })
+		.refine((value) => value.length > 0, {
+			message: "*Este campo ainda não foi preenchido.",
+		}),
+	politicalTypeId: z
+		.string({
+			message: "*Este campo ainda não foi preenchido.",
+		})
+		.refine((item) => item.length > 0, {
+			message: "*Este campo ainda não foi preenchido.",
+		}),
+	photo: z.any().optional(),
 });
 
 type formProps = z.infer<typeof schema>;
 
 const pageCreatePoliticalParty = () => {
+	const [parent] = useAutoAnimate();
 	const router = useRouter();
 	const [selectValue, setSelectValue] = useState("");
 	const [selectTypeValue, setSelectTypeValue] = useState("");
@@ -59,10 +70,6 @@ const pageCreatePoliticalParty = () => {
 		reValidateMode: "onChange",
 		resolver: zodResolver(schema),
 		defaultValues: {
-			name: "",
-			description: "",
-			class: "",
-			politicalTypeId: "",
 			photo: [],
 		},
 	});
@@ -80,7 +87,7 @@ const pageCreatePoliticalParty = () => {
 		mutationFn: createPoliticalParty,
 	});
 
-	const handleForm = async (data: formProps) => {
+	const handleForm = (data: formProps) => {
 		const inviteForm = async () => {
 			try {
 				await mutateAsync({
@@ -154,28 +161,31 @@ const pageCreatePoliticalParty = () => {
 					</CardHeader>
 					<CardContent>
 						<form
-							className="space-y-2 2xl:space-y-4"
+							className="space-y-2 2xl:space-y-4 mplus"
 							onSubmit={handleSubmit(handleForm)}
 						>
-							<div className="space-y-1">
+							<div className="space-y-2.5" ref={parent}>
 								<Label
-									className="text-lg 2xl:text-xl font-normal text-muted-foreground"
+									className="text-base 2xl:text-lg font-normal text-muted-foreground"
 									htmlFor="name"
 								>
 									Nome
 								</Label>
 								<Input
-									className="2xl:h-[48px] h-[40px] 2xl:text-xl border-black focus:border-primary"
+									className="2xl:h-[48px] h-[40px] 2xl:text-xl border-black focus:border-primary 2xl:placeholder:text-lg"
+									placeholder="Digite..."
 									id="name"
 									type="text"
 									{...register("name")}
-									required
 								/>
+								{errors.name && (
+									<p className="text-red-500 text-sm">{errors.name.message}</p>
+								)}
 							</div>
 
-							<div className="space-y-1.5">
+							<div className="space-y-2.5" ref={parent}>
 								<Label
-									className="text-lg 2xl:text-xl font-normal text-muted-foreground"
+									className="text-base 2xl:text-lg font-normal text-muted-foreground"
 									htmlFor="select1"
 								>
 									Turma
@@ -187,13 +197,15 @@ const pageCreatePoliticalParty = () => {
 									}}
 									value={selectValue}
 									{...register("class")}
-									required
 								>
 									<SelectTrigger
 										className="h-[40px] 2xl:h-[48px] 2xl:text-xl border-black focus:border-primary text-base text-muted-foreground"
 										id="select1"
 									>
-										<SelectValue placeholder="Selecione uma Turma" />
+										<SelectValue
+											className="2xl:placeholder:text-lg"
+											placeholder="Selecione uma Turma"
+										/>
 									</SelectTrigger>
 									<SelectContent>
 										<SelectGroup className="h-28 text-sm 2xl:h-32">
@@ -210,11 +222,14 @@ const pageCreatePoliticalParty = () => {
 										</SelectGroup>
 									</SelectContent>
 								</Select>
+								{errors.class && (
+									<p className="text-red-500 text-sm">{errors.class.message}</p>
+								)}
 							</div>
 
-							<div className="space-y-1.5">
+							<div className="space-y-2.5" ref={parent}>
 								<Label
-									className="text-lg 2xl:text-xl font-normal text-muted-foreground"
+									className="text-base 2xl:text-lg font-normal text-muted-foreground"
 									htmlFor="select1"
 								>
 									Forma de Governo
@@ -226,13 +241,15 @@ const pageCreatePoliticalParty = () => {
 									}}
 									value={selectTypeValue}
 									{...register("politicalTypeId")}
-									required
 								>
 									<SelectTrigger
 										className="h-[40px] 2xl:h-[48px] 2xl:text-xl border-black focus:border-primary text-base text-muted-foreground"
 										id="select1"
 									>
-										<SelectValue placeholder="Selecione uma Forma de Governo" />
+										<SelectValue
+											className="2xl:placeholder:text-lg"
+											placeholder="Selecione uma Forma de Governo"
+										/>
 									</SelectTrigger>
 									<SelectContent>
 										<SelectGroup className="h-28 text-sm 2xl:h-32">
@@ -251,6 +268,11 @@ const pageCreatePoliticalParty = () => {
 										</SelectGroup>
 									</SelectContent>
 								</Select>
+								{errors.politicalTypeId && (
+									<p className="text-red-500 text-sm">
+										{errors.politicalTypeId.message}
+									</p>
+								)}
 							</div>
 							<div className="absolute bottom-20 right-[590px] 2xl:right-[800px] rounded-xl">
 								<Label className=" w-[220px] h-[220px] 2xl:w-[280px] 2xl:h-[280px] bg-[#D9D9D9] cursor-pointer flex items-center justify-center rounded-xl">
@@ -279,6 +301,7 @@ const pageCreatePoliticalParty = () => {
 												type="file"
 												accept="image/*"
 												{...register("photo")}
+												required
 											/>
 											<div className="w-full h-full flex justify-center items-center">
 												<Image src={input} alt="Imagem input" />

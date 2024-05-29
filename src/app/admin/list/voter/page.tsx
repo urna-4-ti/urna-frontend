@@ -146,7 +146,7 @@ const pageListVoter = () => {
 						</div>
 					</div>
 					{/* MAIN */}
-					<div className="grid grid-cols-party px-16 2xl:px-32 pt-8 2xl:pt-10 pb-4 2xl:text-xl">
+					<div className="mplus 2xl:space-x-2 font-medium 2xl:text-lg grid grid-cols-party px-16 2xl:px-32 pt-8 2xl:pt-10 pb-4">
 						<div className="grid grid-cols-nameparty text-[#8E8E8E]">
 							<div />
 							<div className="2xl:px-6 px-10">
@@ -172,25 +172,23 @@ const pageListVoter = () => {
 					</div>
 					{voters?.map((item) => (
 						<div key={item.id} className="py-4">
-							<div className="grid grid-cols-party px-20 2xl:px-32 h-[75px] 2xl:h-[80px] items-center 2xl:text-xl">
+							<div className="mplus 2xl:space-x-2 2xl:text-lg 2xl:font-medium grid grid-cols-party px-20 2xl:px-32 h-[75px] 2xl:h-[80px] items-center">
 								<div className="grid grid-cols-nameparty items-center">
 									<div className="flex justify-center" />
 
-									<div className="flex px-6">
-										<span className="truncate font-normal text-[#121212]">
-											{item.name}
-										</span>
+									<div className="px-6 2xl:px-7">
+										<span className="truncate text-[#121212]">{item.name}</span>
 									</div>
 								</div>
-								<div className="flex justify-center">
+								<div className="px-11 2xl:px-14">
 									<span className="">{item.enrollment}</span>
 								</div>
-								<div className="flex justify-center 2xl:pl-2">
+								<div className="px-16 2xl:px-[4.55rem]">
 									<span className="truncate">{item.class}</span>
 								</div>
 								<div className="grid grid-cols-2">
-									<div>
-										<span className="truncate pl-4">{item.email}</span>
+									<div className="px-5 2xl:px-9">
+										<span className="truncate">{item.email}</span>
 									</div>
 									<div className="flex justify-end items-center">
 										<DropdownMenu>
