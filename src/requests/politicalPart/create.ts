@@ -1,4 +1,4 @@
-import { api } from "../api";
+import { api, axiosConfig } from "../api";
 
 type politicalPartyProps = {
 	name: string;
@@ -23,9 +23,5 @@ export async function createPoliticalParty({
 	formdata.append("politicalTypeId", politicalTypeId);
 	formdata.append("photo", photo[0]);
 
-	await api.post("/political", formdata, {
-		headers: {
-			"Content-Type": "multipart/form-data",
-		},
-	});
+	await api.post("/political", formdata, axiosConfig);
 }

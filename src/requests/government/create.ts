@@ -1,4 +1,4 @@
-import { api } from "../api";
+import { api, axiosConfig } from "../api";
 
 type governmentProps = {
 	cod: number;
@@ -13,9 +13,5 @@ export async function createGovernment({ cod, name }: governmentProps) {
 
 	console.log(formdata);
 
-	await api.post("/government/form", formdata, {
-		headers: {
-			"Content-Type": "multipart/form-data",
-		},
-	});
+	await api.post("/government/form", formdata, axiosConfig);
 }

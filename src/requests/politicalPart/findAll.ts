@@ -17,15 +17,3 @@ export async function getPoliticalParty(
 	const data = (await api.get(`/political/${partyClass}`)).data.politicalPartys;
 	return data;
 }
-
-export async function getPoliticalPartyId(
-	id: string,
-): Promise<politicalPartyProps> {
-	const data = (await api.get(`/political/unique/${id}`)).data.politicalPartys;
-	return data;
-}
-
-export async function getAllPoliticalParty(): Promise<politicalPartyProps[]> {
-	const data = (await api.get("/political")).data.data;
-	return data;
-}

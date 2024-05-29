@@ -1,4 +1,4 @@
-import { api } from "../api";
+import { api, axiosConfig } from "../api";
 
 type voterProps = {
 	name: string;
@@ -16,9 +16,5 @@ export async function createVoter(props: voterProps) {
 		formdata.append(key, value);
 	}
 
-	await api.post("/voter", formdata, {
-		headers: {
-			"Content-Type": "multipart/form-data",
-		},
-	});
+	await api.post("/voter", formdata, axiosConfig);
 }

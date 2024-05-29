@@ -30,6 +30,7 @@ import cloudTopRight from "@/img/cloud-top-right.svg";
 import iconBack from "@/img/icon-back.svg";
 import logo from "@/img/logo-name.svg";
 import { classes } from "@/lib/Classes";
+import { getFromLocalStorage } from "@/requests/api";
 import { createVoter } from "@/requests/voter/create";
 import { deleteVoter } from "@/requests/voter/delete";
 import { editVoter } from "@/requests/voter/edit";
@@ -64,8 +65,8 @@ const pageEditVoter = ({ params }: { params: { id: string } }) => {
 	const router = useRouter();
 
 	const { data: voter } = useQuery({
-		queryKey: ["get-voter", params.id],
-		queryFn: () => getVoterId(params.id),
+		queryKey: ["get-voter", params.id, token],
+		queryFn: () => getVoterId(params.id, token),
 	});
 
 	const { mutateAsync, isError } = useMutation({

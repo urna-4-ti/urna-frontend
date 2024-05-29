@@ -19,6 +19,7 @@ import cloudBottomRight from "@/img/cloud-bottom-right.svg";
 import cloudTopRight from "@/img/cloud-top-right.svg";
 import iconBack from "@/img/icon-back.svg";
 import logo from "@/img/logo-name.svg";
+import { getFromLocalStorage } from "@/requests/api";
 import { deleteGovernment } from "@/requests/government/delete";
 import { editGovernment } from "@/requests/government/edit";
 import { getGovernmentFormId } from "@/requests/government/findAll";
@@ -60,10 +61,19 @@ const pageEditGovernment = ({ params }: { params: { id: string } }) => {
 		mutationKey: ["edit-government"],
 		mutationFn: editGovernment,
 	});
+	const storage = JSON.parse(getFromLocalStorage() as string);
+	const token = storage?.state?.state?.user?.token;
+	console.log(token);
+	console.log(storage);
+
+	if (!token) {
+		console.error("Authorization token not found in local storage");
+		return null;
+	}
 
 	const { data: government } = useQuery({
 		queryKey: ["get-government", params.id],
-		queryFn: () => getGovernmentFormId(params.id),
+		queryFn: () => getGovernmentFormId(params.id, token),
 	});
 
 	const { mutateAsync: governmentDelete } = useMutation({
