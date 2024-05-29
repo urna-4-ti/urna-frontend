@@ -20,6 +20,7 @@ import iconBack from "@/img/icon-back.svg";
 import logo from "@/img/logo-name.svg";
 import { classes } from "@/lib/Classes";
 import { createVoter } from "@/requests/voter/create";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
@@ -31,18 +32,27 @@ import { z } from "zod";
 
 const schema = z.object({
 	name: z
-		.string()
+		.string({ message: "*Este campo ainda não foi preenchido." })
 		.min(3, "*O nome de usuário deve conter pelo menos 3 caracteres."),
-	enrollment: z.string().refine((value) => value.length === 10, {
-		message: "*Matrícula inválida.",
-	}),
-	email: z.string().email("*O campo deve ser um email válido."),
-	class: z.string(),
+	enrollment: z
+		.string({ message: "*Este campo ainda não foi preenchido." })
+		.refine((value) => value.length === 10, {
+			message: "*Matrícula inválida.",
+		}),
+	email: z
+		.string({ message: "*Este campo ainda não foi preenchido." })
+		.email("*O campo deve ser um email válido."),
+	class: z
+		.string({ message: "*Este campo ainda não foi preenchido." })
+		.refine((value) => value.length > 0, {
+			message: "*Este campo ainda não foi preenchido.",
+		}),
 });
 
 type formProps = z.infer<typeof schema>;
 
 const pageCreateVoter = () => {
+	const [parent] = useAutoAnimate();
 	const [valueInput, setValueInput] = useState("");
 	const router = useRouter();
 	const [selectValue, setSelectValue] = useState("");
@@ -145,50 +155,54 @@ const pageCreateVoter = () => {
 					</CardHeader>
 					<CardContent>
 						<form
-							className="space-y-2 2xl:space-y-4"
+							className="space-y-2 2xl:space-y-4 mplus"
 							onSubmit={handleSubmit(handleForm)}
 						>
-							<div className="space-y-1.5">
+							<div className="space-y-2.5" ref={parent}>
 								<Label
-									className="text-lg 2xl:text-xl font-normal text-muted-foreground"
+									className="text-base 2xl:text-lg font-normal text-muted-foreground"
 									htmlFor="name"
 								>
 									Nome
 								</Label>
 								<Input
-									className="2xl:h-[48px] h-[40px] 2xl:text-xl border-black focus:border-primary"
+									className="2xl:h-[48px] h-[40px] 2xl:text-xl border-black focus:border-primary 2xl:placeholder:text-lg"
 									id="name"
 									type="text"
 									{...register("name")}
-									required
 								/>
+								{errors.name && (
+									<p className="text-red-500 text-sm">{errors.name.message}</p>
+								)}
 							</div>
 
-							<div className="space-y-1.5">
+							<div className="space-y-2.5" ref={parent}>
 								<Label
-									className="text-lg 2xl:text-xl font-normal text-muted-foreground"
+									className="text-base 2xl:text-lg font-normal text-muted-foreground"
 									htmlFor="email"
 								>
 									Email
 								</Label>
 								<Input
-									className="2xl:h-[48px] h-[40px] 2xl:text-xl border-black focus:border-primary"
+									className="2xl:h-[48px] h-[40px] 2xl:text-xl border-black focus:border-primary 2xl:placeholder:text-lg"
 									id="email"
 									type="email"
 									{...register("email")}
-									required
 								/>
+								{errors.email && (
+									<p className="text-red-500 text-sm">{errors.email.message}</p>
+								)}
 							</div>
 
-							<div className="space-y-1.5">
+							<div className="space-y-2.5" ref={parent}>
 								<Label
-									className="text-lg 2xl:text-xl font-normal text-muted-foreground"
+									className="text-base 2xl:text-lg font-normal text-muted-foreground"
 									htmlFor="enrollment"
 								>
 									Matrícula
 								</Label>
 								<Input
-									className="2xl:h-[48px] h-[40px] 2xl:text-xl border-black focus:border-primary"
+									className="2xl:h-[48px] h-[40px] 2xl:text-xl border-black focus:border-primary 2xl:placeholder:text-lg"
 									id="enrollment"
 									type="text"
 									value={valueInput}
@@ -200,13 +214,17 @@ const pageCreateVoter = () => {
 											setValueInput(newValue);
 										}
 									}}
-									required
 								/>
+								{errors.enrollment && (
+									<p className="text-red-500 text-sm">
+										{errors.enrollment.message}
+									</p>
+								)}
 							</div>
 
-							<div className="space-y-1.5">
+							<div className="space-y-2.5" ref={parent}>
 								<Label
-									className="text-lg 2xl:text-xl font-normal text-muted-foreground"
+									className="text-base 2xl:text-lg font-normal text-muted-foreground"
 									htmlFor="select1"
 								>
 									Turma
@@ -218,13 +236,15 @@ const pageCreateVoter = () => {
 									}}
 									value={selectValue}
 									{...register("class")}
-									required
 								>
 									<SelectTrigger
 										className="h-[40px] 2xl:h-[48px] 2xl:text-xl border-black focus:border-primary text-base text-muted-foreground"
 										id="select1"
 									>
-										<SelectValue placeholder="Selecione uma Turma" />
+										<SelectValue
+											className="2xl:placeholder:text-lg"
+											placeholder="Selecione uma Turma"
+										/>
 									</SelectTrigger>
 									<SelectContent>
 										<SelectGroup className="h-28 text-sm 2xl:h-32">
@@ -241,6 +261,9 @@ const pageCreateVoter = () => {
 										</SelectGroup>
 									</SelectContent>
 								</Select>
+								{errors.class && (
+									<p className="text-red-500 text-sm">{errors.class.message}</p>
+								)}
 							</div>
 							<div className="flex justify-center 2xl:py-8 py-4">
 								<Button className="w-full 2xl:h-[48px] h-[42px] rounded-2xl text-lg font-bold bg-primary">

@@ -8,3 +8,7 @@ export type userDataType = {
 	email: string;
 	name: string;
 };
+
+export type tokenDataType = {
+	cookie: string;
+};
