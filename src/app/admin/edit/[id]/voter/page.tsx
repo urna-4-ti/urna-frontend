@@ -211,12 +211,12 @@ const pageEditVoter = ({ params }: { params: { id: string } }) => {
 						</CardHeader>
 						<CardContent>
 							<form
-								className="space-y-2 2xl:space-y-4"
+								className="space-y-2 2xl:space-y-4 mplus"
 								onSubmit={handleSubmit(handleForm)}
 							>
 								<div className="space-y-1.5">
 									<Label
-										className="text-lg 2xl:text-xl font-normal text-muted-foreground"
+										className="text-base 2xl:text-lg font-normal text-muted-foreground"
 										htmlFor="name"
 									>
 										Nome
@@ -233,7 +233,7 @@ const pageEditVoter = ({ params }: { params: { id: string } }) => {
 
 								<div className="space-y-1.5">
 									<Label
-										className="text-lg 2xl:text-xl font-normal text-muted-foreground"
+										className="text-base 2xl:text-lg font-normal text-muted-foreground"
 										htmlFor="email"
 									>
 										Email
@@ -250,7 +250,7 @@ const pageEditVoter = ({ params }: { params: { id: string } }) => {
 
 								<div className="space-y-1.5">
 									<Label
-										className="text-lg 2xl:text-xl font-normal text-muted-foreground"
+										className="text-base 2xl:text-lg font-normal text-muted-foreground"
 										htmlFor="enrollment"
 									>
 										Matrícula
@@ -274,7 +274,7 @@ const pageEditVoter = ({ params }: { params: { id: string } }) => {
 
 								<div className="space-y-1.5">
 									<Label
-										className="text-lg 2xl:text-xl font-normal text-muted-foreground"
+										className="text-base 2xl:text-lg font-normal text-muted-foreground"
 										htmlFor="select1"
 									>
 										Turma

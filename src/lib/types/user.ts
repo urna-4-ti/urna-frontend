@@ -9,3 +9,7 @@ export type userDataType = {
 	name: string;
 	token: string;
 };
+
+export type tokenDataType = {
+	cookie: string;
+};

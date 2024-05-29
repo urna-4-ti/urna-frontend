@@ -23,6 +23,8 @@ import logo from "@/img/logo-name.svg";
 import { classes } from "@/lib/Classes";
 import { createCandidate } from "@/requests/candidate/create";
 import { getPoliticalParty } from "@/requests/politicalPart/findAll";
+import { AuthStore } from "@/store/auth";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import Image from "next/image";
@@ -33,19 +35,34 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 const schema = z.object({
-	codNum: z.number(),
+	codNum: z.number({ message: "*Este campo ainda não foi preenchido." }),
 	name: z
-		.string()
+		.string({ message: "*Este campo ainda não foi preenchido." })
 		.min(3, "*O nome de usuário deve conter pelo menos 3 caracteres."),
-	photo: z.any(),
-	politicalPartyId: z.string(),
-	description: z.string().min(3, "*A sua descrição é muito curta."),
-	classParty: z.string(),
+	photo: z.any().optional(),
+	politicalPartyId: z
+		.string({
+			message: "*Este campo ainda não foi preenchido.",
+		})
+		.refine((value) => value.length > 0, {
+			message: "*Este campo ainda não foi preenchido.",
+		}),
+	description: z
+		.string({ message: "*Este campo ainda não foi preenchido." })
+		.min(3, "*A sua descrição é muito curta."),
+	classParty: z
+		.string({
+			message: "*Este campo ainda não foi preenchido.",
+		})
+		.refine((value) => value.length > 0, {
+			message: "*Este campo ainda não foi preenchido.",
+		}),
 });
 
 type formProps = z.infer<typeof schema>;
 
 const addCandidate = () => {
+	const [parent] = useAutoAnimate();
 	const [selectValue, setSelectValue] = useState("");
 	const [valueInput, setValueInput] = useState("");
 	const [selectClassValue, setSelectClassValue] = useState("");
@@ -73,7 +90,7 @@ const addCandidate = () => {
 	const { data: politicalParty, refetch } = useQuery({
 		queryKey: ["get-politicalParty", selectValue],
 		queryFn: () => getPoliticalParty(selectValue),
-		// enabled: false,
+		enabled: !!selectValue,
 	});
 
 	const { mutateAsync, isError } = useMutation({
@@ -116,6 +133,7 @@ const addCandidate = () => {
 			},
 		});
 	};
+
 	return (
 		<main className="grid grid-cols-3 mx-auto min-h-screen">
 			<div className="bg-primary py-16 p-16">
@@ -160,12 +178,12 @@ const addCandidate = () => {
 					</CardHeader>
 					<CardContent>
 						<form
-							className="space-y-2 2xl:space-y-4"
+							className="space-y-2 2xl:space-y-4 mplus"
 							onSubmit={handleSubmit(handleForm)}
 						>
-							<div className="space-y-1">
+							<div className="space-y-1" ref={parent}>
 								<Label
-									className="text-lg 2xl:text-xl font-normal text-muted-foreground"
+									className="text-base 2xl:text-lg font-normal text-muted-foreground"
 									htmlFor="name"
 								>
 									Nome
@@ -175,11 +193,15 @@ const addCandidate = () => {
 									id="name"
 									type="text"
 									{...register("name")}
+									placeholder="Digite..."
 								/>
+								{errors.name && (
+									<p className="text-red-500 text-sm">{errors.name.message}</p>
+								)}
 							</div>
-							<div className="space-y-1.5">
+							<div className="space-y-1.5" ref={parent}>
 								<Label
-									className="text-lg 2xl:text-xl font-normal text-muted-foreground"
+									className="text-base 2xl:text-lg font-normal text-muted-foreground"
 									htmlFor="number"
 								>
 									Número
@@ -188,6 +210,7 @@ const addCandidate = () => {
 									className="2xl:h-[48px] 2xl:text-xl h-[40px] border-black focus:border-primary"
 									id="number"
 									type="number"
+									placeholder="Digite um número..."
 									value={valueInput}
 									{...register("codNum", {
 										valueAsNumber: true,
@@ -199,12 +222,16 @@ const addCandidate = () => {
 											setValueInput(newValue);
 										}
 									}}
-									required
 								/>
+								{errors.codNum && (
+									<p className="text-red-500 text-sm">
+										{errors.codNum.message}
+									</p>
+								)}
 							</div>
-							<div className="space-y-1.5">
+							<div className="space-y-1.5" ref={parent}>
 								<Label
-									className="text-lg 2xl:text-xl font-normal text-muted-foreground"
+									className="text-base 2xl:text-lg font-normal text-muted-foreground"
 									htmlFor="select1"
 								>
 									Turma
@@ -216,13 +243,15 @@ const addCandidate = () => {
 									}}
 									value={selectValue}
 									{...register("classParty")}
-									required
 								>
 									<SelectTrigger
 										className="h-[40px] 2xl:h-[48px] 2xl:text-xl border-black focus:border-primary text-base text-muted-foreground"
 										id="select1"
 									>
-										<SelectValue placeholder="Selecione uma Turma" />
+										<SelectValue
+											className="2xl:placeholder:text-lg"
+											placeholder="Selecione uma Turma"
+										/>
 									</SelectTrigger>
 									<SelectContent>
 										<SelectGroup className="h-28 text-sm 2xl:h-32">
@@ -239,10 +268,15 @@ const addCandidate = () => {
 										</SelectGroup>
 									</SelectContent>
 								</Select>
+								{errors.classParty && (
+									<p className="text-red-500 text-sm">
+										{errors.classParty.message}
+									</p>
+								)}
 							</div>
-							<div className="space-y-1.5">
+							<div className="space-y-1.5" ref={parent}>
 								<Label
-									className="text-lg 2xl:text-xl font-normal text-muted-foreground"
+									className="text-base 2xl:text-lg font-normal text-muted-foreground"
 									htmlFor="select2"
 								>
 									Partido
@@ -259,7 +293,10 @@ const addCandidate = () => {
 										className="h-[40px] 2xl:h-[48px] 2xl:text-xl border-black focus:border-primary text-base text-muted-foreground"
 										id="select2"
 									>
-										<SelectValue placeholder="Selecione um Partido" />
+										<SelectValue
+											className="2xl:placeholder:text-lg"
+											placeholder="Selecione um Partido"
+										/>
 									</SelectTrigger>
 									<SelectContent>
 										<SelectGroup className="h-28 text-sm 2xl:h-32">
@@ -278,10 +315,15 @@ const addCandidate = () => {
 										</SelectGroup>
 									</SelectContent>
 								</Select>
+								{errors.politicalPartyId && (
+									<p className="text-red-500 text-sm">
+										{errors.politicalPartyId.message}
+									</p>
+								)}
 							</div>
-							<div className="space-y-1.5">
+							<div className="space-y-1.5" ref={parent}>
 								<Label
-									className="text-lg font-normal 2xl:text-xl text-muted-foreground"
+									className="text-base 2xl:text-lg font-normal text-muted-foreground"
 									htmlFor="description"
 								>
 									Descrição
@@ -290,8 +332,13 @@ const addCandidate = () => {
 									id="description"
 									{...register("description")}
 									placeholder="Digite a descrição do candidato..."
-									className="border-black 2xl:text-xl 2xl:h-24 focus:border-primary resize-none text-base font-base"
+									className="border-black 2xl:text-xl 2xl:h-24 focus:border-primary resize-none text-base font-base 2xl:placeholder:text-lg"
 								/>
+								{errors.description && (
+									<p className="text-red-500 text-sm	">
+										{errors.description.message}
+									</p>
+								)}
 							</div>
 
 							<div className="absolute bottom-48 2xl:right-[810px] right-[580px]">

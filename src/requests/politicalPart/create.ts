@@ -16,8 +16,6 @@ export async function createPoliticalParty({
 }: politicalPartyProps) {
 	const formdata = new FormData();
 
-	console.log(photo);
-
 	formdata.append("name", name);
 	formdata.append("class", partyClass);
 	formdata.append("politicalTypeId", politicalTypeId);

@@ -28,6 +28,7 @@ const DashBoard = () => {
 		actions: { logout },
 		state: { user },
 	} = AuthStore();
+
 	return (
 		<>
 			<main className="grid grid-cols-10 mx-auto min-h-screen">

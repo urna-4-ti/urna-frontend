@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import cloudBottomMid from "@/img/cloud-bottom-mid.svg";
 import cloudBottomRight from "@/img/cloud-bottom-right.svg";
 import cloudTopRight from "@/img/cloud-top-right.svg";
@@ -36,6 +37,7 @@ import { z } from "zod";
 const schema = z.object({
 	name: z.string(),
 	cod: z.number().min(3),
+	description: z.string().min(3),
 });
 
 type formProps = z.infer<typeof schema>;
@@ -112,6 +114,7 @@ const pageEditGovernment = ({ params }: { params: { id: string } }) => {
 					id: params.id,
 					name: data.name,
 					cod: Number(data.cod),
+					description: data.description,
 				});
 			} catch (error) {
 				console.error(error);
@@ -123,6 +126,7 @@ const pageEditGovernment = ({ params }: { params: { id: string } }) => {
 			duration: 4000,
 
 			success: () => {
+				router.back();
 				return "Sistema de governo Editado";
 			},
 
@@ -190,12 +194,12 @@ const pageEditGovernment = ({ params }: { params: { id: string } }) => {
 						</CardHeader>
 						<CardContent>
 							<form
-								className="space-y-2 2xl:space-y-4"
+								className="space-y-2 2xl:space-y-4 mplus"
 								onSubmit={handleSubmit(handleForm)}
 							>
 								<div className="space-y-1.5">
 									<Label
-										className="text-lg 2xl:text-xl font-normal text-muted-foreground"
+										className="text-base 2xl:text-lg font-normal text-muted-foreground"
 										htmlFor="name"
 									>
 										Nome
@@ -212,7 +216,7 @@ const pageEditGovernment = ({ params }: { params: { id: string } }) => {
 
 								<div className="space-y-1.5">
 									<Label
-										className="text-lg 2xl:text-xl font-normal text-muted-foreground"
+										className="text-base 2xl:text-lg font-normal text-muted-foreground"
 										htmlFor="cod"
 									>
 										Código
@@ -233,45 +237,21 @@ const pageEditGovernment = ({ params }: { params: { id: string } }) => {
 										required
 									/>
 								</div>
-
-								{/* <div className="space-y-1.5">
-								<Label
-									className="text-lg 2xl:text-xl font-normal text-muted-foreground"
-									htmlFor="select1"
-								>
-									Turma
-								</Label>
-								<Select
-									onValueChange={(value) => {
-										setValue("class", value);
-										setSelectValue(value);
-									}}
-									value={selectValue}
-									{...register("class")}
-									required
-								>
-									<SelectTrigger
-										className="h-[40px] 2xl:h-[48px] 2xl:text-xl border-black focus:border-primary text-base text-muted-foreground"
-										id="select1"
+								<div className="space-y-1.5">
+									<Label
+										className="text-base font-normal 2xl:text-lg text-muted-foreground"
+										htmlFor="description"
 									>
-										<SelectValue placeholder="Selecione uma Turma" />
-									</SelectTrigger>
-									<SelectContent>
-										<SelectGroup className="h-28 text-sm 2xl:h-32">
-											<SelectLabel className="2xl:text-xl">Turmas</SelectLabel>
-											<SelectItem className="2xl:text-lg" value="Absolutista">
-												Monarquia Absolutista
-											</SelectItem>
-                      <SelectItem className="2xl:text-lg" value="Constitucional">
-												Monarquia Constitucional
-											</SelectItem>
-                      <SelectItem className="2xl:text-lg" value="República">
-												República
-											</SelectItem>
-										</SelectGroup>
-									</SelectContent>
-								</Select>
-							</div> */}
+										Descrição
+									</Label>
+									<Textarea
+										id="description"
+										defaultValue={government?.description}
+										{...register("description")}
+										placeholder="Digite a descrição do candidato..."
+										className="border-black 2xl:text-xl 2xl:h-24 focus:border-primary resize-none text-base font-base 2xl:placeholder:text-lg"
+									/>
+								</div>
 								<div className="flex justify-center 2xl:py-8 py-4">
 									<Button className="w-full 2xl:h-[48px] h-[42px] rounded-2xl text-lg font-bold bg-primary">
 										Entrar

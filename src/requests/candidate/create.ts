@@ -3,7 +3,7 @@ import { api, axiosConfig } from "../api";
 type candidateProps = {
 	cod: number;
 	name: string;
-	picPath: string;
+	picPath?: string;
 	politicalPartyId: string;
 	description: string;
 };
@@ -13,7 +13,6 @@ export async function createCandidate({
 	cod,
 	politicalPartyId,
 	description,
-
 	picPath,
 }: candidateProps) {
 	const formdata = new FormData();
@@ -24,7 +23,9 @@ export async function createCandidate({
 	formdata.append("cod", cod.toString());
 	formdata.append("politicalPartyId", politicalPartyId);
 	formdata.append("description", description);
-	formdata.append("photo", picPath[0]);
+	if (picPath) {
+		formdata.append("photo", picPath[0]);
+	}
 
 	await api.post("/candidate", formdata, axiosConfig);
 }

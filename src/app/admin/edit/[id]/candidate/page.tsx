@@ -227,12 +227,12 @@ const pageEditCandidate = ({ params }: { params: { id: string } }) => {
 						</CardHeader>
 						<CardContent>
 							<form
-								className="space-y-2 2xl:space-y-4"
+								className="space-y-2 2xl:space-y-4 mplus"
 								onSubmit={handleSubmit(handleForm)}
 							>
 								<div className="space-y-1">
 									<Label
-										className="text-lg 2xl:text-xl font-normal text-muted-foreground"
+										className="text-base 2xl:text-lg font-normal text-muted-foreground"
 										htmlFor="name"
 									>
 										Nome
@@ -247,7 +247,7 @@ const pageEditCandidate = ({ params }: { params: { id: string } }) => {
 								</div>
 								<div className="space-y-1.5">
 									<Label
-										className="text-lg 2xl:text-xl font-normal text-muted-foreground"
+										className="text-base 2xl:text-lg font-normal text-muted-foreground"
 										htmlFor="number"
 									>
 										Número
@@ -273,7 +273,7 @@ const pageEditCandidate = ({ params }: { params: { id: string } }) => {
 								</div>
 								<div className="space-y-1.5">
 									<Label
-										className="text-lg font-normal 2xl:text-xl text-muted-foreground"
+										className="text-base 2xl:text-lg font-normal text-muted-foreground"
 										htmlFor="description"
 									>
 										Descrição
@@ -316,12 +316,21 @@ const pageEditCandidate = ({ params }: { params: { id: string } }) => {
 													{...register("photo")}
 												/>
 												<div className="w-full h-full flex justify-center items-center">
-													<Image
-														src={`http://localhost:4000/public/${candidate?.picPath}`}
-														alt="Imagem input"
-														className="rounded-lg object-cover"
-														fill
-													/>
+													{candidate?.picPath ? (
+														<Image
+															src={`http://localhost:4000/public/${candidate.picPath}`}
+															alt="Imagem input"
+															className="rounded-lg object-cover"
+															fill
+														/>
+													) : (
+														<Image
+															src={input}
+															alt="Imagem input"
+															className="rounded-lg object-cover"
+															fill
+														/>
+													)}
 												</div>
 											</>
 										)}

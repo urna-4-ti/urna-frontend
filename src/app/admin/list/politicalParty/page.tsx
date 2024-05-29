@@ -147,7 +147,7 @@ const pageListPoliticalParty = () => {
 						</div>
 					</div>
 					{/* MAIN */}
-					<div className="grid grid-cols-party px-16 2xl:px-32 pt-8 2xl:pt-10 pb-4 2xl:text-xl">
+					<div className="mplus 2xl:text-lg font-medium grid 2xl:space-x-2 grid-cols-party px-16 2xl:px-32 pt-8 2xl:pt-10 pb-4">
 						<div className="grid grid-cols-nameparty text-[#8E8E8E]">
 							<div />
 							<div className="2xl:px-6 px-10">
@@ -161,14 +161,14 @@ const pageListPoliticalParty = () => {
 							<span className="text-[#8E8E8E] pl-4">Turma</span>
 						</div>
 						<div className=" flex items-center justify-end px-6">
-							<Link href="/admin/add/candidate">
+							<Link href="/admin/create/politicalParty">
 								<CirclePlus className="h-[25px] w-[25px] 2xl:h-[32px] 2xl:w-[32px]" />
 							</Link>
 						</div>
 					</div>
 					{politicalParty?.map((item) => (
 						<div key={item.id} className="py-4">
-							<div className="grid grid-cols-party px-20 2xl:px-32 h-[75px] 2xl:h-[80px] items-center 2xl:text-xl">
+							<div className="mplus 2xl:text-lg 2xl:font-medium grid grid-cols-party px-20 2xl:px-32 h-[75px] 2xl:h-[80px] items-center">
 								<div className="grid grid-cols-nameparty items-center">
 									<div className="flex justify-center">
 										<div className="w-14 2xl:w-16 2xl:h-16 h-14 relative">
@@ -181,15 +181,13 @@ const pageListPoliticalParty = () => {
 										</div>
 									</div>
 									<div className="flex px-6">
-										<span className="truncate font-normal text-[#121212]">
-											{item.name}
-										</span>
+										<span className="truncate text-[#121212]">{item.name}</span>
 									</div>
 								</div>
-								<div className="flex justify-center">
+								<div className="px-14">
 									<span className="2xl:pl-4">{item.politicalType.name}</span>
 								</div>
-								<div className="flex justify-center 2xl: pl-2">
+								<div className="px-16 2xl:px-20">
 									<span className="truncate">{item.class}</span>
 								</div>
 								<div className=" items-center">
