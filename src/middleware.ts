@@ -3,19 +3,12 @@ import type { NextRequest } from "next/server";
 
 // This function can be marked async if using await inside
 export async function middleware(request: NextRequest) {
-	if (await request.cookies.get("access_token")) {
-		console.log("cookie exists");
-
-		return NextResponse.next();
+	if (typeof window === "undefined") {
+		return null;
 	}
-	if (request.nextUrl.searchParams.get("access_token")) {
-		const queryParams = request.nextUrl.searchParams;
-		request.cookies.set(
-			"access_token",
-			queryParams.get("access_token") as string,
-		);
-		request.nextUrl.searchParams.delete("access_token");
-		return NextResponse.next();
+	const storage = JSON.parse(localStorage.getItem("auth") as string);
+	if (storage?.state?.state?.user?.token) {
+		NextResponse.next();
 	}
 	return NextResponse.redirect(new URL("/login", request.url));
 }
