@@ -7,6 +7,7 @@ export async function middleware(request: NextRequest) {
 
 		return NextResponse.next();
 	}
+
 	console.log("all failed, to login");
 
 	return NextResponse.redirect(new URL("/login", request.url));
