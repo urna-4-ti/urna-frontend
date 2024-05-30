@@ -176,19 +176,19 @@ const pageListVoter = () => {
 								<div className="grid grid-cols-nameparty items-center">
 									<div className="flex justify-center" />
 
-									<div className="px-6 2xl:px-7">
-										<span className="truncate text-[#121212]">{item.name}</span>
+									<div className="px-6 2xl:px-7 truncate">
+										<span className="text-[#121212]">{item.name}</span>
 									</div>
 								</div>
 								<div className="px-11 2xl:px-14">
 									<span className="">{item.enrollment}</span>
 								</div>
 								<div className="px-16 2xl:px-[4.55rem]">
-									<span className="truncate">{item.class}</span>
+									<span className="">{item.class}</span>
 								</div>
 								<div className="grid grid-cols-2">
-									<div className="px-5 2xl:px-9">
-										<span className="truncate">{item.email}</span>
+									<div className="px-5 2xl:px-9 truncate">
+										<span className="">{item.email}</span>
 									</div>
 									<div className="flex justify-end items-center">
 										<DropdownMenu>

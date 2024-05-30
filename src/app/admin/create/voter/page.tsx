@@ -267,7 +267,7 @@ const pageCreateVoter = () => {
 							</div>
 							<div className="flex justify-center 2xl:py-8 py-4">
 								<Button className="w-full 2xl:h-[48px] h-[42px] rounded-2xl text-lg font-bold bg-primary">
-									Entrar
+									Criar
 								</Button>
 							</div>
 						</form>

@@ -180,12 +180,12 @@ const pageListPoliticalParty = () => {
 											/>
 										</div>
 									</div>
-									<div className="flex px-6">
-										<span className="truncate text-[#121212]">{item.name}</span>
+									<div className="flex px-6 truncate">
+										<span className="text-[#121212]">{item.name}</span>
 									</div>
 								</div>
 								<div className="px-14">
-									<span className="2xl:pl-4 truncate">
+									<span className="2xl:pl-4 text-ellipsis">
 										{item.politicalType.name}
 									</span>
 								</div>

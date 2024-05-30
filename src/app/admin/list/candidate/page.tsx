@@ -28,6 +28,7 @@ import {
 import filter from "@/img/filter.svg";
 import iconBack from "@/img/icon-back.svg";
 import logoIf from "@/img/logo-if.svg";
+import defaultUserIcon from "@/img/default-user.svg";
 import { deleteCandidate } from "@/requests/candidate/delete";
 import { getCandidate } from "@/requests/candidate/findAll";
 import { AuthStore } from "@/store/auth";
@@ -177,10 +178,10 @@ const Candidates = () => {
 											<div className="flex items-center justify-end px-4">
 												<div className="w-14 2xl:w-16 2xl:h-16 h-14 relative">
 													<Image
-														className="object-cover rounded-xl select-none"
+														className={`object-cover rounded-xl select-none`}
 														src={`${process.env.NEXT_PUBLIC_URL}/public/${item.picPath}`}
 														alt="Foto candidato"
-														fill
+                            fill
 													/>
 												</div>
 											</div>

@@ -1,8 +1,7 @@
 <div align='center'>
-    <img width="120" src="http://217.196.61.74/logo.png"></img>
-    <h1>Urna IFRS <i>Campus</i> Feliz</h1>
+  <img width="120" src="http://217.196.61.74/logo.png"></img>
+  <h1>Urna IFRS <i>Campus</i> Feliz</h1>
 </div>
-
 
 ## Introdução
 
@@ -25,7 +24,6 @@ bun dev
 ```
 
 Abra [http://localhost:3000](http://localhost:3000) no navegador para checar os resultados.
-
 
 ## Equipe de Desenvolvimento
 

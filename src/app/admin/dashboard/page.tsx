@@ -59,7 +59,7 @@ const DashBoard = () => {
 								Cadastros:
 							</span>
 						</div>
-						<div className="flex justify-center space-x-4 2xl:space-x-6">
+						<div className="flex justify-center space-x-4 max-md:flex-col max-md:items-center max-md:gap-2 2xl:space-x-6">
 							<Card
 								title="Sistema de Governo"
 								fn="Cadastrar"
@@ -99,7 +99,7 @@ const DashBoard = () => {
 								Listagem:
 							</span>
 						</div>
-						<div className="flex justify-center space-x-4 2xl:space-x-6">
+						<div className="flex justify-center space-x-4 max-md:flex-col max-md:items-center max-md:gap-2 2xl:space-x-6">
 							<Card
 								title="Sistema de Governo"
 								fn="Listar"
