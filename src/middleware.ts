@@ -1,3 +1,4 @@
+import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
@@ -7,23 +8,25 @@ export async function middleware(request: NextRequest) {
 
 		return NextResponse.next();
 	}
-	const url = request.nextUrl;
-	const accessToken = url.searchParams.get("access_token");
+	// const url = request.nextUrl;
+	// const accessToken = url.searchParams.get("access_token");
 
-	if (accessToken) {
-		const response = NextResponse.next();
-		response.cookies.set("token", accessToken, {
-			httpOnly: true,
-			secure: process.env.NODE_ENV === "production",
-			sameSite: "strict",
-			maxAge: 60 * 60 * 24 * 7,
-		});
+	// if (accessToken) {
+	// 	const urlWithoutToken = new URL(request.url);
+	// 	urlWithoutToken.searchParams.delete("access_token");
 
-		url.searchParams.delete("access_token");
-		const newUrl = url.toString();
+	// 	const rewriteResponse = NextResponse.rewrite(urlWithoutToken);
 
-		return NextResponse.redirect(new URL(newUrl));
-	}
+	// 	const cookieStorage = cookies();
+	// 	cookieStorage.set("token", accessToken, {
+	// 		httpOnly: true,
+	// 		secure: process.env.NODE_ENV === "production",
+	// 		maxAge: 60 * 60 * 24 * 7,
+	// 	});
+
+	// 	return rewriteResponse;
+	// }
+
 	console.log("all failed, to login");
 
 	return NextResponse.redirect(new URL("/login", request.url));

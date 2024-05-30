@@ -60,7 +60,7 @@ const Login = () => {
 			duration: 3000,
 
 			success: (cookie) => {
-				router.push(`/admin/dashboard?access_token=${cookie}`);
+				router.push(`/auth/login?access_token=${cookie}`);
 				return "Login efetuado";
 			},
 			error: "Email e/ou senha incorretos",
