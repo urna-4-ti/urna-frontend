@@ -174,7 +174,7 @@ const pageListPoliticalParty = () => {
 										<div className="w-14 2xl:w-16 2xl:h-16 h-14 relative">
 											<Image
 												className="object-cover rounded-xl select-none"
-												src={`http://localhost:4000/public/${item.photoUrl}`}
+												src={`${process.env.NEXT_PUBLIC_URL}/public/${item.photoUrl}`}
 												alt="Foto candidato"
 												fill
 											/>

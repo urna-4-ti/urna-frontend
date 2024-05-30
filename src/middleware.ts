@@ -4,6 +4,10 @@ import type { NextRequest } from "next/server";
 export async function middleware(request: NextRequest) {
 	const response = NextResponse.next();
 
+	if (request.cookies.has("access_token")) {
+		request.cookies.delete("access_token");
+	}
+
 	if (request.cookies.has("token")) {
 		console.log("has token");
 

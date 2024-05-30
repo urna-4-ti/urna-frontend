@@ -318,7 +318,7 @@ const pageEditCandidate = ({ params }: { params: { id: string } }) => {
 												<div className="w-full h-full flex justify-center items-center">
 													{candidate?.picPath ? (
 														<Image
-															src={`http://localhost:4000/public/${candidate.picPath}`}
+															src={`${process.env.NEXT_PUBLIC_URL}public/${candidate.picPath}`}
 															alt="Imagem input"
 															className="rounded-lg object-cover"
 															fill
