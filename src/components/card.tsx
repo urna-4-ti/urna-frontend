@@ -19,10 +19,10 @@ const Card = ({ title, fn, linkPage, image, bgTailWind }: cardProps) => {
 					<div className="h-[26px] w-[26px] 2xl:h-[31px] 2xl:w-[31px] relative">
 						<Image src={image} alt="Plus" fill />
 					</div>
-					<p className="text-white font-bold text-2xl 2xl:text-3xl">{fn}</p>
+					<p className="ShadowText text-white font-bold text-2xl 2xl:text-3xl">{fn}</p>
 				</div>
 				<div className="flex justify-center py-4 2xl:py-6">
-					<span className="text-white font-bold text-3xl 2xl:text-4xl text-center">
+					<span className="ShadowText text-white font-bold text-3xl 2xl:text-4xl text-center">
 						{title}
 					</span>
 				</div>

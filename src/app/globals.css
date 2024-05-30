@@ -53,6 +53,10 @@
   --radius: 0.75rem;
 }
 
+.ShadowText {
+  text-shadow: 2px 2px 20px #00000059;
+}
+
 @layer base {
   * {
     @apply box-border;
