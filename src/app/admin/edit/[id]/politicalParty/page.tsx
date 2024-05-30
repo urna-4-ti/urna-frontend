@@ -360,7 +360,7 @@ const pageEditPoliticalParty = ({ params }: { params: { id: string } }) => {
 												<div className="w-full h-full flex justify-center items-center">
 													{politicalParty?.photoUrl ? (
 														<Image
-															src={`http://localhost:4000/public/${politicalParty.photoUrl}`}
+															src={`${process.env.NEXT_PUBLIC_URL}/public/${politicalParty.photoUrl}`}
 															alt="Imagem input"
 															className="rounded-lg object-cover"
 															fill
