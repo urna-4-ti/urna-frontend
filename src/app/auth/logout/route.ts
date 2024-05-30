@@ -1,8 +1,10 @@
-import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 export async function GET(res: Request) {
-	cookies().delete("access_token");
-	console.log(new URL("/", res.url));
+	const cookieStore = cookies();
+
+	cookieStore.delete("token");
+	if (cookieStore.has("access_token")) cookieStore.delete("access_token");
 
 	return NextResponse.redirect(new URL("/login", res.url));
 }

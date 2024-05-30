@@ -24,7 +24,6 @@ export const AuthStore = create<StoreProps>()(
 			},
 			actions: {
 				login: async (user): Promise<string> => {
-					const token = "";
 					const userData: userLogin = {
 						email: user.email,
 						password: user.password,

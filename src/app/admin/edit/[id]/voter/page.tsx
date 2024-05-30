@@ -65,8 +65,8 @@ const pageEditVoter = ({ params }: { params: { id: string } }) => {
 	const router = useRouter();
 
 	const { data: voter } = useQuery({
-		queryKey: ["get-voter", params.id, token],
-		queryFn: () => getVoterId(params.id, token),
+		queryKey: ["get-voter", params.id],
+		queryFn: () => getVoterId(params.id),
 	});
 
 	const { mutateAsync, isError } = useMutation({

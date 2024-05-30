@@ -13,12 +13,7 @@ export async function getVoters(): Promise<votersProps[]> {
 	return data;
 }
 
-export async function getVoterId(
-	idVoter: string,
-	token: string,
-): Promise<votersProps> {
-	console.log(token);
-
+export async function getVoterId(idVoter: string): Promise<votersProps> {
 	const response = await api.get(`/voter/${idVoter}`);
 	const voters = response.data.data;
 	return voters;
