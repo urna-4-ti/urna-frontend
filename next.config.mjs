@@ -13,6 +13,12 @@ const nextConfig = {
         port: '4000',
         pathname: '/public/**',
       },
+      {
+        protocol:'https',
+        hostname:"urna-backend.fly.dev",
+        pathname: '/public/**',
+
+      }
     ],
   },
   async redirects() {
