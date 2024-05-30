@@ -19,11 +19,11 @@ export const AuthStore = create<StoreProps>()(
 					email: "",
 					name: "",
 					id: "",
+					token: "",
 				},
 			},
 			actions: {
 				login: async (user): Promise<string> => {
-					const token = "";
 					const userData: userLogin = {
 						email: user.email,
 						password: user.password,
@@ -49,6 +49,7 @@ export const AuthStore = create<StoreProps>()(
 								id,
 								name,
 								email,
+								token: accessToken,
 							},
 						},
 					});
@@ -61,6 +62,7 @@ export const AuthStore = create<StoreProps>()(
 								email: "",
 								id: "",
 								name: "",
+								token: "",
 							},
 						},
 					});

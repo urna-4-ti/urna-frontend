@@ -141,6 +141,7 @@ const DashBoard = () => {
 									{user?.name}
 								</span>
 								<Link
+									onClick={logout}
 									href="/auth/logout"
 									className="text-[#EA0000] 2xl:text-xl text-lg cursor-pointer hover:border-b hover:border-b-[#EA0000]"
 								>

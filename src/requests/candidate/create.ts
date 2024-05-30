@@ -1,4 +1,4 @@
-import { api } from "../api";
+import { api, axiosConfig } from "../api";
 
 type candidateProps = {
 	cod: number;
@@ -27,9 +27,5 @@ export async function createCandidate({
 		formdata.append("photo", picPath[0]);
 	}
 
-	await api.post("/candidate", formdata, {
-		headers: {
-			"Content-Type": "multipart/form-data",
-		},
-	});
+	await api.post("/candidate", formdata, axiosConfig);
 }
