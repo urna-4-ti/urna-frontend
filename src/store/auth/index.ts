@@ -19,7 +19,6 @@ export const AuthStore = create<StoreProps>()(
 					email: "",
 					name: "",
 					id: "",
-					token: "",
 				},
 			},
 			actions: {
@@ -49,7 +48,6 @@ export const AuthStore = create<StoreProps>()(
 								id,
 								name,
 								email,
-								token: accessToken,
 							},
 						},
 					});
@@ -62,7 +60,6 @@ export const AuthStore = create<StoreProps>()(
 								email: "",
 								id: "",
 								name: "",
-								token: "",
 							},
 						},
 					});
