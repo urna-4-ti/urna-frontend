@@ -185,7 +185,9 @@ const pageListPoliticalParty = () => {
 									</div>
 								</div>
 								<div className="px-14">
-									<span className="2xl:pl-4">{item.politicalType.name}</span>
+									<span className="2xl:pl-4 truncate">
+										{item.politicalType.name}
+									</span>
 								</div>
 								<div className="px-16 2xl:px-20">
 									<span className="truncate">{item.class}</span>
