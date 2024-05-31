@@ -93,31 +93,30 @@ const addCandidate = () => {
 		enabled: !!selectValue,
 	});
 
+	const hasNewImage = watch("photo").length > 0;
+
+	const image = watch("photo")[0];
+
 	const { mutateAsync, isError } = useMutation({
 		mutationKey: ["createCandidate"],
 		mutationFn: createCandidate,
 	});
 
-	const hasNewImage = watch("photo").length > 0;
-
-	const image = watch("photo")[0];
-
 	const handleForm = async (data: formProps) => {
 		const inviteForm = async () => {
-			try {
-				await mutateAsync({
-					cod: Number(data.codNum),
-					name: data.name,
-					picPath: data.photo,
-					politicalPartyId: data.politicalPartyId,
-					description: data.description,
-				});
-			} catch (error) {
-				console.error(error);
+			const { response } = await mutateAsync({
+				cod: Number(data.codNum),
+				name: data.name,
+				picPath: data.photo,
+				politicalPartyId: data.politicalPartyId,
+				description: data.description,
+			});
+			if (response) {
+				return true;
 			}
 		};
 
-		toast.promise(inviteForm, {
+		toast.promise(inviteForm(), {
 			loading: "Carregando...",
 			duration: 4000,
 
@@ -126,7 +125,20 @@ const addCandidate = () => {
 				return "Candidato Registrado";
 			},
 
-			error: "Erro ao registrar o candidato",
+			error: (error) => {
+				let result = "";
+				switch (error.response.status) {
+					case 500:
+						result = "Algum campo não foi preenchido.";
+						return result;
+					case 403:
+						result = "O número de código inserido é inválido.";
+						return result;
+					default:
+						result = "Erro ao registrar o candidato.";
+						return result;
+				}
+			},
 
 			style: {
 				boxShadow: "1px 2px 20px 6px #555",
@@ -379,7 +391,7 @@ const addCandidate = () => {
 
 							<div className="flex justify-center 2xl:py-8 py-4">
 								<Button className="w-full 2xl:h-[48px] h-[42px] rounded-2xl text-lg font-bold bg-primary">
-									Entrar
+									Cadastrar
 								</Button>
 							</div>
 						</form>

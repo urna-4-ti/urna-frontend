@@ -1,32 +1,32 @@
+import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export async function middleware(request: NextRequest) {
-	const response = NextResponse.next();
-
 	if (request.cookies.has("token")) {
 		console.log("has token");
 
 		return NextResponse.next();
 	}
+	// const url = request.nextUrl;
+	// const accessToken = url.searchParams.get("access_token");
 
-	const url = request.nextUrl;
-	const queryParams = url.searchParams;
-	const token = queryParams.get("access_token");
+	// if (accessToken) {
+	// 	const urlWithoutToken = new URL(request.url);
+	// 	urlWithoutToken.searchParams.delete("access_token");
 
-	if (token) {
-		queryParams.delete("access_token");
+	// 	const rewriteResponse = NextResponse.rewrite(urlWithoutToken);
 
-		response.cookies.set({
-			name: "token",
-			value: token,
-			maxAge: 60 * 60 * 24 * 7, // 7 days
-		});
+	// 	const cookieStorage = cookies();
+	// 	cookieStorage.set("token", accessToken, {
+	// 		httpOnly: true,
+	// 		secure: process.env.NODE_ENV === "production",
+	// 		maxAge: 60 * 60 * 24 * 7,
+	// 	});
 
-		console.log("You passed");
+	// 	return rewriteResponse;
+	// }
 
-		return response;
-	}
 	console.log("all failed, to login");
 
 	return NextResponse.redirect(new URL("/login", request.url));
