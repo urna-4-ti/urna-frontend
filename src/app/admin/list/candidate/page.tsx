@@ -1,25 +1,7 @@
 "use client";
 import Spinner from "@/components/Spinner";
-import LimitedParagraph from "@/components/limited-paragraph";
-import Candidate from "@/components/lists/Candidate";
-import {
-	AlertDialog,
-	AlertDialogAction,
-	AlertDialogCancel,
-	AlertDialogContent,
-	AlertDialogDescription,
-	AlertDialogFooter,
-	AlertDialogHeader,
-	AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
+import Candidates from "@/components/lists/Candidates";
 import { Button } from "@/components/ui/button";
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuGroup,
-	DropdownMenuItem,
-	DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import {
 	Sheet,
@@ -30,18 +12,14 @@ import {
 import filter from "@/img/filter.svg";
 import iconBack from "@/img/icon-back.svg";
 import logoIf from "@/img/logo-if.svg";
-import { deleteCandidate } from "@/requests/candidate/delete";
-import { getCandidate } from "@/requests/candidate/findAll";
 import { AuthStore } from "@/store/auth";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { CirclePlus, EllipsisVertical, Plus, UserRound } from "lucide-react";
+import { CirclePlus, UserRound } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Suspense, useState } from "react";
-import { toast } from "sonner";
 
-const Candidates = () => {
+const Candidate = () => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [isAlert, setIsAlert] = useState(false);
 	const [id, setId] = useState("");
@@ -136,7 +114,7 @@ const Candidates = () => {
 					</div>
 					{/* CANDIDATES */}
 					<Suspense fallback={<Spinner />}>
-						<Candidate />
+						<Candidates />
 					</Suspense>
 				</div>
 			</main>
@@ -171,4 +149,4 @@ const Candidates = () => {
 	);
 };
 
-export default Candidates;
+export default Candidate;

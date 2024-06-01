@@ -7,6 +7,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
+import Spinner from "../Spinner";
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -75,7 +76,7 @@ const Candidate = () => {
 
 	return (
 		<>
-			{candidates?.length ? (
+			{candidates && candidates.length > 0 ? (
 				<>
 					{candidates?.map((item) => (
 						<div key={item.id} className="py-4">
@@ -137,11 +138,18 @@ const Candidate = () => {
 					))}
 				</>
 			) : (
-				<div className="w-full py-32 flex justify-center">
-					<p className="text-2xl">
-						Infelizmente não foi encontrado nenhum resultado para a sua busca!
-					</p>
-				</div>
+				<>
+					{candidates !== undefined ? (
+						<div className="w-full py-32 flex justify-center">
+							<p className="text-2xl">
+								Infelizmente não foi encontrado nenhum resultado para a sua
+								busca!
+							</p>
+						</div>
+					) : (
+						<Spinner />
+					)}
+				</>
 			)}
 			<AlertDialog open={isAlert} onOpenChange={setIsAlert}>
 				<AlertDialogContent className="bg-white">
