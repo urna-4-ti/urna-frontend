@@ -30,7 +30,7 @@ export async function editCandidate({
 		formdata.append("photo", picPath[0]);
 	}
 
-	await api.patch(`/candidate/${id}`, formdata, {
+	const response = await api.patch(`/candidate/${id}`, formdata, {
 		headers: {
 			"Content-Type": "multipart/form-data",
 		},

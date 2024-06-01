@@ -1,5 +1,7 @@
 "use client";
+import Spinner from "@/components/Spinner";
 import LimitedParagraph from "@/components/limited-paragraph";
+import Candidate from "@/components/lists/Candidate";
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -36,24 +38,13 @@ import { CirclePlus, EllipsisVertical, Plus, UserRound } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { toast } from "sonner";
 
 const Candidates = () => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [isAlert, setIsAlert] = useState(false);
-	const [isDropOpen, setIsDropOpen] = useState(false);
 	const [id, setId] = useState("");
-
-	const { data: candidates } = useQuery({
-		queryKey: ["get candidate"],
-		queryFn: getCandidate,
-	});
-
-	const { mutateAsync: candidateDel } = useMutation({
-		mutationKey: ["delete-candidate", id],
-		mutationFn: () => deleteCandidate(id),
-	});
 
 	const {
 		actions: { logout },
@@ -66,31 +57,6 @@ const Candidates = () => {
 	};
 
 	const router = useRouter();
-
-	const handleDelete = async () => {
-		const inviteForm = async () => {
-			try {
-				await candidateDel();
-			} catch (error) {}
-		};
-
-		toast.promise(inviteForm, {
-			loading: "Carregando...",
-			duration: 4000,
-
-			success: () => {
-				setIsAlert(false);
-				router.back();
-				return "Candidato Removido";
-			},
-
-			error: "Erro ao remover o candidato",
-
-			style: {
-				boxShadow: "1px 2px 20px 6px #555",
-			},
-		});
-	};
 
 	return (
 		<>
@@ -168,77 +134,10 @@ const Candidates = () => {
 							</Link>
 						</div>
 					</div>
-					{candidates?.length ? (
-						<>
-							{candidates?.map((item) => (
-								<div key={item.id} className="py-4">
-									<div className="mplus 2xl:font-medium 2xl:text-lg grid grid-cols-party px-10 2xl:px-32 h-[75px] 2xl:h-[80px] items-center">
-										<div className="grid grid-cols-nameparty">
-											<div className="flex items-center justify-end px-4">
-												<div className="w-14 2xl:w-16 2xl:h-16 h-14 relative">
-													<Image
-														className="object-cover rounded-xl select-none"
-														src={`${process.env.NEXT_PUBLIC_URL}/public/${item.picPath}`}
-														alt="Foto candidato"
-														fill
-													/>
-												</div>
-											</div>
-											<div className="flex items-center px-8 2xl:px-10">
-												<span className="truncate">{item.name}</span>
-											</div>
-										</div>
-										<div className="px-5 2xl:px-7">
-											<span className="">{item.cod}</span>
-										</div>
-										<div className="px-2 2xl:px-4">
-											<span className="">{item.PoliticalParty.class}</span>
-										</div>
-										<div className="grid grid-cols-3">
-											<div className="col-span-2 flex items-center px-7 2xl:px-9">
-												<span className="truncate">{item.description}</span>
-											</div>
-											<div className="flex justify-end">
-												<DropdownMenu>
-													<DropdownMenuTrigger asChild>
-														<Button variant="ghost">
-															<EllipsisVertical className="h-[25px] w-[25px]" />
-														</Button>
-													</DropdownMenuTrigger>
-													<DropdownMenuContent className="w-20">
-														<DropdownMenuGroup>
-															<DropdownMenuItem
-																onClick={() =>
-																	router.push(
-																		`/admin/edit/${item.id}/candidate`,
-																	)
-																}
-															>
-																Editar
-															</DropdownMenuItem>
-															<DropdownMenuItem
-																className="text-red-500 focus:text-red-400"
-																onClick={() => handleClick(item.id)}
-															>
-																Remover
-															</DropdownMenuItem>
-														</DropdownMenuGroup>
-													</DropdownMenuContent>
-												</DropdownMenu>
-											</div>
-										</div>
-									</div>
-								</div>
-							))}
-						</>
-					) : (
-						<div className="w-full py-32 flex justify-center">
-							<p className="text-2xl">
-								Infelizmente não foi encontrado nenhum resultado para a sua
-								busca!
-							</p>
-						</div>
-					)}
+					{/* CANDIDATES */}
+					<Suspense fallback={<Spinner />}>
+						<Candidate />
+					</Suspense>
 				</div>
 			</main>
 			<Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -268,25 +167,6 @@ const Candidates = () => {
 					</div>
 				</SheetContent>
 			</Sheet>
-			<AlertDialog open={isAlert} onOpenChange={setIsAlert}>
-				<AlertDialogContent className="bg-white">
-					<AlertDialogHeader>
-						<AlertDialogTitle>
-							Você realmente tem certeza disso?
-						</AlertDialogTitle>
-						<AlertDialogDescription>
-							Você está prestes a remover um candidato. Deseja realmente
-							continuar?
-						</AlertDialogDescription>
-					</AlertDialogHeader>
-					<AlertDialogFooter>
-						<AlertDialogCancel>Cancelar</AlertDialogCancel>
-						<AlertDialogAction onClick={handleDelete}>
-							Continuar
-						</AlertDialogAction>
-					</AlertDialogFooter>
-				</AlertDialogContent>
-			</AlertDialog>
 		</>
 	);
 };
