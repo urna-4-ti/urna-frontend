@@ -21,18 +21,11 @@ import { Suspense, useState } from "react";
 
 const Candidate = () => {
 	const [isOpen, setIsOpen] = useState(false);
-	const [isAlert, setIsAlert] = useState(false);
-	const [id, setId] = useState("");
 
 	const {
 		actions: { logout },
 		state: { user },
 	} = AuthStore();
-
-	const handleClick = (id: string) => {
-		setId(id);
-		setIsAlert(true);
-	};
 
 	const router = useRouter();
 

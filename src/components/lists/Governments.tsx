@@ -33,7 +33,7 @@ const Governments = () => {
 	const [isAlert, setIsAlert] = useState(false);
 	const [id, setId] = useState("");
 
-	const { data: government, refetch } = useQuery({
+	const { data: government, isLoading } = useQuery({
 		queryKey: ["get-government"],
 		queryFn: () => getGovernmentForm(),
 		// enabled: false,
@@ -75,75 +75,77 @@ const Governments = () => {
 	};
 	return (
 		<>
-			{government && government.length > 0 ? (
+			{!isLoading ? (
 				<>
-					{government?.map((item) => (
-						<div key={item.id} className="py-4">
-							<div className="grid grid-cols-party px-20 2xl:px-32 h-[75px] 2xl:h-[80px] items-center 2xl:text-xl mplus">
-								<div className="grid grid-cols-nameparty items-center">
-									<div className="flex justify-center" />
+					{government && government.length > 0 ? (
+						<>
+							{government?.map((item) => (
+								<div key={item.id} className="py-4">
+									<div className="grid grid-cols-party px-20 2xl:px-32 h-[75px] 2xl:h-[80px] items-center 2xl:text-xl mplus">
+										<div className="grid grid-cols-nameparty items-center">
+											<div className="flex justify-center" />
 
-									<div className="flex px-6">
-										<span className="truncate 2xl:font-medium text-lg">
-											{item.name}
-										</span>
+											<div className="flex px-6">
+												<span className="truncate 2xl:font-medium text-lg">
+													{item.name}
+												</span>
+											</div>
+										</div>
+										<div className="flex justify-center">
+											<span className="pr-8 2xl:pr-2 2xl:font-medium text-lg">
+												{item.cod}
+											</span>
+										</div>
+										<div className="2xl:px-14">
+											<span className="truncate 2xl:font-medium text-lg">
+												{item.description}
+											</span>
+										</div>
+										<div className="flex justify-end">
+											<div className="flex justify-end items-center">
+												<DropdownMenu>
+													<DropdownMenuTrigger asChild>
+														<Button variant="ghost">
+															<EllipsisVertical className="h-[25px] w-[25px]" />
+														</Button>
+													</DropdownMenuTrigger>
+													<DropdownMenuContent className="w-20">
+														<DropdownMenuGroup>
+															<DropdownMenuItem
+																onClick={() =>
+																	router.push(
+																		`/admin/edit/${item.id}/government`,
+																	)
+																}
+															>
+																Editar
+															</DropdownMenuItem>
+															<DropdownMenuItem
+																className="text-red-500 focus:text-red-400"
+																onClick={() => handleClick(item.id)}
+															>
+																Remover
+															</DropdownMenuItem>
+														</DropdownMenuGroup>
+													</DropdownMenuContent>
+												</DropdownMenu>
+											</div>
+										</div>
 									</div>
 								</div>
-								<div className="flex justify-center">
-									<span className="pr-8 2xl:pr-2 2xl:font-medium text-lg">
-										{item.cod}
-									</span>
-								</div>
-								<div className="2xl:px-14">
-									<span className="truncate 2xl:font-medium text-lg">
-										{item.description}
-									</span>
-								</div>
-								<div className="flex justify-end">
-									<div className="flex justify-end items-center">
-										<DropdownMenu>
-											<DropdownMenuTrigger asChild>
-												<Button variant="ghost">
-													<EllipsisVertical className="h-[25px] w-[25px]" />
-												</Button>
-											</DropdownMenuTrigger>
-											<DropdownMenuContent className="w-20">
-												<DropdownMenuGroup>
-													<DropdownMenuItem
-														onClick={() =>
-															router.push(`/admin/edit/${item.id}/government`)
-														}
-													>
-														Editar
-													</DropdownMenuItem>
-													<DropdownMenuItem
-														className="text-red-500 focus:text-red-400"
-														onClick={() => handleClick(item.id)}
-													>
-														Remover
-													</DropdownMenuItem>
-												</DropdownMenuGroup>
-											</DropdownMenuContent>
-										</DropdownMenu>
-									</div>
-								</div>
-							</div>
-						</div>
-					))}
-				</>
-			) : (
-				<>
-					{government !== undefined ? (
+							))}
+						</>
+					) : (
 						<div className="w-full py-32 flex justify-center">
 							<p className="text-2xl">
 								Infelizmente não foi encontrado nenhum resultado para a sua
 								busca!
 							</p>
 						</div>
-					) : (
-						<Spinner />
 					)}
 				</>
+			) : (
+				<Spinner />
 			)}
 			<AlertDialog open={isAlert} onOpenChange={setIsAlert}>
 				<AlertDialogContent className="bg-white">
