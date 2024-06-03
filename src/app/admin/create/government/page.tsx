@@ -67,14 +67,14 @@ const pageCreateGovernment = () => {
 	const handleForm = async (data: formProps) => {
 		// console.log(data);
 		const inviteForm = async () => {
-			try {
-				await mutateAsync({
-					name: data.name,
-					cod: data.cod,
-					description: data.description,
-				});
-			} catch (error) {
-				console.log(error);
+			const { response } = await mutateAsync({
+				name: data.name,
+				cod: data.cod,
+				description: data.description,
+			});
+
+			if (response) {
+				return true;
 			}
 		};
 
@@ -87,7 +87,14 @@ const pageCreateGovernment = () => {
 				return "Sistema de Governo Registrado";
 			},
 
-			error: "Erro ao registrar o Sistema de Governo",
+			error: (error) => {
+				switch (error.response.status) {
+					case 403:
+						return "O Código inserido é inválido.";
+					default:
+						return "Erro ao registrar o sistema de governo.";
+				}
+			},
 
 			style: {
 				boxShadow: "1px 2px 20px 6px #555",

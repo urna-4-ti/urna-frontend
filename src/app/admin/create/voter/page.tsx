@@ -80,17 +80,17 @@ const pageCreateVoter = () => {
 
 	const handleForm = async (data: formProps) => {
 		const inviteForm = async () => {
-			try {
-				await mutateAsync({
-					name: data.name,
-					email: data.email,
-					password: data.enrollment,
-					role: "VOTER",
-					enrollment: data.enrollment,
-					class: data.class,
-				});
-			} catch (error) {
-				console.error(error);
+			const { response } = await mutateAsync({
+				name: data.name,
+				email: data.email,
+				password: data.enrollment,
+				role: "VOTER",
+				enrollment: data.enrollment,
+				class: data.class,
+			});
+
+			if (response) {
+				return true;
 			}
 		};
 
@@ -103,7 +103,14 @@ const pageCreateVoter = () => {
 				return "Eleitor Registrado";
 			},
 
-			error: "Erro ao registrar o eleitor",
+			error: (error) => {
+				switch (error.response.status) {
+					case 404:
+						return "O email digitado é inválido.";
+					default:
+						return "Erro ao registrar o eleitor";
+				}
+			},
 
 			style: {
 				boxShadow: "1px 2px 20px 6px #555",
@@ -267,7 +274,7 @@ const pageCreateVoter = () => {
 							</div>
 							<div className="flex justify-center 2xl:py-8 py-4">
 								<Button className="w-full 2xl:h-[48px] h-[42px] rounded-2xl text-lg font-bold bg-primary">
-									Criar
+									Cadastrar
 								</Button>
 							</div>
 						</form>
