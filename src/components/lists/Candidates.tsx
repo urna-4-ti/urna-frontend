@@ -27,10 +27,13 @@ import {
 	DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 
-const Candidate = () => {
+type Search = {
+	value: string;
+};
+
+const Candidate = ({ value }: Search) => {
 	const queryClient = useQueryClient();
 	const router = useRouter();
-	const [isDropOpen, setIsDropOpen] = useState(false);
 	const [id, setId] = useState("");
 	const [isAlert, setIsAlert] = useState(false);
 	const { data: candidates, isLoading } = useQuery({
@@ -46,6 +49,16 @@ const Candidate = () => {
 	const handleClick = (id: string) => {
 		setId(id);
 		setIsAlert(true);
+	};
+
+	const filteredCandidates = () => {
+		if (candidates) {
+			candidates.filter((candidate) => {
+				const name = candidate.name.toLowerCase();
+				const searchQuery = value.toLowerCase();
+				return name.includes(searchQuery);
+			});
+		}
 	};
 
 	const handleDelete = async () => {

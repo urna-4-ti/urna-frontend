@@ -21,6 +21,7 @@ import { Suspense, useState } from "react";
 
 const Candidate = () => {
 	const [isOpen, setIsOpen] = useState(false);
+	const [search, setSearch] = useState("");
 
 	const {
 		actions: { logout },
@@ -81,6 +82,7 @@ const Candidate = () => {
 								className="w-[337px] bg-[#F0F0F0] text-[#747474] 2xl:h-10 border-transparent"
 								type="text"
 								placeholder="Pesquisar..."
+								onChange={(e) => setSearch(e.target.value)}
 							/>
 						</div>
 					</div>
@@ -107,7 +109,7 @@ const Candidate = () => {
 					</div>
 					{/* CANDIDATES */}
 					<Suspense fallback={<Spinner />}>
-						<Candidates />
+						<Candidates value={search} />
 					</Suspense>
 				</div>
 			</main>
