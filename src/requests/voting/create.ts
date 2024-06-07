@@ -1,7 +1,6 @@
 import { api, axiosConfig } from "../api";
 
 type votingProps = {
-    id: string;
 	name: string;
 	class: string;
 };

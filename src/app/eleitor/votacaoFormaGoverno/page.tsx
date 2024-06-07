@@ -10,14 +10,24 @@ import React from "react"
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Trash2 } from "lucide-react";
 import { createVoting } from "@/requests/voting/create";
+import { createVote } from "@/requests/vote/create";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 const schema = z.object({
-	codNum: z.number({ message: "*Este campo ainda não foi preenchido." }),
+    name: z
+		.string({ message: "*Este campo ainda não foi preenchido." })
+		.min(3, "*O nome de usuário deve conter pelo menos 3 caracteres."),
+	class: z
+		.string({ message: "*Este campo ainda não foi preenchido." })
+		.refine((value) => value.length > 0, {
+			message: "*Este campo ainda não foi preenchido.",
+		}),
 });
+
+
 
 export default function voteGovFormPage () {
     const [ChosenNumbers, setChosenNumbers] = React.useState(0)
