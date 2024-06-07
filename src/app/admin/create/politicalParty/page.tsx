@@ -89,15 +89,14 @@ const pageCreatePoliticalParty = () => {
 
 	const handleForm = (data: formProps) => {
 		const inviteForm = async () => {
-			try {
-				await mutateAsync({
-					name: data.name,
-					partyClass: data.class,
-					photo: data.photo,
-					politicalTypeId: data.politicalTypeId,
-				});
-			} catch (error) {
-				console.error(error);
+			const { response } = await mutateAsync({
+				name: data.name,
+				partyClass: data.class,
+				photo: data.photo,
+				politicalTypeId: data.politicalTypeId,
+			});
+			if (response) {
+				return true;
 			}
 		};
 
@@ -110,7 +109,14 @@ const pageCreatePoliticalParty = () => {
 				return "Partido Registrado";
 			},
 
-			error: "Erro ao registrar o partido",
+			error: (error) => {
+				switch (error.response.status) {
+					case 500:
+						return "Algum campo não foi preenchido.";
+					default:
+						return "Erro ao registrar o partido.";
+				}
+			},
 
 			style: {
 				boxShadow: "1px 2px 20px 6px #555",
@@ -301,7 +307,6 @@ const pageCreatePoliticalParty = () => {
 												type="file"
 												accept="image/*"
 												{...register("photo")}
-												required
 											/>
 											<div className="w-full h-full flex justify-center items-center">
 												<Image src={input} alt="Imagem input" />
@@ -313,7 +318,7 @@ const pageCreatePoliticalParty = () => {
 
 							<div className="flex justify-center 2xl:py-8 py-4">
 								<Button className="w-full 2xl:h-[48px] h-[42px] rounded-2xl text-lg font-bold bg-primary">
-									Entrar
+									Cadastrar
 								</Button>
 							</div>
 						</form>

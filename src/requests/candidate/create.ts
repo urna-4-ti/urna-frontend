@@ -26,6 +26,7 @@ export async function createCandidate({
 	if (picPath) {
 		formdata.append("photo", picPath[0]);
 	}
+	const response = await api.post("/candidate", formdata, axiosConfig);
 
-	await api.post("/candidate", formdata, axiosConfig);
+	return { response };
 }
