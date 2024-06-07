@@ -21,7 +21,7 @@ import { Suspense, useState } from "react";
 
 const Candidate = () => {
 	const [isOpen, setIsOpen] = useState(false);
-	const [search, setSearch] = useState("");
+	const [search, setSearch] = useState<string | undefined>(undefined);
 
 	const {
 		actions: { logout },
