@@ -42,7 +42,7 @@ const SettingsTabs = () => {
 			</ScrollArea.Root>
 			<Tabs.Content value="tab1" ref={parent}>
 				<div className="h-[70vh] flex items-center px-36">
-					<div className="w-full flex justify-between">
+					<div className="w-full space-x-4 flex justify-between">
 						<Card
 							title={"Sistema de Governo"}
 							fn={"Cadastrar"}
@@ -72,7 +72,7 @@ const SettingsTabs = () => {
 			</Tabs.Content>
 			<Tabs.Content value="tab2" ref={parent}>
 				<div className="h-[70vh] flex items-center px-36">
-					<div className="w-full flex justify-between">
+					<div className="w-full flex space-x-4 justify-between">
 						<Card
 							title={"Sistema de Governo"}
 							fn={"Listar"}
