@@ -15,7 +15,7 @@ const nextConfig = {
       },
       {
         protocol:'https',
-        hostname:"https://urna-apiv2-eelrne6u7a-rj.a.run.app",
+        hostname:"urna-apiv2-eelrne6u7a-rj.a.run.app",
         pathname: '/public/**',
 
       }
