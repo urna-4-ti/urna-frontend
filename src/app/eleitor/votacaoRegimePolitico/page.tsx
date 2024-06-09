@@ -5,12 +5,12 @@ import IFImage from "@/img/logo-if.svg"
 import { UserRound } from "lucide-react";
 import certifiedIcon from "@/img/certified.svg"
 
-import './styles.css'
+import '../votacaoFormaGoverno/styles.css'
 import React from "react"
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Trash2 } from "lucide-react";
 import { createVoting } from "@/requests/voting/create";
-import { getGovernmentFormId } from "@/requests/government/findAll";
+import { getPoliticalRegimeId } from "@/requests/politicalRegime/findAll";
 import { getVoterId } from "@/requests/voter/findAll";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -25,11 +25,11 @@ const schema = z.object({
 
 type votingProps = z.infer<typeof schema>;
 
-export default function voteGovFormPage () {
+export default function votePolRegPage () {
     const [ChosenNumbers, setChosenNumbers] = React.useState(0)
     const [votingNumbers, setVotingNumbers] = React.useState<string[]>([])
     const [showMessageType, setShowMessageType] = React.useState(0)
-    const [government, setGovernment] = React.useState("")
+    const [politicalRegime, setPoliticalRegime] = React.useState("")
     const [voterName, setVoterName] = React.useState("")
 
     const router = useRouter()
@@ -50,10 +50,10 @@ export default function voteGovFormPage () {
 	});
 
 
-    const { data: governmentFormId, refetch } = useQuery({
-		queryKey: ["get-governmentFormId", government],
-		queryFn: () => getGovernmentFormId(government),
-		enabled: !!government,
+    const { data: politicalRegimeId, refetch } = useQuery({
+		queryKey: ["get-politicalRegimeId", politicalRegime],
+		queryFn: () => getPoliticalRegimeId(politicalRegime),
+		enabled: !!politicalRegime,
 	});
 
 
@@ -74,7 +74,7 @@ export default function voteGovFormPage () {
     const handleForm = async (data: votingProps) => {
         const voterMain = document.querySelector(".voterMain");
         voterMain!.classList.add("hidden")
-        setGovernment(votingNumbers[0].concat(votingNumbers[1]));
+        setPoliticalRegime(votingNumbers[0].concat(votingNumbers[1]).concat(votingNumbers[2]));
 
         const inviteForm = async () => {
             try {
@@ -108,12 +108,12 @@ export default function voteGovFormPage () {
 
     function chooseNumbers(event: React.ChangeEvent<HTMLInputElement>) {
         const numberInputs : NodeListOf<HTMLInputElement> = document.querySelectorAll(".voterInput");
-        numberInputs[ChosenNumbers].value = event.target.value;
-        if (ChosenNumbers !=2) {
+        if (ChosenNumbers !=3) {
+            numberInputs[ChosenNumbers].value = event.target.value;
             setChosenNumbers(ChosenNumbers + 1);
             setVotingNumbers([...votingNumbers, event.target.value]);
-        }else if (ChosenNumbers == 2) {
-            if ((votingNumbers[0].concat(votingNumbers[1])) === "00") {
+        }else if (ChosenNumbers == 3) {
+            if ((votingNumbers[0].concat(votingNumbers[1])).concat(votingNumbers[2]) === "000") {
                 setShowMessageType(2);
                 alert("O número máximo de digitos foi atingido!")
                 
@@ -157,6 +157,7 @@ export default function voteGovFormPage () {
                     <div className="voterNumbers">
                         <input type="text" className="voterInput" disabled />
                         <input type="text" className="voterInput" disabled />
+                        <input type="text" className="voterInput" disabled />
                     </div>
                 </div>
 
@@ -187,7 +188,7 @@ export default function voteGovFormPage () {
             </main>
 
             {
-                showMessageType==1 ? <span className="successSpan">Voto em {governmentFormId!.description} com sucesso <Image src={certifiedIcon} alt="certified" /></span> : null
+                showMessageType==1 ? <span className="successSpan">Voto em {politicalRegimeId!.name} com sucesso <Image src={certifiedIcon} alt="certified" /></span> : null
             }
         </section>
     )

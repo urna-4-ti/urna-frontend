@@ -21,7 +21,7 @@ import input from "@/img/input.svg";
 import logo from "@/img/logo-name.svg";
 import { classes } from "@/lib/Classes";
 import { getGovernmentForm } from "@/requests/government/findAll";
-import { createPoliticalParty } from "@/requests/politicalPart/create";
+import { createPoliticalParty } from "@/requests/politicalParty/create";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";

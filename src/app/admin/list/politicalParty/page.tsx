@@ -29,8 +29,8 @@ import {
 import filter from "@/img/filter.svg";
 import iconBack from "@/img/icon-back.svg";
 import logoIf from "@/img/logo-if.svg";
-import { deletePoliticalParty } from "@/requests/politicalPart/delete";
-import { getAllPoliticalParty } from "@/requests/politicalPart/findAll";
+import { deletePoliticalParty } from "@/requests/politicalParty/delete";
+import { getAllPoliticalParty } from "@/requests/politicalParty/findAll";
 import { AuthStore } from "@/store/auth";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { CirclePlus, EllipsisVertical, UserRound } from "lucide-react";

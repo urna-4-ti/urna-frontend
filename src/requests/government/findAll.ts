@@ -14,7 +14,6 @@ export async function getGovernmentForm(): Promise<governmentProps[]> {
 
 export async function getGovernmentFormId(
 	id: string,
-	token: string,
 ): Promise<governmentProps> {
 	const data = (await api.get(`/government/form/${id}`)).data.governments;
 	return data;

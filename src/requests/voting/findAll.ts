@@ -11,7 +11,7 @@ export async function getVotings(): Promise<votingProps[]> {
 	return data;
 }
 
-export async function getVoterId(idVoting: string): Promise<votingProps> {
+export async function getVotingId(idVoting: string): Promise<votingProps> {
 	const response = await api.get(`/voting/${idVoting}`);
 	const votings = response.data.data;
 	return votings;

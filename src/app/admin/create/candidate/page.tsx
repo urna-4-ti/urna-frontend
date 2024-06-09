@@ -22,7 +22,7 @@ import input from "@/img/input.svg";
 import logo from "@/img/logo-name.svg";
 import { classes } from "@/lib/Classes";
 import { createCandidate } from "@/requests/candidate/create";
-import { getPoliticalParty } from "@/requests/politicalPart/findAll";
+import { getPoliticalParty } from "@/requests/politicalParty/findAll";
 import { AuthStore } from "@/store/auth";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { zodResolver } from "@hookform/resolvers/zod";

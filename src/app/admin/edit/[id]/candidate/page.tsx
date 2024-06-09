@@ -35,7 +35,7 @@ import { createCandidate } from "@/requests/candidate/create";
 import { deleteCandidate } from "@/requests/candidate/delete";
 import { editCandidate } from "@/requests/candidate/edit";
 import { getCandidateId } from "@/requests/candidate/findAll";
-import { getPoliticalParty } from "@/requests/politicalPart/findAll";
+import { getPoliticalParty } from "@/requests/politicalParty/findAll";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Trash2 } from "lucide-react";
