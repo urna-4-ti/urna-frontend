@@ -143,7 +143,7 @@ export default function voteGovFormPage () {
     return(
         <section className="voteSection">
             <div className="leftDiv leftDivVoter">
-                <Image src={IFImage} alt="IF" width={90} height={90} />
+                <Image src={IFImage} alt="IF" width={90} height={90} style={{position:"absolute",top:"3vh", left:"2vw"}} />
             </div>
 
             <div id="userDiv">
