@@ -37,7 +37,6 @@ export const AuthStore = create<StoreProps>()(
 							"Content-Type": "multipart/form-data",
 						},
 					});
-					console.log("log: ", r.data);
 
 					const { accessToken } = r.data;
 

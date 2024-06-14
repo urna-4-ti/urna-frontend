@@ -19,5 +19,7 @@ export async function createGovernment({
 
 	console.log(formdata);
 
-	await api.post("/government/form", formdata, axiosConfig);
+	const response = await api.post("/government/form", formdata, axiosConfig);
+
+	return { response };
 }
