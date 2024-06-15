@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import Spinner from "../Spinner";
+import LimitedParagraph from "../limited-paragraph";
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -27,7 +28,11 @@ import {
 	DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 
-const Governments = () => {
+type Search = {
+	value: string | undefined;
+};
+
+const Governments = ({ value }: Search) => {
 	const queryClient = useQueryClient();
 	const router = useRouter();
 	const [isAlert, setIsAlert] = useState(false);
@@ -42,6 +47,12 @@ const Governments = () => {
 	const { mutateAsync: governmentDelete } = useMutation({
 		mutationKey: ["delete-government", id],
 		mutationFn: () => deleteGovernment(id),
+	});
+
+	const filteredGovernment = government?.filter((item) => {
+		if (value) {
+			return item.name.toLowerCase().includes(value.toLowerCase());
+		}
 	});
 
 	const handleDelete = async () => {
@@ -77,9 +88,9 @@ const Governments = () => {
 		<>
 			{!isLoading ? (
 				<>
-					{government && government.length > 0 ? (
+					{filteredGovernment !== undefined && filteredGovernment.length > 0 ? (
 						<>
-							{government?.map((item) => (
+							{filteredGovernment.map((item) => (
 								<div key={item.id} className="py-4">
 									<div className="grid grid-cols-party px-20 2xl:px-32 h-[75px] 2xl:h-[80px] items-center 2xl:text-xl mplus">
 										<div className="grid grid-cols-nameparty items-center">
@@ -97,9 +108,10 @@ const Governments = () => {
 											</span>
 										</div>
 										<div className="2xl:px-14">
-											<span className="truncate 2xl:font-medium text-lg">
-												{item.description}
-											</span>
+											<LimitedParagraph
+												text={item.description}
+												characterLimit={40}
+											/>
 										</div>
 										<div className="flex justify-end">
 											<div className="flex justify-end items-center">
@@ -136,12 +148,75 @@ const Governments = () => {
 							))}
 						</>
 					) : (
-						<div className="w-full py-32 flex justify-center">
-							<p className="text-2xl">
-								Infelizmente não foi encontrado nenhum resultado para a sua
-								busca!
-							</p>
-						</div>
+						<>
+							{government && government.length > 0 ? (
+								<>
+									{government?.map((item) => (
+										<div key={item.id} className="py-4">
+											<div className="grid grid-cols-party px-20 2xl:px-32 h-[75px] 2xl:h-[80px] items-center 2xl:text-xl mplus">
+												<div className="grid grid-cols-nameparty items-center">
+													<div className="flex justify-center" />
+
+													<div className="flex px-6">
+														<span className="truncate 2xl:font-medium text-lg">
+															{item.name}
+														</span>
+													</div>
+												</div>
+												<div className="flex justify-center">
+													<span className="pr-8 2xl:pr-2 2xl:font-medium text-lg">
+														{item.cod}
+													</span>
+												</div>
+												<div className="2xl:px-14">
+													<LimitedParagraph
+														text={item.description}
+														characterLimit={40}
+													/>
+												</div>
+												<div className="flex justify-end">
+													<div className="flex justify-end items-center">
+														<DropdownMenu>
+															<DropdownMenuTrigger asChild>
+																<Button variant="ghost">
+																	<EllipsisVertical className="h-[25px] w-[25px]" />
+																</Button>
+															</DropdownMenuTrigger>
+															<DropdownMenuContent className="w-20">
+																<DropdownMenuGroup>
+																	<DropdownMenuItem
+																		onClick={() =>
+																			router.push(
+																				`/admin/edit/${item.id}/government`,
+																			)
+																		}
+																	>
+																		Editar
+																	</DropdownMenuItem>
+																	<DropdownMenuItem
+																		className="text-red-500 focus:text-red-400"
+																		onClick={() => handleClick(item.id)}
+																	>
+																		Remover
+																	</DropdownMenuItem>
+																</DropdownMenuGroup>
+															</DropdownMenuContent>
+														</DropdownMenu>
+													</div>
+												</div>
+											</div>
+										</div>
+									))}
+								</>
+							) : (
+								<div className="w-full py-32 flex justify-center">
+									<p className="text-2xl">
+										Infelizmente não foi encontrado nenhum resultado para a sua
+										busca!
+									</p>
+								</div>
+							)}
+						</>
 					)}
 				</>
 			) : (

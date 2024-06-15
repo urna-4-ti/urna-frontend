@@ -9,7 +9,9 @@ const LimitedParagraph: React.FC<Props> = ({ text, characterLimit }) => {
 		limitedText += " ...";
 	}
 
-	return <span>{limitedText}</span>;
+	return (
+		<span className="truncate 2xl:font-medium text-lg">{limitedText}</span>
+	);
 };
 
 export default LimitedParagraph;

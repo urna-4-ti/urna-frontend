@@ -21,6 +21,7 @@ import { useState } from "react";
 
 const pageListVoter = () => {
 	const [isOpen, setIsOpen] = useState(false);
+	const [search, setSearch] = useState<string | undefined>(undefined);
 
 	const {
 		actions: { logout },
@@ -66,6 +67,7 @@ const pageListVoter = () => {
 								className="w-[337px] bg-[#F0F0F0] text-[#747474] 2xl:h-10 border-transparent"
 								type="text"
 								placeholder="Pesquisar..."
+								onChange={(e) => setSearch(e.target.value)}
 							/>
 						</div>
 					</div>
@@ -95,7 +97,7 @@ const pageListVoter = () => {
 						</div>
 					</div>
 					{/* Eleitores */}
-					<Voters />
+					<Voters value={search} />
 				</div>
 			</main>
 			<Sheet open={isOpen} onOpenChange={setIsOpen}>
