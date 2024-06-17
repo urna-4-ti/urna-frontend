@@ -142,7 +142,7 @@ export default function votePolRegPage () {
     return(
         <section className="voteSection">
             <div className="leftDiv leftDivVoter">
-                <Image src={IFImage} alt="IF" width={90} height={90} />
+                <Image src={IFImage} alt="IF" width={90} height={90} style={{position:"absolute",top:"3vh", left:"2vw"}} />
             </div>
 
             <div id="userDiv">
@@ -151,7 +151,7 @@ export default function votePolRegPage () {
 
             <main className="voterMain">
                 <div>
-                    <h2>Votação Forma de Governo</h2>
+                    <h2>Votação Regime Político</h2>
 
                     <div className="voterNumbers">
                         <input type="text" className="voterInput" disabled />

@@ -4,8 +4,7 @@ type politicalPartyProps = {
 	name: string;
 	partyClass: string;
 	politicalTypeId: string;
-	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-	photo: any;
+	photo?: string;
 };
 
 export async function createPoliticalParty({
@@ -19,7 +18,11 @@ export async function createPoliticalParty({
 	formdata.append("name", name);
 	formdata.append("class", partyClass);
 	formdata.append("politicalTypeId", politicalTypeId);
-	formdata.append("photo", photo[0]);
+	if (photo) {
+		formdata.append("photo", photo[0]);
+	}
 
-	await api.post("/political", formdata, axiosConfig);
+	const response = await api.post("/political", formdata, axiosConfig);
+
+	return { response };
 }

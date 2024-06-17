@@ -16,5 +16,7 @@ export async function createVoter(props: voterProps) {
 		formdata.append(key, value);
 	}
 
-	await api.post("/voter", formdata, axiosConfig);
+	const response = await api.post("/voter", formdata, axiosConfig);
+
+	return { response };
 }

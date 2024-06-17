@@ -1,4 +1,5 @@
 "use client";
+import SettingsTabs from "@/components/SettingsTabs";
 import Card from "@/components/card";
 import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -49,79 +50,7 @@ const DashBoard = () => {
 							<UserRound className=" hover:opacity-80 h-[30px] w-[30px] 2xl:w-[45px] 2xl:h-[45px]" />
 						</Button>
 					</div>
-					<div className="py-4 2xl:py-6 flex justify-center">
-						<Separator />
-					</div>
-					{/* BASE CARDS */}
-					<div className="px-5 2xl:px-7 flex flex-col justify-center mt-6 space-y-4">
-						<div>
-							<span className="font-default text-muted-foreground 2xl:text-xl">
-								Cadastros:
-							</span>
-						</div>
-						<div className="flex justify-center space-x-4 2xl:space-x-6">
-							<Card
-								title="Sistema de Governo"
-								fn="Cadastrar"
-								image={plus}
-								linkPage="/admin/create/government"
-							/>
-							<Card
-								title="Partido"
-								fn="Cadastrar"
-								image={plus}
-								linkPage="/admin/create/politicalParty"
-							/>
-							<Card
-								title="Eleitor"
-								fn="Cadastrar"
-								image={plus}
-								linkPage="/admin/create/voter"
-							/>
-							<Card
-								title="Candidato"
-								fn="Cadastrar"
-								image={plus}
-								linkPage="/admin/create/candidate"
-							/>
-						</div>
-					</div>
-					<div className="py-6 2xl:py-8 flex justify-center">
-						<Separator className="w-11/12 bg-[#00E327]" />
-					</div>
-					<div className="px-5 2xl:px-7 flex flex-col justify-center space-y-4 2xl:space-y-6">
-						<div>
-							<span className="font-default text-muted-foreground 2xl:text-xl">
-								Listagem:
-							</span>
-						</div>
-						<div className="flex justify-center space-x-4 2xl:space-x-6">
-							<Card
-								title="Sistema de Governo"
-								fn="Listar"
-								image={hamburguer}
-								linkPage="/admin/list/government"
-							/>
-							<Card
-								title="Partido"
-								fn="Listar"
-								image={hamburguer}
-								linkPage="/admin/list/politicalParty"
-							/>
-							<Card
-								title="Eleitor"
-								fn="Listar"
-								image={hamburguer}
-								linkPage="/admin/list/voter"
-							/>
-							<Card
-								title="Candidato"
-								fn="Listar"
-								image={hamburguer}
-								linkPage="/admin/list/candidate"
-							/>
-						</div>
-					</div>
+					<SettingsTabs />
 				</div>
 			</main>
 			<Sheet open={isOpen} onOpenChange={setIsOpen}>
