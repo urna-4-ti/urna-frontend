@@ -8,7 +8,6 @@ import certifiedIcon from "@/img/certified.svg"
 import '../votacaoFormaGoverno/styles.css'
 import React from "react"
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { Trash2 } from "lucide-react";
 import { createVoting } from "@/requests/voting/create";
 import { getPoliticalRegimeId } from "@/requests/politicalRegime/findAll";
 import { getVoterId } from "@/requests/voter/findAll";
