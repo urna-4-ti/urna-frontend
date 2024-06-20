@@ -47,7 +47,7 @@ const SettingsTabs = () => {
 				</ScrollArea.Scrollbar>
 			</ScrollArea.Root>
       <Tabs.Content value="tab1" ref={parent}>
-        <div className="h-[70vh] flex items-start px-5">
+        <div className="h-[70vh] flex items-start">
           <div className="w-full space-x-4 flex-col justify-start py-3">
             <h1 className="font-medium text-2xl space-y-5">
               Eleições de Primeiro Ato - Definição do Sistema Governamental
@@ -59,13 +59,11 @@ const SettingsTabs = () => {
                 <CardElection
                   title={"Forma de Governo"}
                   fn={"Iniciar votação"}
-                  linkPage={"#"}
                   bgTailWind="bg-[rgba(64,186,255,0.6)]"
                 />
                 <CardElection
                   title={"Regime Político"}
                   fn={"Iniciar votação"}
-                  linkPage={"#"}
                   bgTailWind="bg-[rgba(217,39,0,0.63)]"
                 />
               </div>
@@ -87,7 +85,7 @@ const SettingsTabs = () => {
         </div>
 			</Tabs.Content>
 			<Tabs.Content value="tab2" ref={parent}>
-      <div className="h-[70vh] flex items-center px-36">
+      <div className="h-[70vh] flex items-center px-20">
 					<div className="w-full flex space-x-4 justify-between">
 						<Card
 							title={"Sistema de Governo"}
@@ -117,7 +115,7 @@ const SettingsTabs = () => {
 				</div>
 			</Tabs.Content>
       <Tabs.Content value="tab3" ref={parent}>
-				<div className="h-[70vh] flex items-center px-36">
+				<div className="h-[70vh] flex items-center px-20">
 					<div className="w-full space-x-4 flex justify-between">
 						<Card
 							title={"Sistema de Governo"}
