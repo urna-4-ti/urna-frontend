@@ -43,6 +43,7 @@ import { toast } from "sonner";
 const pageListGovernment = () => {
 	const router = useRouter();
 	const [isOpen, setIsOpen] = useState(false);
+	const [search, setSearch] = useState<string | undefined>(undefined);
 	const {
 		actions: { logout },
 		state: { user },
@@ -100,6 +101,7 @@ const pageListGovernment = () => {
 								className="w-[337px] bg-[#F0F0F0] text-[#747474] 2xl:h-10 border-transparent"
 								type="text"
 								placeholder="Pesquisar..."
+								onChange={(e) => setSearch(e.target.value)}
 							/>
 						</div>
 					</div>
@@ -125,7 +127,7 @@ const pageListGovernment = () => {
 							</div>
 						</div>
 					</div>
-					<Governments />
+					<Governments value={search} />
 				</div>
 			</main>
 			<Sheet open={isOpen} onOpenChange={setIsOpen}>

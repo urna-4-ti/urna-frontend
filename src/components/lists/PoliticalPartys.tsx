@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import Spinner from "../Spinner";
+import LimitedParagraph from "../limited-paragraph";
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -27,7 +28,11 @@ import {
 	DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 
-const PoliticalPartys = () => {
+type Search = {
+	value: string | undefined;
+};
+
+const PoliticalPartys = ({ value }: Search) => {
 	const queryClient = useQueryClient();
 	const router = useRouter();
 	const [isAlert, setIsAlert] = useState(false);
@@ -41,6 +46,12 @@ const PoliticalPartys = () => {
 	const { mutateAsync: politicalPartyDelete } = useMutation({
 		mutationKey: ["delete-political", id],
 		mutationFn: () => deletePoliticalParty(id),
+	});
+
+	const filteredPolitical = politicalParty?.filter((item) => {
+		if (value) {
+			return item.name.toLowerCase().includes(value.toLowerCase());
+		}
 	});
 
 	const handleDelete = async () => {
@@ -76,9 +87,9 @@ const PoliticalPartys = () => {
 		<>
 			{!isLoading ? (
 				<>
-					{politicalParty && politicalParty.length > 0 ? (
+					{filteredPolitical !== undefined && filteredPolitical.length > 0 ? (
 						<>
-							{politicalParty?.map((item) => (
+							{filteredPolitical.map((item) => (
 								<div key={item.id} className="py-4">
 									<div className="mplus 2xl:text-lg 2xl:font-medium grid grid-cols-party px-20 2xl:px-32 h-[75px] 2xl:h-[80px] items-center">
 										<div className="grid grid-cols-nameparty items-center">
@@ -99,9 +110,10 @@ const PoliticalPartys = () => {
 											</div>
 										</div>
 										<div className="px-14">
-											<span className="2xl:pl-4 truncate">
-												{item.politicalType.name}
-											</span>
+											<LimitedParagraph
+												text={item.politicalType.name}
+												characterLimit={14}
+											/>
 										</div>
 										<div className="px-16 2xl:px-20">
 											<span className="truncate">{item.class}</span>
@@ -141,12 +153,81 @@ const PoliticalPartys = () => {
 							))}
 						</>
 					) : (
-						<div className="w-full py-32 flex justify-center">
-							<p className="text-2xl">
-								Infelizmente não foi encontrado nenhum resultado para a sua
-								busca!
-							</p>
-						</div>
+						<>
+							{politicalParty && politicalParty.length > 0 ? (
+								<>
+									{politicalParty?.map((item) => (
+										<div key={item.id} className="py-4">
+											<div className="mplus 2xl:text-lg 2xl:font-medium grid grid-cols-party px-20 2xl:px-32 h-[75px] 2xl:h-[80px] items-center">
+												<div className="grid grid-cols-nameparty items-center">
+													<div className="flex justify-center">
+														<div className="w-14 2xl:w-16 2xl:h-16 h-14 relative">
+															<Image
+																className="object-cover rounded-xl select-none"
+																src={`${process.env.NEXT_PUBLIC_URL}/public/${item.photoUrl}`}
+																alt="Foto candidato"
+																fill
+															/>
+														</div>
+													</div>
+													<div className="flex px-6">
+														<span className="truncate text-[#121212]">
+															{item.name}
+														</span>
+													</div>
+												</div>
+												<div className="px-14">
+													<LimitedParagraph
+														text={item.politicalType.name}
+														characterLimit={14}
+													/>
+												</div>
+												<div className="px-16 2xl:px-20">
+													<span className="truncate">{item.class}</span>
+												</div>
+												<div className=" items-center">
+													<div className="flex justify-end items-center">
+														<DropdownMenu>
+															<DropdownMenuTrigger asChild>
+																<Button variant="ghost">
+																	<EllipsisVertical className="h-[25px] w-[25px]" />
+																</Button>
+															</DropdownMenuTrigger>
+															<DropdownMenuContent className="w-20">
+																<DropdownMenuGroup>
+																	<DropdownMenuItem
+																		onClick={() =>
+																			router.push(
+																				`/admin/edit/${item.id}/politicalParty`,
+																			)
+																		}
+																	>
+																		Editar
+																	</DropdownMenuItem>
+																	<DropdownMenuItem
+																		className="text-red-500 focus:text-red-400"
+																		onClick={() => handleClick(item.id)}
+																	>
+																		Remover
+																	</DropdownMenuItem>
+																</DropdownMenuGroup>
+															</DropdownMenuContent>
+														</DropdownMenu>
+													</div>
+												</div>
+											</div>
+										</div>
+									))}
+								</>
+							) : (
+								<div className="w-full py-32 flex justify-center">
+									<p className="text-2xl">
+										Infelizmente não foi encontrado nenhum resultado para a sua
+										busca!
+									</p>
+								</div>
+							)}
+						</>
 					)}
 				</>
 			) : (
