@@ -1,0 +1,112 @@
+.voteSection{
+    display: grid;
+    grid-template-areas: 
+    "a b b b"
+    ;
+    align-items: center;
+}
+
+.leftDivVoter{
+    grid-area: "a";
+    background-color: rgba(217, 39, 0, 0.63);
+    width: 180px;
+    height: 100vh;
+    display: flex;
+    justify-content: left;
+}
+
+.voterMain{
+    display: flex;
+    grid-area: "b";
+    justify-content: space-between;
+}
+
+.voterMain h2{
+    font-size: 48px;
+}
+
+.voterUrn{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 200px;
+}
+
+.voterNumbers{
+    display: flex;
+    gap: 10px;
+    margin-top: 70px;
+}
+
+.voterNumbers input {
+    padding: 5px;
+    font-size: 64px;
+    font-weight: bold;
+    background-color: white;
+    width: 100px;
+    height: 140px;
+    border-radius: 10px;
+    border: 1px solid #4444448a;
+    box-shadow: 0 4px 3px 1px #4444448a;
+    text-align: center;
+    color: black;
+}
+
+.voteNumbers{
+    display: flex;
+    width: 280px;
+    height: 380px;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+.voteNumbers input{
+    font-weight: bold;
+    font-size: 32px;
+    color: white;
+    background-color: black;
+    border-radius: 10px;
+    width: 84px;
+    height: 84px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: none;
+}
+
+.voteButtons{
+    display: flex;
+    gap: 47px;
+    margin-top: 15px;
+}
+
+.voteButtons button{
+    font-weight: bold;
+    font-size: 24px;
+    width: 142px;
+    height: 86px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+#whiteBtn{
+    border: 1px solid #4444448a;
+    box-shadow: 0 4px 3px 1px #4444448a;
+}
+
+.successSpan{
+    display: flex; 
+    align-items: center; 
+    gap: 5px; 
+    font-weight: bold; 
+    font-size: 24px;
+    position: absolute;
+    top: 40vh;
+    left: 40vw;
+}
+
+.hidden{
+    display: none;
+}

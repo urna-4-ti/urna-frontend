@@ -47,7 +47,7 @@ const DashBoard = () => {
 							variant="ghost"
 							onClick={() => setIsOpen(true)}
 						>
-							<UserRound className=" hover:opacity-80 h-[30px] w-[30px] 2xl:w-[45px] 2xl:h-[45px]" />
+							<UserRound className="opacity-65 hover:opacity-60 h-[30px] w-[30px] 2xl:w-[45px] 2xl:h-[45px] " />
 						</Button>
 					</div>
 					<SettingsTabs />
