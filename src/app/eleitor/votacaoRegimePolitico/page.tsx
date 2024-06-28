@@ -8,6 +8,7 @@ import certifiedIcon from "@/img/certified.svg"
 import '../votacaoFormaGoverno/styles.css'
 import React from "react"
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { Trash2 } from "lucide-react";
 import { createVoting } from "@/requests/voting/create";
 import { getPoliticalRegimeId } from "@/requests/politicalRegime/findAll";
 import { getVoterId } from "@/requests/voter/findAll";
@@ -24,10 +25,11 @@ const schema = z.object({
 
 type votingProps = z.infer<typeof schema>;
 
-export default function votePolRegPage () {
+export default function votePolRegPage ({username}:{username:string}) {
     const [ChosenNumbers, setChosenNumbers] = React.useState(0)
     const [votingNumbers, setVotingNumbers] = React.useState<string[]>([])
-    const [showMessageType, setShowMessageType] = React.useState(0)
+    const [showMessage, setShowMessage] = React.useState(false)
+    const [showGoOutDiv, setShowGoOutDiv] = React.useState(false)
     const [politicalRegime, setPoliticalRegime] = React.useState("")
     const [voterName, setVoterName] = React.useState("")
 
@@ -103,8 +105,6 @@ export default function votePolRegPage () {
         });
     };
 
-
-
     function chooseNumbers(event: React.ChangeEvent<HTMLInputElement>) {
         const numberInputs : NodeListOf<HTMLInputElement> = document.querySelectorAll(".voterInput");
         if (ChosenNumbers !=3) {
@@ -113,11 +113,8 @@ export default function votePolRegPage () {
             setVotingNumbers([...votingNumbers, event.target.value]);
         }else if (ChosenNumbers == 3) {
             if ((votingNumbers[0].concat(votingNumbers[1])).concat(votingNumbers[2]) === "000") {
-                setShowMessageType(2);
                 alert("O número máximo de digitos foi atingido!")
-                
             }else{
-                setShowMessageType(1);
                 alert("O número máximo de digitos foi atingido!")
             }
         }
@@ -134,7 +131,7 @@ export default function votePolRegPage () {
     }
 
     function voteWhite() {
-        setShowMessageType(3)
+        setShowMessage(true)
     }
 
     const spanArray = new Array(10).fill(1);
@@ -145,8 +142,12 @@ export default function votePolRegPage () {
                 <Image src={IFImage} alt="IF" width={90} height={90} style={{position:"absolute",top:"3vh", left:"2vw"}} />
             </div>
 
-            <div id="userDiv">
-                <UserRound className=" hover:opacity-80 h-[30px] w-[30px] 2xl:w-[45px] 2xl:h-[45px] absolute top-10 right-10" />
+            <div id="userDiv" className="absolute top-10 right-10">
+                <div>
+                    <UserRound className="hover:opacity-80 h-[30px] w-[30px] 2xl:w-[45px] 2xl:h-[45px]" />
+                    <span>{voter?.name}</span>
+                </div>
+                <button className="text-red-500 font-bold text-xl" onClick={()=>{setShowGoOutDiv(true)}}>Sair</button>
 			</div>
 
             <main className="voterMain">
@@ -187,7 +188,24 @@ export default function votePolRegPage () {
             </main>
 
             {
-                showMessageType==1 ? <span className="successSpan">Voto em {politicalRegimeId!.name} com sucesso <Image src={certifiedIcon} alt="certified" /></span> : null
+                showMessage ? <span className="successSpan">Voto em {politicalRegimeId!.name} com sucesso <Image src={certifiedIcon} alt="certified" /></span> : null
+            }
+            {
+                showGoOutDiv ? 
+                <div className="goOutDiv">
+                    <p>Deseja realmente sair da votação? (os seus votos não serão contabilizados)</p>
+                    <div>
+                        <button style={{backgroundColor:'rgba(217, 39, 0, 0.63)'}} className="text-white" onClick={()=>{router.back()}}>Sim</button>
+                        <button className="border border-black text-gray-700" onClick={() =>{setShowGoOutDiv(false)}}>Não</button>
+                    </div>
+                </div>
+                :
+
+                null
+            }
+            {
+                showGoOutDiv ?
+                <span className="w-screen h-screen bg-black opacity-30 absolute top-0 left-0"></span> : null
             }
         </section>
     )

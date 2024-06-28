@@ -1,3 +1,9 @@
+:root{
+    --red: rgba(217, 39, 0, 0.63);
+}
+
+
+
 .voteSection{
     display: grid;
     grid-template-areas: 
@@ -8,7 +14,7 @@
 
 .leftDivVoter{
     grid-area: "a";
-    background-color: rgba(217, 39, 0, 0.63);
+    background-color: var(--red);
     width: 180px;
     height: 100vh;
     display: flex;
@@ -109,4 +115,39 @@
 
 .hidden{
     display: none;
+}
+
+.goOutDiv{
+    width: 883px;
+    height: 495px;
+    padding: 20px;
+    position: absolute;
+    top: 25vh;
+    left: 25vw;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    border-radius: 20px;
+}
+
+.goOutDiv p{
+    font-size: 40px;
+    text-align: center;
+    width: 70%;
+}
+
+.goOutDiv div{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 80px;
+}
+
+.goOutDiv div button{
+    font-size: 40px;
+    padding: 20px 100px;
+    border-radius: 15px;
 }
