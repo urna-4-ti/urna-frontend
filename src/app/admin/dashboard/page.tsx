@@ -16,6 +16,7 @@ import plus from "@/img/plus.svg";
 import { AuthStore } from "@/store/auth";
 import { AvatarFallback } from "@radix-ui/react-avatar";
 import { UserRound } from "lucide-react";
+import { useQueryState } from "next-usequerystate";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -23,7 +24,6 @@ import { useState } from "react";
 
 const DashBoard = () => {
 	const [isOpen, setIsOpen] = useState(false);
-	const router = useRouter();
 
 	const {
 		actions: { logout },

@@ -206,7 +206,7 @@ const pageCreateGovernment = () => {
 								<Textarea
 									id="description"
 									{...register("description")}
-									placeholder="Digite a descrição do candidato..."
+									placeholder="Digite a descrição do sistema de governo..."
 									className="border-black 2xl:text-xl 2xl:h-24 focus:border-primary resize-none text-base font-base 2xl:placeholder:text-lg"
 								/>
 								{errors.description && (
