@@ -5,31 +5,54 @@ import plus from "@/img/plus.svg";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import * as ScrollArea from "@radix-ui/react-scroll-area";
 import * as Tabs from "@radix-ui/react-tabs";
-import { useState } from "react";
+import { useQueryState } from "next-usequerystate";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import Card from "../card";
+import CardElection from "../card-election";
 import TabItem from "./TabItem";
 
 const SettingsTabs = () => {
 	const [parent] = useAutoAnimate();
-	const [currentTab, setCurrentTab] = useState("tab1");
+	const [currentTab, setCurrentTab] = useState("voting");
+	// const [searchParams, setSearchParams] = useSearchParams();
+	const [tab = "voting", setTab] = useQueryState("table");
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+	useEffect(() => {
+		if (tab) {
+			setCurrentTab(tab);
+			console.log(currentTab);
+		}
+	}, []);
+
+	const handleTabChange = (value: string) => {
+		setCurrentTab(value);
+		setTab(value);
+	};
+
 	return (
 		<Tabs.Root
 			value={currentTab}
-			onValueChange={setCurrentTab}
+			onValueChange={handleTabChange}
 			className="px-10 mt-6"
 		>
 			<ScrollArea.Root className="w-full" type="scroll">
 				<ScrollArea.Viewport className="w-full overflow-x-scroll">
 					<Tabs.List className="mt-6 flex w-full items-center gap-4 border-b border-zinc-200 dark:border-zinc-700">
 						<TabItem
-							value="tab1"
-							title="Cadastros"
-							isSelected={currentTab === "tab1"}
+							value="voting"
+							title="Eleições"
+							isSelected={currentTab === "voting"}
 						/>
 						<TabItem
-							value="tab2"
-							title="Listagens"
-							isSelected={currentTab === "tab2"}
+							value="create"
+							title="Cadastrar"
+							isSelected={currentTab === "create"}
+						/>
+						<TabItem
+							value="list"
+							title="Listagem"
+							isSelected={currentTab === "list"}
 						/>
 					</Tabs.List>
 				</ScrollArea.Viewport>
@@ -40,8 +63,26 @@ const SettingsTabs = () => {
 					<ScrollArea.Thumb className="relative flex-1 rounded-lg bg-zinc-300" />
 				</ScrollArea.Scrollbar>
 			</ScrollArea.Root>
-			<Tabs.Content value="tab1" ref={parent}>
-				<div className="h-[70vh] flex items-center px-36">
+			<Tabs.Content value="voting" ref={parent}>
+				<div className="h-[70vh] flex items-center px-20">
+					<div className="w-full space-x-10 flex justify-center">
+						<Card
+							title={"Votação"}
+							fn={"Cadastrar"}
+							linkPage={"/admin/create/vote"}
+							image={plus}
+						/>
+						<Card
+							title={"Votação"}
+							fn={"Listar"}
+							linkPage={"/admin/list/vote"}
+							image={hamburguer}
+						/>
+					</div>
+				</div>
+			</Tabs.Content>
+			<Tabs.Content value="create" ref={parent}>
+				<div className="h-[70vh] flex items-center px-20">
 					<div className="w-full space-x-4 flex justify-between">
 						<Card
 							title={"Sistema de Governo"}
@@ -70,8 +111,8 @@ const SettingsTabs = () => {
 					</div>
 				</div>
 			</Tabs.Content>
-			<Tabs.Content value="tab2" ref={parent}>
-				<div className="h-[70vh] flex items-center px-36">
+			<Tabs.Content value="list" ref={parent}>
+				<div className="h-[70vh] flex items-center px-20">
 					<div className="w-full flex space-x-4 justify-between">
 						<Card
 							title={"Sistema de Governo"}
