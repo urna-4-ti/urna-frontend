@@ -5,7 +5,7 @@ import IFImage from "@/img/logo-if.svg"
 import { UserRound } from "lucide-react";
 import certifiedIcon from "@/img/certified.svg"
 
-import '../votacaoFormaGoverno/styles.css'
+import '../voteGovForm/styles.css'
 import React from "react"
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Trash2 } from "lucide-react";

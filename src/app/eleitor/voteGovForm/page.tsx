@@ -108,12 +108,12 @@ export default function voteGovFormPage () {
 
     function chooseNumbers(event: React.ChangeEvent<HTMLInputElement>) {
         const numberInputs : NodeListOf<HTMLInputElement> = document.querySelectorAll(".voterInput");
-        if (ChosenNumbers !=3) {
+        if (ChosenNumbers !=2) {
             numberInputs[ChosenNumbers].value = event.target.value;
             setChosenNumbers(ChosenNumbers + 1);
             setVotingNumbers([...votingNumbers, event.target.value]);
-        }else if (ChosenNumbers == 3) {
-            if ((votingNumbers[0].concat(votingNumbers[1])).concat(votingNumbers[2]) === "000") {
+        }else if (ChosenNumbers == 2) {
+            if ((votingNumbers[0].concat(votingNumbers[1])) === "00") {
                 alert("O número máximo de digitos foi atingido!")
             }else{
                 alert("O número máximo de digitos foi atingido!")
