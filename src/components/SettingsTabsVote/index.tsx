@@ -1,9 +1,7 @@
 "use client";
 
 import filter from "@/img/filter.svg";
-import hamburguer from "@/img/hamburguer.svg";
 import iconBack from "@/img/icon-back.svg";
-import plus from "@/img/plus.svg";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import * as ScrollArea from "@radix-ui/react-scroll-area";
 import * as Tabs from "@radix-ui/react-tabs";
@@ -20,7 +18,6 @@ const SettingsTabsVote = () => {
 	const router = useRouter();
 	const [parent] = useAutoAnimate();
 	const [currentTab, setCurrentTab] = useState("peding");
-	// const [searchParams, setSearchParams] = useSearchParams();
 	const [tab = "voting", setTab] = useQueryState("table");
 	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
