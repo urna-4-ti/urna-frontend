@@ -28,7 +28,6 @@
   --input: 240 5.9% 90%;
   --ring: 142.1 76.2% 36.3%;
   --radius: 0.5rem;
-  --primary-bg-red: rgba(217, 39, 0, 0.63);
 }
 
 .dark {
@@ -52,6 +51,10 @@
   --input: 356 30% 50%;
   --ring: 356 83% 51.6%;
   --radius: 0.75rem;
+}
+
+.ShadowText {
+  text-shadow: 2px 2px 20px #0000002a;
 }
 
 @layer base {

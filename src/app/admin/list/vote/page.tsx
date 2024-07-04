@@ -1,9 +1,6 @@
 "use client";
-import SettingsTabs from "@/components/SettingsTabs";
-import Card from "@/components/card";
-import { Avatar } from "@/components/ui/avatar";
+import SettingsTabsVote from "@/components/SettingsTabsVote";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import {
 	Sheet,
 	SheetContent,
@@ -17,7 +14,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Suspense, useState } from "react";
 
-const DashBoard = () => {
+const voteList = () => {
 	const [isOpen, setIsOpen] = useState(false);
 
 	const {
@@ -36,17 +33,24 @@ const DashBoard = () => {
 
 				<div className="col-span-9 bg-white">
 					{/* HEADER */}
-					<div className="flex justify-end mt-6 px-4 2xl:px-2">
-						<Button
-							className="hover:bg-transparent"
-							variant="ghost"
-							onClick={() => setIsOpen(true)}
-						>
-							<UserRound className="opacity-65 hover:opacity-60 h-[30px] w-[30px] 2xl:w-[45px] 2xl:h-[45px] " />
-						</Button>
+					<div className="flex justify-between px-4 2xl:px-2">
+						<div className="px-6 pt-12 pb-6">
+							<h1 className="text-3xl font-medium 2xl:text-4xl">
+								Listagem de Votações
+							</h1>
+						</div>
+						<div className="mt-6">
+							<Button
+								className="hover:bg-transparent"
+								variant="ghost"
+								onClick={() => setIsOpen(true)}
+							>
+								<UserRound className=" hover:opacity-80 h-[30px] w-[30px] 2xl:w-[45px] 2xl:h-[45px]" />
+							</Button>
+						</div>
 					</div>
 					<Suspense>
-						<SettingsTabs />
+						<SettingsTabsVote />
 					</Suspense>
 				</div>
 			</main>
@@ -82,4 +86,4 @@ const DashBoard = () => {
 	);
 };
 
-export default DashBoard;
+export default voteList;
