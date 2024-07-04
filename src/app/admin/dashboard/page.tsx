@@ -10,17 +10,12 @@ import {
 	SheetHeader,
 	SheetTitle,
 } from "@/components/ui/sheet";
-import hamburguer from "@/img/hamburguer.svg";
 import logoIf from "@/img/logo-if.svg";
-import plus from "@/img/plus.svg";
 import { AuthStore } from "@/store/auth";
-import { AvatarFallback } from "@radix-ui/react-avatar";
 import { UserRound } from "lucide-react";
-import { useQueryState } from "next-usequerystate";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 
 const DashBoard = () => {
 	const [isOpen, setIsOpen] = useState(false);
@@ -50,7 +45,9 @@ const DashBoard = () => {
 							<UserRound className="opacity-65 hover:opacity-60 h-[30px] w-[30px] 2xl:w-[45px] 2xl:h-[45px] " />
 						</Button>
 					</div>
-					<SettingsTabs />
+					<Suspense>
+						<SettingsTabs />
+					</Suspense>
 				</div>
 			</main>
 			<Sheet open={isOpen} onOpenChange={setIsOpen}>
