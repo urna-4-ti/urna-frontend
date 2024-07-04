@@ -76,6 +76,9 @@ const config = {
 				party:
 					"minmax(20.5rem, 21.5rem) minmax(10.7rem, 11.25rem) minmax(0.7rem, 11.25rem) minmax(0, 1fr)",
 				nameparty: "minmax(9.7rem, 10.1rem) minmax(13.81rem, 14.25rem)",
+				navVote: "minmax(17.37rem, 17.75rem) minmax(0, 1fr)",
+				bodyVote:
+					"minmax(23.9rem, 26.9rem) minmax(23.9rem, 26.9rem) minmax(23.9rem, 26.9rem)",
 			},
 		},
 	},

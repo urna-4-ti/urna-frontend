@@ -64,42 +64,20 @@ const SettingsTabs = () => {
 				</ScrollArea.Scrollbar>
 			</ScrollArea.Root>
 			<Tabs.Content value="voting" ref={parent}>
-				<div className="h-[70vh] flex items-start">
-					<div className="w-full space-x-4 flex-col justify-start py-3">
-						<h1 className="font-medium text-2xl space-y-5">
-							Eleições de Primeiro Ato - Definição do Sistema Governamental
-						</h1>
-						<div className="w-full p-2">
-							<h2 className="text-xl py-5">
-								Votações de definição do Sistema Governamental:
-							</h2>
-
-							<div className="flex gap-12 justify-start w-full">
-								<CardElection
-									title={"Forma de Governo"}
-									fn={"Iniciar votação"}
-									bgTailWind="bg-[rgba(64,186,255,0.6)]"
-								/>
-								<CardElection
-									title={"Regime Político"}
-									fn={"Iniciar votação"}
-									bgTailWind="bg-[rgba(217,39,0,0.63)]"
-								/>
-							</div>
-						</div>
-
-						<div className="w-full p-2">
-							<h2 className="text-xl py-5">Resultados das votações:</h2>
-
-							<div className="flex gap-12 justify-start w-full">
-								<CardElection
-									title={"Sistema de Governo"}
-									fn={"Ver resultado"}
-									linkPage={"#"}
-									bgTailWind="bg-[rgba(0,0,0,0.3)]"
-								/>
-							</div>
-						</div>
+				<div className="h-[70vh] flex items-center px-20">
+					<div className="w-full space-x-10 flex justify-center">
+						<Card
+							title={"Votação"}
+							fn={"Cadastrar"}
+							linkPage={"/admin/create/vote"}
+							image={plus}
+						/>
+						<Card
+							title={"Votação"}
+							fn={"Listar"}
+							linkPage={"/admin/list/vote"}
+							image={hamburguer}
+						/>
 					</div>
 				</div>
 			</Tabs.Content>
