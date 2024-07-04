@@ -1,6 +1,7 @@
 import ReactQueryClientProvider from "@/lib/ReactQueryClientProvider";
 import type { Metadata } from "next";
 import { Kanit } from "next/font/google";
+import { Router } from "react-router-dom";
 import { Toaster } from "sonner";
 import "./globals.css";
 
