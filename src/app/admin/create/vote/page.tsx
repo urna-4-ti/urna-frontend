@@ -318,7 +318,7 @@ const createVote = () => {
 					</Card>
 				</div>
 			</main>
-			<Dialog open={true} onOpenChange={setOpenDialog}>
+			<Dialog open={openDialog} onOpenChange={setOpenDialog}>
 				<DialogContent className="sm:max-w-xl bg-white">
 					<DialogHeader>
 						<DialogTitle className="text-2xl mplus">
@@ -339,40 +339,40 @@ const createVote = () => {
 							</Button>
 						</div>
 						<div>
-						<Select
-										onValueChange={(value) => {
-											setValue("politicalTypeId", value);
-											setSelectTypeValue(value);
-										}}
-										value={selectTypeValue}
-										{...register("politicalTypeId")}
-									>
-										<SelectTrigger
-											className=" 2xl:text-lg focus:border-primary text-base text-muted-foreground w-4/5"
-											id="select1"
-										>
-											<SelectValue
-												className="2xl:placeholder:text-lg"
-												placeholder="Selecione uma Forma de Governo"
-											/>
-										</SelectTrigger>
-										<SelectContent>
-											<SelectGroup className="">
-												<SelectLabel className="2xl:text-xl">
-													Formas de Governo
-												</SelectLabel>
-												{governmentsForms?.map((item) => (
-													<SelectItem
-														className="2xl:text-lg"
-														key={item.id}
-														value={item.id}
-													>
-														{item.name}
-													</SelectItem>
-												))}
-											</SelectGroup>
-										</SelectContent>
-									</Select>
+							<Select
+								onValueChange={(value) => {
+									setValue("politicalTypeId", value);
+									setSelectTypeValue(value);
+								}}
+								value={selectTypeValue}
+								{...register("politicalTypeId")}
+							>
+								<SelectTrigger
+									className=" 2xl:text-lg focus:border-primary text-base text-muted-foreground w-4/5"
+									id="select1"
+								>
+									<SelectValue
+										className="2xl:placeholder:text-lg"
+										placeholder="Selecione uma Forma de Governo"
+									/>
+								</SelectTrigger>
+								<SelectContent>
+									<SelectGroup className="">
+										<SelectLabel className="2xl:text-xl">
+											Formas de Governo
+										</SelectLabel>
+										{governmentsForms?.map((item) => (
+											<SelectItem
+												className="2xl:text-lg"
+												key={item.id}
+												value={item.id}
+											>
+												{item.name}
+											</SelectItem>
+										))}
+									</SelectGroup>
+								</SelectContent>
+							</Select>
 						</div>
 					</div>
 					<DialogFooter>
