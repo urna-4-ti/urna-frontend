@@ -1,5 +1,5 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 "use client";
+/* eslint-disable react-hooks/rules-of-hooks */
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -13,7 +13,6 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
 import cloudBottomMid from "@/img/cloud-bottom-mid.svg";
 import cloudBottomRight from "@/img/cloud-bottom-right.svg";
 import cloudTopRight from "@/img/cloud-top-right.svg";
@@ -21,52 +20,44 @@ import iconBack from "@/img/icon-back.svg";
 import input from "@/img/input.svg";
 import logo from "@/img/logo-name.svg";
 import { classes } from "@/lib/Classes";
-import { createCandidate } from "@/requests/candidate/create";
-import { getPoliticalParty } from "@/requests/politicalPart/findAll";
-import { AuthStore } from "@/store/auth";
+import { getGovernmentForm } from "@/requests/government/findAll";
+import { createPoliticalParty } from "@/requests/politicalPart/create";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
 const schema = z.object({
-	codNum: z.number({ message: "*Este campo ainda não foi preenchido." }),
 	name: z
 		.string({ message: "*Este campo ainda não foi preenchido." })
-		.min(3, "*O nome de usuário deve conter pelo menos 3 caracteres."),
-	photo: z.any().optional(),
-	politicalPartyId: z
-		.string({
-			message: "*Este campo ainda não foi preenchido.",
-		})
-		.refine((value) => value.length > 0, {
-			message: "*Este campo ainda não foi preenchido.",
-		}),
-	description: z
+		.min(3, "*O nome de partido deve conter pelo menos 3 caracteres."),
+	class: z
 		.string({ message: "*Este campo ainda não foi preenchido." })
-		.min(3, "*A sua descrição é muito curta."),
-	classParty: z
-		.string({
-			message: "*Este campo ainda não foi preenchido.",
-		})
 		.refine((value) => value.length > 0, {
 			message: "*Este campo ainda não foi preenchido.",
 		}),
+	politicalTypeId: z
+		.string({
+			message: "*Este campo ainda não foi preenchido.",
+		})
+		.refine((item) => item.length > 0, {
+			message: "*Este campo ainda não foi preenchido.",
+		}),
+	photo: z.any().optional(),
 });
 
 type formProps = z.infer<typeof schema>;
 
-const addCandidate = () => {
+const createVote = () => {
 	const [parent] = useAutoAnimate();
-	const [selectValue, setSelectValue] = useState("");
-	const [valueInput, setValueInput] = useState("");
-	const [selectClassValue, setSelectClassValue] = useState("");
 	const router = useRouter();
+	const [selectValue, setSelectValue] = useState("");
+	const [selectTypeValue, setSelectTypeValue] = useState("");
 
 	const {
 		handleSubmit,
@@ -79,64 +70,51 @@ const addCandidate = () => {
 		reValidateMode: "onChange",
 		resolver: zodResolver(schema),
 		defaultValues: {
-			name: "",
 			photo: [],
-			description: "",
-			classParty: "",
-			politicalPartyId: "",
 		},
 	});
 
-	const { data: politicalParty, refetch } = useQuery({
-		queryKey: ["get-politicalParty", selectValue],
-		queryFn: () => getPoliticalParty(selectValue),
-		enabled: !!selectValue,
-	});
-
 	const hasNewImage = watch("photo").length > 0;
-
 	const image = watch("photo")[0];
 
-	const { mutateAsync, isError } = useMutation({
-		mutationKey: ["createCandidate"],
-		mutationFn: createCandidate,
+	const { data: governmentsForms } = useQuery({
+		queryKey: ["get-government-form"],
+		queryFn: getGovernmentForm,
 	});
 
-	const handleForm = async (data: formProps) => {
+	const { mutateAsync, isError } = useMutation({
+		mutationKey: ["createPoliticalParty"],
+		mutationFn: createPoliticalParty,
+	});
+
+	const handleForm = (data: formProps) => {
 		const inviteForm = async () => {
 			const { response } = await mutateAsync({
-				cod: Number(data.codNum),
 				name: data.name,
-				picPath: data.photo,
-				politicalPartyId: data.politicalPartyId,
-				description: data.description,
+				partyClass: data.class,
+				photo: data.photo,
+				politicalTypeId: data.politicalTypeId,
 			});
 			if (response) {
 				return true;
 			}
 		};
 
-		toast.promise(inviteForm(), {
+		toast.promise(inviteForm, {
 			loading: "Carregando...",
 			duration: 4000,
 
 			success: () => {
 				router.back();
-				return "Candidato Registrado";
+				return "Partido Registrado";
 			},
 
 			error: (error) => {
-				let result = "";
 				switch (error.response.status) {
 					case 500:
-						result = "Algum campo não foi preenchido.";
-						return result;
-					case 403:
-						result = "O número de código inserido é inválido.";
-						return result;
+						return "Algum campo não foi preenchido.";
 					default:
-						result = "Erro ao registrar o candidato.";
-						return result;
+						return "Erro ao registrar o partido.";
 				}
 			},
 
@@ -145,7 +123,6 @@ const addCandidate = () => {
 			},
 		});
 	};
-
 	return (
 		<main className="grid grid-cols-3 mx-auto min-h-screen">
 			<div className="bg-primary py-16 p-16">
@@ -168,7 +145,7 @@ const addCandidate = () => {
 					alt="Nuvem direita-baixo"
 				/>
 
-				<div className="flex items-center px-5 absolute 2xl:top-28 top-14 left-24 2xl:left-52">
+				<div className="flex items-center px-5 absolute 2xl:top-28 top-14 left-24 2xl:left-52 select-none">
 					<Button
 						className="hover:bg-transparent"
 						variant="ghost"
@@ -185,7 +162,7 @@ const addCandidate = () => {
 				<Card className="2xl:w-[38rem] w-[30rem]  shadow-xl fixed">
 					<CardHeader>
 						<CardTitle className="text-4xl 2xl:text-5xl px-2 2xl:pt-10 2xl:pb-6 pt-6 font-normal">
-							Cadastrar Candidato
+							Cadastrar Votação
 						</CardTitle>
 					</CardHeader>
 					<CardContent>
@@ -193,7 +170,7 @@ const addCandidate = () => {
 							className="space-y-2 2xl:space-y-4 mplus"
 							onSubmit={handleSubmit(handleForm)}
 						>
-							<div className="space-y-1" ref={parent}>
+							<div className="space-y-2.5" ref={parent}>
 								<Label
 									className="text-base 2xl:text-lg font-normal text-muted-foreground"
 									htmlFor="name"
@@ -201,47 +178,18 @@ const addCandidate = () => {
 									Nome
 								</Label>
 								<Input
-									className="2xl:h-[48px] h-[40px] 2xl:text-xl border-black focus:border-primary"
+									className="2xl:h-[48px] h-[40px] 2xl:text-xl border-black focus:border-primary 2xl:placeholder:text-lg"
+									placeholder="Digite..."
 									id="name"
 									type="text"
 									{...register("name")}
-									placeholder="Digite..."
 								/>
 								{errors.name && (
 									<p className="text-red-500 text-sm">{errors.name.message}</p>
 								)}
 							</div>
-							<div className="space-y-1.5" ref={parent}>
-								<Label
-									className="text-base 2xl:text-lg font-normal text-muted-foreground"
-									htmlFor="number"
-								>
-									Número
-								</Label>
-								<Input
-									className="2xl:h-[48px] 2xl:text-xl h-[40px] border-black focus:border-primary"
-									id="number"
-									type="number"
-									placeholder="Digite um número..."
-									value={valueInput}
-									{...register("codNum", {
-										valueAsNumber: true,
-									})}
-									onChange={(e) => {
-										const maxLength = 4;
-										const newValue = e.target.value.replace(/\D+/g, ""); // remove non-numeric characters
-										if (newValue.length <= maxLength) {
-											setValueInput(newValue);
-										}
-									}}
-								/>
-								{errors.codNum && (
-									<p className="text-red-500 text-sm">
-										{errors.codNum.message}
-									</p>
-								)}
-							</div>
-							<div className="space-y-1.5" ref={parent}>
+
+							<div className="space-y-2.5" ref={parent}>
 								<Label
 									className="text-base 2xl:text-lg font-normal text-muted-foreground"
 									htmlFor="select1"
@@ -250,11 +198,11 @@ const addCandidate = () => {
 								</Label>
 								<Select
 									onValueChange={(value) => {
-										setValue("classParty", value);
+										setValue("class", value);
 										setSelectValue(value);
 									}}
 									value={selectValue}
-									{...register("classParty")}
+									{...register("class")}
 								>
 									<SelectTrigger
 										className="h-[40px] 2xl:h-[48px] 2xl:text-xl border-black focus:border-primary text-base text-muted-foreground"
@@ -280,42 +228,41 @@ const addCandidate = () => {
 										</SelectGroup>
 									</SelectContent>
 								</Select>
-								{errors.classParty && (
-									<p className="text-red-500 text-sm">
-										{errors.classParty.message}
-									</p>
+								{errors.class && (
+									<p className="text-red-500 text-sm">{errors.class.message}</p>
 								)}
 							</div>
-							<div className="space-y-1.5" ref={parent}>
+
+							<div className="space-y-2.5" ref={parent}>
 								<Label
 									className="text-base 2xl:text-lg font-normal text-muted-foreground"
-									htmlFor="select2"
+									htmlFor="select1"
 								>
-									Partido
+									Regime Político
 								</Label>
 								<Select
 									onValueChange={(value) => {
-										setValue("politicalPartyId", value);
-										setSelectClassValue(value);
+										setValue("politicalTypeId", value);
+										setSelectTypeValue(value);
 									}}
-									value={selectClassValue}
-									{...register("politicalPartyId")}
+									value={selectTypeValue}
+									{...register("politicalTypeId")}
 								>
 									<SelectTrigger
 										className="h-[40px] 2xl:h-[48px] 2xl:text-xl border-black focus:border-primary text-base text-muted-foreground"
-										id="select2"
+										id="select1"
 									>
 										<SelectValue
 											className="2xl:placeholder:text-lg"
-											placeholder="Selecione um Partido"
+											placeholder="Selecione uma Forma de Governo"
 										/>
 									</SelectTrigger>
 									<SelectContent>
 										<SelectGroup className="h-28 text-sm 2xl:h-32">
 											<SelectLabel className="2xl:text-xl">
-												Partidos
+												Formas de Governo
 											</SelectLabel>
-											{politicalParty?.map((item) => (
+											{governmentsForms?.map((item) => (
 												<SelectItem
 													className="2xl:text-lg"
 													key={item.id}
@@ -327,71 +274,16 @@ const addCandidate = () => {
 										</SelectGroup>
 									</SelectContent>
 								</Select>
-								{errors.politicalPartyId && (
+								{errors.politicalTypeId && (
 									<p className="text-red-500 text-sm">
-										{errors.politicalPartyId.message}
+										{errors.politicalTypeId.message}
 									</p>
 								)}
-							</div>
-							<div className="space-y-1.5" ref={parent}>
-								<Label
-									className="text-base 2xl:text-lg font-normal text-muted-foreground"
-									htmlFor="description"
-								>
-									Descrição
-								</Label>
-								<Textarea
-									id="description"
-									{...register("description")}
-									placeholder="Digite a descrição do candidato..."
-									className="border-black 2xl:text-xl 2xl:h-24 focus:border-primary resize-none text-base font-base 2xl:placeholder:text-lg"
-								/>
-								{errors.description && (
-									<p className="text-red-500 text-sm	">
-										{errors.description.message}
-									</p>
-								)}
-							</div>
-
-							<div className="absolute bottom-48 2xl:right-[810px] right-[580px]">
-								<Label className="2xl:w-[280px] 2xl:h-[280px] w-[230px] h-[230px] bg-[#D9D9D9] cursor-pointer flex items-center justify-center border rounded-xl">
-									{hasNewImage ? (
-										<>
-											<Input
-												id=""
-												className="hidden"
-												type="file"
-												accept="image/*"
-												{...register("photo")}
-											/>
-											<div className="w-full h-full flex justify-center items-center relative rounded-lg">
-												<Image
-													className="object-cover rounded-lg"
-													src={URL.createObjectURL(image)}
-													alt="Imagem carregada"
-													fill
-												/>
-											</div>
-										</>
-									) : (
-										<>
-											<Input
-												className="hidden"
-												type="file"
-												accept="image/*"
-												{...register("photo")}
-											/>
-											<div className="w-full h-full flex justify-center items-center">
-												<Image src={input} alt="Imagem input" />
-											</div>
-										</>
-									)}
-								</Label>
 							</div>
 
 							<div className="flex justify-center 2xl:py-8 py-4">
 								<Button className="w-full 2xl:h-[48px] h-[42px] rounded-2xl text-lg font-bold bg-primary">
-									Criar
+									Cadastrar
 								</Button>
 							</div>
 						</form>
@@ -402,4 +294,4 @@ const addCandidate = () => {
 	);
 };
 
-export default addCandidate;
+export default createVote;

@@ -206,7 +206,7 @@ const pageCreateGovernment = () => {
 								<Textarea
 									id="description"
 									{...register("description")}
-									placeholder="Digite a descrição do candidato..."
+									placeholder="Digite a descrição do sistema de governo..."
 									className="border-black 2xl:text-xl 2xl:h-24 focus:border-primary resize-none text-base font-base 2xl:placeholder:text-lg"
 								/>
 								{errors.description && (
@@ -217,7 +217,7 @@ const pageCreateGovernment = () => {
 							</div>
 							<div className="flex justify-center 2xl:py-8 py-4">
 								<Button className="w-full 2xl:h-[48px] h-[42px] rounded-2xl text-lg font-bold bg-primary">
-									Cadastrar
+									Criar
 								</Button>
 							</div>
 						</form>
