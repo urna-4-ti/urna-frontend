@@ -3,7 +3,7 @@ import * as Tabs from "@radix-ui/react-tabs";
 import { motion } from "framer-motion";
 
 export interface TabItemProps {
-	value: string | null;
+	value: string
 	title: string;
 	isSelected?: boolean;
 }

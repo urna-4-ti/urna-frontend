@@ -7,7 +7,6 @@ import * as ScrollArea from "@radix-ui/react-scroll-area";
 import * as Tabs from "@radix-ui/react-tabs";
 import { useQueryState } from "next-usequerystate";
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
 import Card from "../card";
 import CardElection from "../card-election";
 import TabItem from "./TabItem";
@@ -15,13 +14,11 @@ import TabItem from "./TabItem";
 const SettingsTabs = () => {
 	const [parent] = useAutoAnimate();
 	const [currentTab, setCurrentTab] = useState("voting");
-	// const [searchParams, setSearchParams] = useSearchParams();
 	const [tab = "voting", setTab] = useQueryState("table");
 	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
 		if (tab) {
 			setCurrentTab(tab);
-			console.log(currentTab);
 		}
 	}, []);
 
