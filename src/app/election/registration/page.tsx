@@ -94,7 +94,7 @@ const addCandidate = () => {
 									{...register("enrollment")}
 									onChange={(e) => {
 										const maxLength = 10;
-										const newValue = e.target.value.replace(/\D+/g, ""); // remove non-numeric characters
+										const newValue = e.target.value.replace(/\D+/g, "");
 										if (newValue.length <= maxLength) {
 											setValueInput(newValue);
 										}
