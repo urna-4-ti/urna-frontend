@@ -24,14 +24,14 @@ const voteList = () => {
 
 	return (
 		<>
-			<main className="grid grid-cols-10 mx-auto min-h-screen">
+			<main className="grid grid-cols-main mx-auto min-h-screen bg-repeat-y">
 				<div className="bg-primary">
 					<div className="w-full flex justify-center mt-12">
 						<Image src={logoIf} alt="Logo do IFRS" />
 					</div>
 				</div>
 
-				<div className="col-span-9 bg-white">
+				<div className="bg-white">
 					{/* HEADER */}
 					<div className="flex justify-between px-4 2xl:px-2">
 						<div className="px-6 pt-12 pb-6">

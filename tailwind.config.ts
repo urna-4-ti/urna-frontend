@@ -79,6 +79,7 @@ const config = {
 				navVote: "minmax(17.37rem, 17.75rem) minmax(0, 1fr)",
 				bodyVote:
 					"minmax(23.9rem, 26.9rem) minmax(23.9rem, 26.9rem) minmax(23.9rem, 26.9rem)",
+				main: "minmax(8.25rem, 12rem) minmax(0, 1fr)",
 			},
 		},
 	},

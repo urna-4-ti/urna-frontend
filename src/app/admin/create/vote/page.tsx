@@ -300,8 +300,7 @@ const createVote = () => {
 								</div>
 								<div className="space-y-2.5">
 									<Button
-										className="text-lg"
-										variant="ghost"
+										className="text-lg border-black"
 										onClick={() => setOpenDialog(true)}
 									>
 										Adicionar candidato

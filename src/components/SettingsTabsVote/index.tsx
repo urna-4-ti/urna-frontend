@@ -66,7 +66,7 @@ const SettingsTabsVote = () => {
 				</ScrollArea.Scrollbar>
 			</ScrollArea.Root>
 			<Tabs.Content value="peding" ref={parent}>
-				<div className="flex flex-col justify-start items-center py-10 px-12 h-[80vh]">
+				<div className="flex flex-col justify-start items-center py-10 px-12">
 					<div className="grid grid-cols-navVote 2xl:px-0 w-full">
 						<div className="flex justify-start items-center px-5">
 							<Button
@@ -81,7 +81,7 @@ const SettingsTabsVote = () => {
 								/>
 							</Button>
 						</div>
-						<div className="flex justify-beetween items-center px-36">
+						<div className="flex justify-beetween items-center 2xl:px-36">
 							<div className="flex items-center justify-center">
 								<Button className="hover:bg-transparent" variant="ghost">
 									<Image
@@ -91,7 +91,7 @@ const SettingsTabsVote = () => {
 									/>
 								</Button>
 								<Input
-									className="w-[387px] bg-[#F0F0F0] text-[#747474] 2xl:h-10 border-transparent"
+									className="2xl:w-[387px] w-[287px] bg-[#F0F0F0] text-[#747474] 2xl:h-10 border-transparent"
 									type="text"
 									placeholder="Pesquisar..."
 									// onChange={(e) => setSearch(e.target.value)}
@@ -150,12 +150,75 @@ const SettingsTabsVote = () => {
 									linkPage={"/admin/create/government"}
 								/>
 							</div>
+							<div className="flex justify-center items-center my-2">
+								<Card
+									title={"Sistema de b"}
+									fn={"Cadastrar"}
+									linkPage={"/admin/create/government"}
+								/>
+							</div>
+							<div className="flex justify-center items-center my-2">
+								<Card
+									title={"Sistema de b"}
+									fn={"Cadastrar"}
+									linkPage={"/admin/create/government"}
+								/>
+							</div>
+							<div className="flex justify-center items-center my-2">
+								<Card
+									title={"Sistema de b"}
+									fn={"Cadastrar"}
+									linkPage={"/admin/create/government"}
+								/>
+							</div>
+							<div className="flex justify-center items-center my-2">
+								<Card
+									title={"Sistema de b"}
+									fn={"Cadastrar"}
+									linkPage={"/admin/create/government"}
+								/>
+							</div>
+							<div className="flex justify-center items-center my-2">
+								<Card
+									title={"Sistema de b"}
+									fn={"Cadastrar"}
+									linkPage={"/admin/create/government"}
+								/>
+							</div>
+							<div className="flex justify-center items-center my-2">
+								<Card
+									title={"Sistema de b"}
+									fn={"Cadastrar"}
+									linkPage={"/admin/create/government"}
+								/>
+							</div>
+							<div className="flex justify-center items-center my-2">
+								<Card
+									title={"Sistema de b"}
+									fn={"Cadastrar"}
+									linkPage={"/admin/create/government"}
+								/>
+							</div>
+							<div className="flex justify-center items-center my-2">
+								<Card
+									title={"Sistema de b"}
+									fn={"Cadastrar"}
+									linkPage={"/admin/create/government"}
+								/>
+							</div>
+							<div className="flex justify-center items-center my-2">
+								<Card
+									title={"Sistema de b"}
+									fn={"Cadastrar"}
+									linkPage={"/admin/create/government"}
+								/>
+							</div>
 						</div>
 					</div>
 				</div>
 			</Tabs.Content>
 			<Tabs.Content value="in-progress" ref={parent}>
-				<div className="flex flex-col justify-start items-center py-10 px-12 h-[80vh]">
+				<div className="flex flex-col justify-start items-center py-10 px-12">
 					<div className="grid grid-cols-navVote 2xl:px-0 w-full">
 						<div className="flex justify-start items-center px-5">
 							<Button
@@ -170,7 +233,7 @@ const SettingsTabsVote = () => {
 								/>
 							</Button>
 						</div>
-						<div className="flex justify-beetween items-center px-36">
+						<div className="flex justify-beetween items-center 2xl:px-36">
 							<div className="flex items-center justify-center">
 								<Button className="hover:bg-transparent" variant="ghost">
 									<Image
@@ -180,7 +243,7 @@ const SettingsTabsVote = () => {
 									/>
 								</Button>
 								<Input
-									className="w-[387px] bg-[#F0F0F0] text-[#747474] 2xl:h-10 border-transparent"
+									className="2xl:w-[387px] w-[287px] bg-[#F0F0F0] text-[#747474] 2xl:h-10 border-transparent"
 									type="text"
 									placeholder="Pesquisar..."
 									// onChange={(e) => setSearch(e.target.value)}
@@ -244,7 +307,7 @@ const SettingsTabsVote = () => {
 				</div>
 			</Tabs.Content>
 			<Tabs.Content value="completed" ref={parent}>
-				<div className="flex flex-col justify-start items-center py-10 px-12 h-[80vh]">
+				<div className="flex flex-col justify-start items-center py-10 px-12">
 					<div className="grid grid-cols-navVote 2xl:px-0 w-full">
 						<div className="flex justify-start items-center px-5">
 							<Button
@@ -259,7 +322,7 @@ const SettingsTabsVote = () => {
 								/>
 							</Button>
 						</div>
-						<div className="flex justify-beetween items-center px-36">
+						<div className="flex justify-beetween items-center 2xl:px-36">
 							<div className="flex items-center justify-center">
 								<Button className="hover:bg-transparent" variant="ghost">
 									<Image
@@ -269,7 +332,7 @@ const SettingsTabsVote = () => {
 									/>
 								</Button>
 								<Input
-									className="w-[387px] bg-[#F0F0F0] text-[#747474] 2xl:h-10 border-transparent"
+									className="2xl:w-[387px] w-[287px] bg-[#F0F0F0] text-[#747474] 2xl:h-10 border-transparent"
 									type="text"
 									placeholder="Pesquisar..."
 									// onChange={(e) => setSearch(e.target.value)}
