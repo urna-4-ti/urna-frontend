@@ -298,12 +298,12 @@ const createVote = () => {
 										</p>
 									)}
 								</div>
-								<div className="space-y-2.5">
+								<div className="space-y-2.5 flex justify-end">
 									<Button
-										className="text-lg border-black"
+										className="text-lg hover:text-black/40 text-black hover:bg-black/5 font-normal bg-transparent border border-black hover:border-black/30"
 										onClick={() => setOpenDialog(true)}
 									>
-										Adicionar candidato
+										Adicionar opções
 									</Button>
 								</div>
 
