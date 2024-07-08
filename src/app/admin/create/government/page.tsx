@@ -37,9 +37,6 @@ const schema = z.object({
 	cod: z
 		.number({ message: "*O campo deve ser um número." })
 		.min(2, "*O campo deve conter 2 digitos."),
-	description: z
-		.string({ message: "*Este campo ainda não foi preenchido." })
-		.min(3, "*A sua descrição é muito curta."),
 });
 
 type formProps = z.infer<typeof schema>;
@@ -72,7 +69,6 @@ const pageCreateGovernment = () => {
 			const { response } = await mutateAsync({
 				name: data.name,
 				cod: data.cod,
-				description: data.description,
 			});
 
 			if (response) {
@@ -225,26 +221,6 @@ const pageCreateGovernment = () => {
 								/>
 								{errors.cod && (
 									<p className="text-red-500 text-sm">{errors.cod.message}</p>
-								)}
-							</div>
-
-							<div className="space-y-1.5" ref={parent}>
-								<Label
-									className="text-base font-normal 2xl:text-lg text-muted-foreground"
-									htmlFor="description"
-								>
-									Descrição
-								</Label>
-								<Textarea
-									id="description"
-									{...register("description")}
-									placeholder="Digite a descrição do sistema de governo..."
-									className="border-black 2xl:text-xl 2xl:h-24 focus:border-primary resize-none text-base font-base 2xl:placeholder:text-lg"
-								/>
-								{errors.description && (
-									<p className="text-red-500 text-sm">
-										{errors.description.message}
-									</p>
 								)}
 							</div>
 							<div className="flex justify-center 2xl:py-8 py-4">

@@ -23,3 +23,10 @@ export async function getCandidateId(idCandidate: string): Promise<Candidate> {
 	const candidates = response.data.data;
 	return candidates;
 }
+
+export async function getClassCandidate(
+	classCandidate: string,
+): Promise<Candidate[]> {
+	const data = (await api.get(`/candidate/filter/${classCandidate}`)).data.data;
+	return data;
+}
