@@ -4,7 +4,11 @@ import { Input } from "@/components/ui/input";
 import logoIf from "@/img/logo-if.svg";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
+import { z } from "zod";
+
+const schema = z.object({});
+
 const GovernmentVote = () => {
 	const [slotValue1, setSlotValue1] = useState("");
 	const [slotValue2, setSlotValue2] = useState("");
