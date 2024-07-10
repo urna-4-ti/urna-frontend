@@ -1,20 +1,15 @@
 import { api, axiosConfig } from "../api";
 
 type voteProps = {
-	governmentVote?: string;
 	governmentId?: string;
-
-	politicalRegimeVote?: string;
+	whiteVote?: string;
 	politicalRegimeId?: string;
 
-	candidateVote?: string;
 	candidateId?: string;
 
-	class: string;
-	Voting: string;
+	class?: string;
 	votingId: string;
 
-	user: string;
 	userEnrollment: string;
 };
 export async function createVote(props: voteProps) {

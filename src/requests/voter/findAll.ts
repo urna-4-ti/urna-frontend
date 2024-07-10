@@ -13,8 +13,11 @@ export async function getVoters(): Promise<votersProps[]> {
 	return data;
 }
 
-export async function getVoterId(idVoter: string): Promise<votersProps> {
-	const response = await api.get(`/voter/${idVoter}`);
+export async function getVoterId(
+	idVoter: string,
+	electionId?: string | undefined,
+): Promise<votersProps> {
+	const response = await api.get(`/voter/${idVoter}/${electionId}`);
 	const voters = response.data.data;
 	return voters;
 }

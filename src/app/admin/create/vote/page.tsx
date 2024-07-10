@@ -251,14 +251,14 @@ const createVote = () => {
 			duration: 4000,
 			success: () => {
 				router.back();
-				return "Partido Registrado";
+				return "Eleição Registrada";
 			},
 			error: (error) => {
 				switch (error.response.status) {
 					case 500:
 						return "Algum campo não foi preenchido.";
 					default:
-						return "Erro ao registrar o partido.";
+						return "Erro ao registrar a Eleição.";
 				}
 			},
 			style: {

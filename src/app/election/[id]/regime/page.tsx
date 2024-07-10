@@ -7,10 +7,15 @@ import {
 	InputOTPSlot,
 } from "@/components/ui/input-otp";
 import logoIf from "@/img/logo-if.svg";
+import { getPoliticalRegimes } from "@/requests/politicalRegime/findAll";
+import { createVote } from "@/requests/vote/create";
 import { AuthStore } from "@/store/auth";
+import { useEnrollmentStore } from "@/store/enrollment";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
+import { toast } from "sonner";
 const RegimeVote = () => {
 	const [slotValue1, setSlotValue1] = useState("");
 	const [slotValue2, setSlotValue2] = useState("");
@@ -31,6 +36,18 @@ const RegimeVote = () => {
 		setSlotValue2("");
 		setSlotValue3("");
 	};
+	const {
+		state: { enrollment, idElection },
+	} = useEnrollmentStore();
+	const { data: regimes } = useQuery({
+		queryKey: ["get all regimes"],
+		queryFn: getPoliticalRegimes,
+	});
+
+	const { mutateAsync } = useMutation({
+		mutationKey: ["vote on regime"],
+		mutationFn: createVote,
+	});
 
 	return (
 		<>
@@ -145,7 +162,28 @@ const RegimeVote = () => {
 								<Button className="bg-white text-black 2xl:h-20 2xl:w-36 h-16 w-26 2xl:text-2xl text-xl rounded-xl shadow-md hover:bg-black/10">
 									Branco
 								</Button>
-								<Button className="text-black 2xl:h-20 2xl:w-36 h-16 w-26 2xl:text-2xl text-xl rounded-xl shadow-md">
+								<Button
+									onClick={() => {
+										const selectedCod = Number(
+											`${slotValue1}${slotValue2}${slotValue2}`,
+										);
+										const regime = regimes?.find(
+											(item) => item.cod === selectedCod,
+										);
+										if (!regime) {
+											toast.error(
+												"O codigo selecionado não pertence a nenhuma opção disponivel",
+											);
+											return;
+										}
+										mutateAsync({
+											votingId: idElection,
+											userEnrollment: enrollment,
+											politicalRegimeId: regime?.id,
+										});
+									}}
+									className="text-black 2xl:h-20 2xl:w-36 h-16 w-26 2xl:text-2xl text-xl rounded-xl shadow-md"
+								>
 									Confirma
 								</Button>
 							</div>

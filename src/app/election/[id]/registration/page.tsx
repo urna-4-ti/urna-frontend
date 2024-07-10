@@ -8,16 +8,17 @@ import halfCircle from "@/img/decoration-bottom-left.svg";
 import cloudBottom from "@/img/decoration-bottom-right.svg";
 import cloudTop from "@/img/decoration-top-right.svg";
 import logo from "@/img/logo-name.svg";
-import { getVoters } from "@/requests/voter/findAll";
+import { queryClient } from "@/lib/queryClient";
+import { getVoterId, getVoters } from "@/requests/voter/findAll";
 import { useEnrollmentStore } from "@/store/enrollment";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-
 const schema = z.object({
 	enroll: z
 		.string({ message: "*Este campo ainda não foi preenchido." })
@@ -25,16 +26,17 @@ const schema = z.object({
 			message: "*Matrícula inválida.",
 		}),
 });
-
 type formProps = z.infer<typeof schema>;
 
 const registration = ({ params }: { params: { id: string } }) => {
 	const [valueInput, setValueInput] = useState("");
+	const { push } = useRouter();
 
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
+		watch,
 	} = useForm<formProps>({
 		mode: "onSubmit",
 		reValidateMode: "onChange",
@@ -42,23 +44,24 @@ const registration = ({ params }: { params: { id: string } }) => {
 	});
 
 	const {
-		state: { enrollment, idElection },
 		actions: { insert },
 	} = useEnrollmentStore();
+	const enroll = watch("enroll");
 
-	const { data: voters, isLoading } = useQuery({
-		queryKey: ["get-voter"],
-		queryFn: getVoters,
+	const { data: voter, refetch } = useQuery({
+		queryKey: ["validate user", enroll],
+		queryFn: () => getVoterId(enroll, params.id),
+		enabled: false,
 	});
-
-	const handleForm = (data: formProps) => {
-		if (data.enroll && data.enroll.length === 10) {
-			voters?.map((item) => {
-				if (item.enrollment === data.enroll) {
-					insert(data.enroll, params.id);
-				}
-			});
-		}
+	const handleForm = async (data: formProps) => {
+		console.log(data);
+		await queryClient.invalidateQueries({
+			queryKey: ["validate user", data.enroll],
+		});
+		refetch();
+		console.log(voter);
+		insert(data.enroll, params.id);
+		push(`/election/${params.id}/regime`);
 	};
 
 	return (
@@ -126,7 +129,7 @@ const registration = ({ params }: { params: { id: string } }) => {
 							</div>
 							<div className="flex justify-center w-full py-4">
 								<Button className="text-lg h-12 w-4/5 rounded-xl mplus bg-secondary/65 hover:bg-secondary/75">
-									Entrar
+									Validar
 								</Button>
 							</div>
 						</form>
