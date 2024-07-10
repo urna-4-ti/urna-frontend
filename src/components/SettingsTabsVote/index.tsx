@@ -114,6 +114,7 @@ const SettingsTabsVote = () => {
 									<Card
 										title={item.name}
 										fn={"Iniciar"}
+										itemId={item.id}
 										linkPage={`/election/${item.id}/registration`}
 									/>
 								</div>

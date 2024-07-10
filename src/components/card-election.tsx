@@ -4,10 +4,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button } from "./ui/button";
+import { useMutation } from "@tanstack/react-query";
+import { editElection } from "@/requests/election/edit";
 
 interface cardProps {
 	title: string;
 	fn: string;
+	itemId?:string
 	linkPage?: string;
 	bgTailWind?: string;
 }
@@ -15,10 +18,16 @@ interface cardProps {
 const CardElection = ({
 	title,
 	fn,
+	itemId,
 	linkPage = "/eleitor/Matricula",
 	bgTailWind = "bg-[rgba(0,227,39,0.6)]",
+
 }: cardProps) => {
 	const router = useRouter();
+	const {mutateAsync} = useMutation({
+		mutationKey:['update eletion status'],
+		mutationFn: editElection
+	})
 
 	return (
 		<div className="cursor-pointer transition-all hover:scale-[1.05] text-white text-lg font-semibold">
@@ -31,6 +40,14 @@ const CardElection = ({
 
 				<div className="text-right">
 					<Link
+					onClick={async () => {
+						if(fn == 'Iniciar'){
+							await mutateAsync({
+								status:'IN_PROGRESS',
+								electionId: itemId ?? ''
+							})
+						}
+					}}
 						href={linkPage}
 						className=" p-2 hover:bg-zinc-500/15 rounded-md"
 					>
