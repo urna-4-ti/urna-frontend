@@ -1,16 +1,10 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-	InputOTP,
-	InputOTPGroup,
-	InputOTPSlot,
-} from "@/components/ui/input-otp";
 import logoIf from "@/img/logo-if.svg";
-import { AuthStore } from "@/store/auth";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 const GovernmentVote = () => {
 	const [slotValue1, setSlotValue1] = useState("");
 	const [slotValue2, setSlotValue2] = useState("");
@@ -44,7 +38,7 @@ const GovernmentVote = () => {
 							</h1>
 						</div>
 					</div>
-					<div className="grid grid-cols-2">
+					<form className="grid grid-cols-2">
 						<div className="px-24 py-16 flex space-x-2">
 							<Input
 								className="flex 2xl:h-32 2xl:w-24 h-28 w-20 items-center justify-center border-y border-r rounded-md border-input 2xl:text-4xl text-3xl shadow-md transition-all disabled:opacity-100 disabled:cursor-auto text-center"
@@ -141,7 +135,7 @@ const GovernmentVote = () => {
 								</Button>
 							</div>
 						</div>
-					</div>
+					</form>
 				</div>
 			</main>
 		</>
