@@ -32,7 +32,7 @@ type Search = {
 	value: string | undefined;
 };
 
-const Governments = ({ value }: Search) => {
+const Government = ({ value }: Search) => {
 	const queryClient = useQueryClient();
 	const router = useRouter();
 	const [isAlert, setIsAlert] = useState(false);
@@ -250,4 +250,4 @@ const Governments = ({ value }: Search) => {
 	);
 };
 
-export default Governments;
+export default Government;

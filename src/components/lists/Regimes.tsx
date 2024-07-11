@@ -1,14 +1,13 @@
 "use client";
-import { deletePoliticalParty } from "@/requests/politicalPart/delete";
-import { getAllPoliticalParty } from "@/requests/politicalPart/findAll";
+
+import { deletePoliticalRegime } from "@/requests/politicalRegime/delete";
+import { getPoliticalRegimes } from "@/requests/politicalRegime/findAll";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { EllipsisVertical } from "lucide-react";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import Spinner from "../Spinner";
-import LimitedParagraph from "../limited-paragraph";
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -32,23 +31,24 @@ type Search = {
 	value: string | undefined;
 };
 
-const PoliticalPartys = ({ value }: Search) => {
+const Regimes = ({ value }: Search) => {
 	const queryClient = useQueryClient();
 	const router = useRouter();
 	const [isAlert, setIsAlert] = useState(false);
 	const [id, setId] = useState("");
-	const { data: politicalParty, isLoading } = useQuery({
-		queryKey: ["get-politicalParty"],
-		queryFn: () => getAllPoliticalParty(),
+
+	const { data: regime, isLoading } = useQuery({
+		queryKey: ["get-regime"],
+		queryFn: () => getPoliticalRegimes(),
 		// enabled: false,
 	});
 
-	const { mutateAsync: politicalPartyDelete } = useMutation({
-		mutationKey: ["delete-political", id],
-		mutationFn: () => deletePoliticalParty(id),
+	const { mutateAsync: regimeDelete } = useMutation({
+		mutationKey: ["delete-regime", id],
+		mutationFn: () => deletePoliticalRegime(id),
 	});
 
-	const filteredPolitical = politicalParty?.filter((item) => {
+	const filteredRegime = regime?.filter((item) => {
 		if (value) {
 			return item.name.toLowerCase().includes(value.toLowerCase());
 		}
@@ -56,7 +56,7 @@ const PoliticalPartys = ({ value }: Search) => {
 
 	const handleDelete = async () => {
 		const inviteForm = async () => {
-			const { response } = await politicalPartyDelete();
+			const { response } = await regimeDelete();
 			if (response) {
 				return true;
 			}
@@ -67,11 +67,11 @@ const PoliticalPartys = ({ value }: Search) => {
 			duration: 4000,
 
 			success: () => {
-				queryClient.invalidateQueries({ queryKey: ["get-politicalParty"] });
-				return "Partido Removido";
+				queryClient.invalidateQueries({ queryKey: ["get-regime"] });
+				return "Regime Político Removido";
 			},
 
-			error: "Erro ao remover o partido",
+			error: "Erro ao remover o regime político",
 
 			style: {
 				boxShadow: "1px 2px 20px 6px #555",
@@ -87,38 +87,27 @@ const PoliticalPartys = ({ value }: Search) => {
 		<>
 			{!isLoading ? (
 				<>
-					{filteredPolitical !== undefined && filteredPolitical.length > 0 ? (
+					{filteredRegime !== undefined && filteredRegime.length > 0 ? (
 						<>
-							{filteredPolitical.map((item) => (
+							{filteredRegime.map((item) => (
 								<div key={item.id} className="py-4">
-									<div className="mplus 2xl:text-lg 2xl:font-medium grid grid-cols-party px-20 2xl:px-32 h-[75px] 2xl:h-[80px] items-center">
+									<div className="grid grid-cols-party px-20 2xl:px-32 h-[75px] 2xl:h-[80px] items-center 2xl:text-xl mplus">
 										<div className="grid grid-cols-nameparty items-center">
-											<div className="flex justify-center">
-												<div className="w-14 2xl:w-16 2xl:h-16 h-14 relative">
-													<Image
-														className="object-cover rounded-xl select-none"
-														src={`${process.env.NEXT_PUBLIC_URL}/public/${item.photoUrl}`}
-														alt="Foto candidato"
-														fill
-													/>
-												</div>
-											</div>
+											<div className="flex justify-center" />
+
 											<div className="flex px-6">
-												<span className="truncate text-[#121212]">
+												<span className="truncate 2xl:font-medium text-lg">
 													{item.name}
 												</span>
 											</div>
 										</div>
-										<div className="px-14">
-											<LimitedParagraph
-												text={item.government.name}
-												characterLimit={14}
-											/>
+										<div className="flex justify-center">
+											<span className="pr-8 2xl:pr-2 2xl:font-medium text-lg">
+												{item.cod}
+											</span>
 										</div>
-										<div className="px-16 2xl:px-20">
-											<span className="truncate">{item.class}</span>
-										</div>
-										<div className=" items-center">
+										<div className="2xl:px-14" />
+										<div className="flex justify-end">
 											<div className="flex justify-end items-center">
 												<DropdownMenu>
 													<DropdownMenuTrigger asChild>
@@ -131,7 +120,7 @@ const PoliticalPartys = ({ value }: Search) => {
 															<DropdownMenuItem
 																onClick={() =>
 																	router.push(
-																		`/admin/edit/${item.id}/politicalParty`,
+																		`/admin/edit/${item.id}/government`,
 																	)
 																}
 															>
@@ -154,38 +143,27 @@ const PoliticalPartys = ({ value }: Search) => {
 						</>
 					) : (
 						<>
-							{politicalParty && politicalParty.length > 0 ? (
+							{regime && regime.length > 0 ? (
 								<>
-									{politicalParty?.map((item) => (
+									{regime?.map((item) => (
 										<div key={item.id} className="py-4">
-											<div className="mplus 2xl:text-lg 2xl:font-medium grid grid-cols-party px-20 2xl:px-32 h-[75px] 2xl:h-[80px] items-center">
+											<div className="grid grid-cols-party px-20 2xl:px-32 h-[75px] 2xl:h-[80px] items-center 2xl:text-xl mplus">
 												<div className="grid grid-cols-nameparty items-center">
-													<div className="flex justify-center">
-														<div className="w-14 2xl:w-16 2xl:h-16 h-14 relative">
-															<Image
-																className="object-cover rounded-xl select-none"
-																src={`${process.env.NEXT_PUBLIC_URL}/public/${item.photoUrl}`}
-																alt="Foto candidato"
-																fill
-															/>
-														</div>
-													</div>
+													<div className="flex justify-center" />
+
 													<div className="flex px-6">
-														<span className="truncate text-[#121212]">
+														<span className="truncate 2xl:font-medium text-lg">
 															{item.name}
 														</span>
 													</div>
 												</div>
-												<div className="px-14">
-													<LimitedParagraph
-														text={item.government.name}
-														characterLimit={14}
-													/>
+												<div className="flex justify-center">
+													<span className="pr-8 2xl:pr-2 2xl:font-medium text-lg">
+														{item.cod}
+													</span>
 												</div>
-												<div className="px-16 2xl:px-20">
-													<span className="truncate">{item.class}</span>
-												</div>
-												<div className=" items-center">
+												<div className="2xl:px-14" />
+												<div className="flex justify-end">
 													<div className="flex justify-end items-center">
 														<DropdownMenu>
 															<DropdownMenuTrigger asChild>
@@ -195,15 +173,6 @@ const PoliticalPartys = ({ value }: Search) => {
 															</DropdownMenuTrigger>
 															<DropdownMenuContent className="w-20">
 																<DropdownMenuGroup>
-																	<DropdownMenuItem
-																		onClick={() =>
-																			router.push(
-																				`/admin/edit/${item.id}/politicalParty`,
-																			)
-																		}
-																	>
-																		Editar
-																	</DropdownMenuItem>
 																	<DropdownMenuItem
 																		className="text-red-500 focus:text-red-400"
 																		onClick={() => handleClick(item.id)}
@@ -240,7 +209,7 @@ const PoliticalPartys = ({ value }: Search) => {
 							Você realmente tem certeza disso?
 						</AlertDialogTitle>
 						<AlertDialogDescription>
-							Você está prestes a remover um Partido. Deseja realmente
+							Você está prestes a remover um regime político. Deseja realmente
 							continuar?
 						</AlertDialogDescription>
 					</AlertDialogHeader>
@@ -261,4 +230,4 @@ const PoliticalPartys = ({ value }: Search) => {
 	);
 };
 
-export default PoliticalPartys;
+export default Regimes;

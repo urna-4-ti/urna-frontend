@@ -1,16 +1,20 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-	InputOTP,
-	InputOTPGroup,
-	InputOTPSlot,
-} from "@/components/ui/input-otp";
 import logoIf from "@/img/logo-if.svg";
-import { AuthStore } from "@/store/auth";
+import { getOneElection } from "@/requests/election/findAll";
+import { getGovernmentForm } from "@/requests/government/findAll";
+import { createVote } from "@/requests/vote/create";
+import { useEnrollmentStore } from "@/store/enrollment";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
+import { useState } from "react";
+import { toast } from "sonner";
+import { z } from "zod";
+
+const schema = z.object({});
+
 const GovernmentVote = () => {
 	const [slotValue1, setSlotValue1] = useState("");
 	const [slotValue2, setSlotValue2] = useState("");
@@ -28,6 +32,29 @@ const GovernmentVote = () => {
 		setSlotValue2("");
 	};
 
+	const {
+		state: { enrollment, idElection },
+	} = useEnrollmentStore();
+
+	const { data: governments } = useQuery({
+		queryKey: ["get all governments"],
+		queryFn: getGovernmentForm,
+	});
+
+	const { mutateAsync } = useMutation({
+		mutationKey: ["vote on government"],
+		mutationFn: createVote,
+	});
+
+	const {push} = useRouter();
+	const {data:electionData} = useQuery({
+		queryKey: ["get election data",idElection],
+		queryFn: () => getOneElection(idElection),
+	})
+	if(electionData?.politicalRegimes?.length === 0 ){
+		return null
+	}
+
 	return (
 		<>
 			<main className="grid grid-cols-10 mx-auto min-h-screen">
@@ -44,7 +71,7 @@ const GovernmentVote = () => {
 							</h1>
 						</div>
 					</div>
-					<div className="grid grid-cols-2">
+					<form className="grid grid-cols-2">
 						<div className="px-24 py-16 flex space-x-2">
 							<Input
 								className="flex 2xl:h-32 2xl:w-24 h-28 w-20 items-center justify-center border-y border-r rounded-md border-input 2xl:text-4xl text-3xl shadow-md transition-all disabled:opacity-100 disabled:cursor-auto text-center"
@@ -136,12 +163,32 @@ const GovernmentVote = () => {
 								<Button className="bg-white text-black 2xl:h-20 2xl:w-36 h-16 w-26 2xl:text-2xl text-xl rounded-xl shadow-md hover:bg-black/10">
 									Branco
 								</Button>
-								<Button className="text-black 2xl:h-20 2xl:w-36 h-16 w-26 2xl:text-2xl text-xl rounded-xl shadow-md">
+								<Button
+									className="text-black 2xl:h-20 2xl:w-36 h-16 w-26 2xl:text-2xl text-xl rounded-xl shadow-md"
+									onClick={() => {
+										const selectedCod = Number(`${slotValue1}${slotValue2}`);
+										const government = governments?.find(
+											(item) => item.cod === selectedCod,
+										);
+										if (!government) {
+											toast.error(
+												"O codigo selecionado não pertence a nenhuma opção disponivel",
+											);
+											("");
+											return;
+										}
+										mutateAsync({
+											votingId: idElection,
+											userEnrollment: enrollment,
+											governmentId: government?.id,
+										});
+									}}
+								>
 									Confirma
 								</Button>
 							</div>
 						</div>
-					</div>
+					</form>
 				</div>
 			</main>
 		</>

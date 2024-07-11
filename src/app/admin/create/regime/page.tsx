@@ -19,7 +19,7 @@ import cloudBottomRight from "@/img/cloud-bottom-right.svg";
 import cloudTopRight from "@/img/cloud-top-right.svg";
 import iconBack from "@/img/icon-back.svg";
 import logo from "@/img/logo-name.svg";
-import { createGovernment } from "@/requests/government/create";
+import { createPoliticalRegime } from "@/requests/politicalRegime/create";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
@@ -39,7 +39,7 @@ const schema = z.object({
 
 type formProps = z.infer<typeof schema>;
 
-const pageCreateGovernment = () => {
+const pageCreateRegime = () => {
 	const [parent] = useAutoAnimate();
 	const [valueInput, setValueInput] = useState("");
 	const [selectValue, setSelectValue] = useState("");
@@ -47,6 +47,7 @@ const pageCreateGovernment = () => {
 	const {
 		handleSubmit,
 		register,
+		watch,
 		setValue,
 		formState: { errors },
 	} = useForm<formProps>({
@@ -56,8 +57,8 @@ const pageCreateGovernment = () => {
 	});
 
 	const { mutateAsync, isError } = useMutation({
-		mutationKey: ["createGovernment"],
-		mutationFn: createGovernment,
+		mutationKey: ["createPoliticalRegime"],
+		mutationFn: createPoliticalRegime,
 	});
 
 	const handleForm = async (data: formProps) => {
@@ -87,7 +88,7 @@ const pageCreateGovernment = () => {
 					case 403:
 						return "O Código inserido é inválido.";
 					default:
-						return "Erro ao registrar o sistema de governo.";
+						return "Erro ao registrar o regime político.";
 				}
 			},
 
@@ -137,7 +138,7 @@ const pageCreateGovernment = () => {
 				<Card className="2xl:w-[38rem] w-[30rem]  shadow-xl fixed">
 					<CardHeader>
 						<CardTitle className="text-4xl 2xl:text-5xl px-2 2xl:pt-10 2xl:pb-6 pt-6 font-normal">
-							Cadastrar Sistema de Governo
+							Cadastrar Regime Político
 						</CardTitle>
 					</CardHeader>
 					<CardContent>
@@ -166,7 +167,7 @@ const pageCreateGovernment = () => {
 									>
 										<SelectValue
 											className="2xl:placeholder:text-lg"
-											placeholder="Selecione um Partido"
+											placeholder="Selecione um Regime Político"
 										/>
 									</SelectTrigger>
 									<SelectContent>
@@ -174,17 +175,23 @@ const pageCreateGovernment = () => {
 											<SelectLabel className="2xl:text-lg mplus">
 												Nomes
 											</SelectLabel>
-											<SelectItem className="2xl:text-lg" value={"Absolutista"}>
-												{"Monarquia Absolutista"}
+											<SelectItem
+												className="2xl:text-lg"
+												value={"Parlamentarismo"}
+											>
+												{"Parlamentarismo"}
 											</SelectItem>
 											<SelectItem
 												className="2xl:text-lg"
-												value={"Constitucional"}
+												value={"Presidencialismo"}
 											>
-												{"Monarquia Constitucional"}
+												{"Presidencialismo"}
 											</SelectItem>
-											<SelectItem className="2xl:text-lg" value={"Republica"}>
-												{"República"}
+											<SelectItem
+												className="2xl:text-lg"
+												value={"SemiPresidencialismo"}
+											>
+												{"SemiPresidencialismo"}
 											</SelectItem>
 										</SelectGroup>
 									</SelectContent>
@@ -205,7 +212,7 @@ const pageCreateGovernment = () => {
 									className="2xl:h-[48px] h-[40px] 2xl:text-xl border-black focus:border-primary 2xl:placeholder:text-lg"
 									id="cod"
 									type="number"
-									placeholder="Digite o código do sistema de governo..."
+									placeholder="Digite o código do regime político.."
 									value={valueInput}
 									{...register("cod", { valueAsNumber: true })}
 									onChange={(e) => {
@@ -233,4 +240,4 @@ const pageCreateGovernment = () => {
 	);
 };
 
-export default pageCreateGovernment;
+export default pageCreateRegime;

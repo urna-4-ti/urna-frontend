@@ -4,9 +4,9 @@ type politicalPartyProps = {
 	id: string;
 	name: string;
 	class: string;
-	politicalTypeId: string;
+	governmentId: string;
 	photoUrl: string;
-	politicalType: {
+	government: {
 		name: string;
 	};
 };
