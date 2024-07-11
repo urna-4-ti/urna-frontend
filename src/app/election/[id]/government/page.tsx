@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import logoIf from "@/img/logo-if.svg";
+import { getOneElection } from "@/requests/election/findAll";
 import { getGovernmentForm } from "@/requests/government/findAll";
 import { createVote } from "@/requests/vote/create";
 import { useEnrollmentStore } from "@/store/enrollment";
@@ -44,6 +45,15 @@ const GovernmentVote = () => {
 		mutationKey: ["vote on government"],
 		mutationFn: createVote,
 	});
+
+	const {push} = useRouter();
+	const {data:electionData} = useQuery({
+		queryKey: ["get election data",idElection],
+		queryFn: () => getOneElection(idElection),
+	})
+	if(electionData?.politicalRegimes?.length === 0 ){
+		return null
+	}
 
 	return (
 		<>

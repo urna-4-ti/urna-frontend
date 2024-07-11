@@ -1,20 +1,19 @@
 "use client";
 import { Card } from "@/components/ui/card";
 import logoIf from "@/img/logo-if.svg";
-import { getOneElection } from "@/requests/election/findAll";
-import { useEnrollmentStore } from "@/store/enrollment";
+import { getAllElection, getOneElection } from "@/requests/election/findAll";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useEffect } from "react";
 const ResultElection = ({ params }: { params: { id: string } }) => {
-	const { data: elections } = useQuery({
-		queryKey: ["get candidate", params.id],
+	const { data: election, refetch } = useQuery({
+		queryKey: ["get-elections", params.id],
 		queryFn: () => getOneElection(params.id),
 	});
 
 	useEffect(() => {
-		console.log(elections);
-	}, [elections]);
+		console.log(election?.politicalRegimes);
+	}, [election]);
 
 	return (
 		<>

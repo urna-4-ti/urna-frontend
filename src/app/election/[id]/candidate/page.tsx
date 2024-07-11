@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 
 import logoIf from "@/img/logo-if.svg";
 import { getCandidate } from "@/requests/candidate/findAll";
+import { getOneElection } from "@/requests/election/findAll";
 import { createVote } from "@/requests/vote/create";
 import { useEnrollmentStore } from "@/store/enrollment";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -49,10 +50,19 @@ const PresidentVote = () => {
 		mutationKey: ["vote on candidate"],
 		mutationFn: createVote,
 	});
+	
+	const {data:electionData} = useQuery({
+		queryKey: ["get election data",idElection],
+		queryFn: () => getOneElection(idElection),
+	})
+	if(electionData?.candidates?.length === 0 ){
+		return null
+	}
 
 	return (
+		
 		<>
-			<main className="grid grid-cols-10 mx-auto min-h-screen">
+		<main className="grid grid-cols-10 mx-auto min-h-screen">
 				<div className="bg-secondary/65">
 					<div className="w-full flex justify-center mt-12">
 						<Image src={logoIf} alt="Logo do IFRS" />
@@ -198,6 +208,7 @@ const PresidentVote = () => {
 				</div>
 			</main>
 		</>
+	
 	);
 };
 

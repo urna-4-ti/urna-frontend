@@ -7,6 +7,7 @@ import {
 	InputOTPSlot,
 } from "@/components/ui/input-otp";
 import logoIf from "@/img/logo-if.svg";
+import { getOneElection } from "@/requests/election/findAll";
 import { getPoliticalRegimes } from "@/requests/politicalRegime/findAll";
 import { createVote } from "@/requests/vote/create";
 import { AuthStore } from "@/store/auth";
@@ -48,6 +49,15 @@ const RegimeVote = () => {
 		mutationKey: ["vote on regime"],
 		mutationFn: createVote,
 	});
+	const {push} = useRouter();
+	const {data:electionData} = useQuery({
+		queryKey: ["get election data",idElection],
+		queryFn: () => getOneElection(idElection),
+	})
+	if(electionData?.politicalRegimes?.length === 0 ){
+		return null
+	}
+
 
 	return (
 		<>
@@ -163,10 +173,12 @@ const RegimeVote = () => {
 									Branco
 								</Button>
 								<Button
-									onClick={() => {
+									onClick={async () => {
 										const selectedCod = Number(
 											`${slotValue1}${slotValue2}${slotValue3}`,
 										);
+										console.log(regimes);
+										
 										const regime = regimes?.find(
 											(item) => item.cod === selectedCod,
 										);
@@ -176,11 +188,12 @@ const RegimeVote = () => {
 											);
 											return;
 										}
-										mutateAsync({
+										await mutateAsync({
 											votingId: idElection,
 											userEnrollment: enrollment,
 											politicalRegimeId: regime?.id,
 										});
+										push(`/election/${idElection}/result`);
 									}}
 									className="text-black 2xl:h-20 2xl:w-36 h-16 w-26 2xl:text-2xl text-xl rounded-xl shadow-md"
 								>

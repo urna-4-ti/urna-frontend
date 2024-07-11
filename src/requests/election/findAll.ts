@@ -1,4 +1,4 @@
-import { api, getFromLocalStorage } from "../api";
+import { api } from "../api";
 
 type electionProps = {
 	id: string;

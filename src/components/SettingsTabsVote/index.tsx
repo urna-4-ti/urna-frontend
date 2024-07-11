@@ -53,6 +53,11 @@ const SettingsTabsVote = () => {
 		return election.status === "DONE";
 	});
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+	useEffect(() => {
+		console.log(elections);
+	}, []);
+
 	return (
 		<Tabs.Root
 			value={currentTab}

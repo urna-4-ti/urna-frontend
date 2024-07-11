@@ -8,6 +8,8 @@ type politicalRegime = {
 
 export async function getPoliticalRegimes(): Promise<politicalRegime[]> {
 	const data = (await api.get("/politicalRegime")).data.data;
+	console.log(data);
+	
 	return data;
 }
 

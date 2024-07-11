@@ -9,6 +9,7 @@ import cloudBottom from "@/img/decoration-bottom-right.svg";
 import cloudTop from "@/img/decoration-top-right.svg";
 import logo from "@/img/logo-name.svg";
 import { queryClient } from "@/lib/queryClient";
+import { getAllElection } from "@/requests/election/findAll";
 import { getVoterId, getVoters } from "@/requests/voter/findAll";
 import { useEnrollmentStore } from "@/store/enrollment";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -45,25 +46,13 @@ const registration = ({ params }: { params: { id: string } }) => {
 
 	const {
 		actions: { insert },
-		state: { enrollment, idElection },
 	} = useEnrollmentStore();
-	const enroll = watch("enroll");
 
-	const { data: voter, refetch } = useQuery({
-		queryKey: ["validate user", enroll],
-		queryFn: () => getVoterId(enroll, params.id),
-		enabled: false,
-	});
+
 	const handleForm = async (data: formProps) => {
-		console.log(data.enroll, params.id);
-		await queryClient.invalidateQueries({
-			queryKey: ["validate user", data.enroll],
-		});
-		refetch();
-		console.log(voter);
-		insert(data.enroll, params.id);
-
-		push(`/election/${params.id}/regime`);
+		insert(data.enroll, params.id)
+		
+		push(`/election/${params.id}/regime`)
 	};
 
 	return (
