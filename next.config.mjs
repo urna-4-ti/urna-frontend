@@ -15,7 +15,7 @@ const nextConfig = {
       },
       {
         protocol:'https',
-        hostname:"urna-backend.fly.dev",
+        hostname:"urna-apiv3-eelrne6u7a-rj.a.run.app",
         pathname: '/public/**',
 
       }
