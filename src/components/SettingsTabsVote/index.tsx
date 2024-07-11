@@ -2,9 +2,11 @@
 
 import filter from "@/img/filter.svg";
 import iconBack from "@/img/icon-back.svg";
+import { getAllElection } from "@/requests/election/findAll";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import * as ScrollArea from "@radix-ui/react-scroll-area";
 import * as Tabs from "@radix-ui/react-tabs";
+import { useQuery } from "@tanstack/react-query";
 import { useQueryState } from "next-usequerystate";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -19,6 +21,12 @@ const SettingsTabsVote = () => {
 	const [parent] = useAutoAnimate();
 	const [currentTab, setCurrentTab] = useState("peding");
 	const [tab = "voting", setTab] = useQueryState("table");
+
+	const { data: elections, refetch } = useQuery({
+		queryKey: ["get-elections"],
+		queryFn: getAllElection,
+	});
+
 	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
 		if (tab) {
@@ -101,118 +109,16 @@ const SettingsTabsVote = () => {
 					</div>
 					<div className="w-full flex justify-center py-16">
 						<div className="grid grid-cols-bodyVote">
-							<div className="flex justify-center items-center">
-								<Card
-									title={"Sistema de a"}
-									fn={"Cadastrar"}
-									linkPage={"/admin/create/government"}
-								/>
-							</div>
-							<div className="flex justify-center items-center my-2">
-								<Card
-									title={"Sistema de b"}
-									fn={"Cadastrar"}
-									linkPage={"/admin/create/government"}
-								/>
-							</div>
-							<div className="flex justify-center items-center my-2">
-								<Card
-									title={"Sistema de b"}
-									fn={"Cadastrar"}
-									linkPage={"/admin/create/government"}
-								/>
-							</div>
-							<div className="flex justify-center items-center my-2">
-								<Card
-									title={"Sistema de b"}
-									fn={"Cadastrar"}
-									linkPage={"/admin/create/government"}
-								/>
-							</div>
-							<div className="flex justify-center items-center my-2">
-								<Card
-									title={"Sistema de b"}
-									fn={"Cadastrar"}
-									linkPage={"/admin/create/government"}
-								/>
-							</div>
-							<div className="flex justify-center items-center my-2">
-								<Card
-									title={"Sistema de b"}
-									fn={"Cadastrar"}
-									linkPage={"/admin/create/government"}
-								/>
-							</div>
-							<div className="flex justify-center items-center my-2">
-								<Card
-									title={"Sistema de b"}
-									fn={"Cadastrar"}
-									linkPage={"/admin/create/government"}
-								/>
-							</div>
-							<div className="flex justify-center items-center my-2">
-								<Card
-									title={"Sistema de b"}
-									fn={"Cadastrar"}
-									linkPage={"/admin/create/government"}
-								/>
-							</div>
-							<div className="flex justify-center items-center my-2">
-								<Card
-									title={"Sistema de b"}
-									fn={"Cadastrar"}
-									linkPage={"/admin/create/government"}
-								/>
-							</div>
-							<div className="flex justify-center items-center my-2">
-								<Card
-									title={"Sistema de b"}
-									fn={"Cadastrar"}
-									linkPage={"/admin/create/government"}
-								/>
-							</div>
-							<div className="flex justify-center items-center my-2">
-								<Card
-									title={"Sistema de b"}
-									fn={"Cadastrar"}
-									linkPage={"/admin/create/government"}
-								/>
-							</div>
-							<div className="flex justify-center items-center my-2">
-								<Card
-									title={"Sistema de b"}
-									fn={"Cadastrar"}
-									linkPage={"/admin/create/government"}
-								/>
-							</div>
-							<div className="flex justify-center items-center my-2">
-								<Card
-									title={"Sistema de b"}
-									fn={"Cadastrar"}
-									linkPage={"/admin/create/government"}
-								/>
-							</div>
-							<div className="flex justify-center items-center my-2">
-								<Card
-									title={"Sistema de b"}
-									fn={"Cadastrar"}
-									linkPage={"/admin/create/government"}
-								/>
-							</div>
-							<div className="flex justify-center items-center my-2">
-								<Card
-									title={"Sistema de b"}
-									fn={"Cadastrar"}
-									linkPage={"/admin/create/government"}
-								/>
-							</div>
-							<div className="flex justify-center items-center my-2">
-								<Card
-									title={"Sistema de b"}
-									fn={"Cadastrar"}
-									linkPage={"/admin/create/government"}
-								/>
-							</div>
+							{elections?.map((item) => (
+								<div className="flex justify-center items-center" key={item.id}>
+									<Card
+										title={item.name}
+										fn={"Iniciar"}
+										itemId={item.id}
+										linkPage={`/election/${item.id}/registration`}
+									/>
+								</div>
+							))}
 						</div>
 					</div>
 				</div>

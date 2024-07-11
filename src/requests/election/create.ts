@@ -23,7 +23,10 @@ export async function createElection({
 	politicalRegimes?.map((regime) =>
 		formdata.append("politicalRegimes", regime),
 	);
+
 	govermentSystem?.map((system) => formdata.append("govermentSystem", system));
+
+	console.log(formdata);
 
 	const response = await api.post("/election", formdata, axiosConfig);
 

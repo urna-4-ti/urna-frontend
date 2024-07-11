@@ -154,6 +154,18 @@ const createVote = () => {
 		}
 	});
 
+	const availableGovernments = governmentsForms?.filter((item) => {
+		return !saveGovernment.find((x) => x.id === item.id);
+	});
+
+	const availableRegimes = regimes?.filter((item) => {
+		return !saveRegime.find((x) => x.id === item.id);
+	});
+
+	const availableCandidates = candidates?.filter((item) => {
+		return !saveCandidate.find((x) => x.id === item.id);
+	});
+
 	const listGovernment = filteredGovernments?.map((item) => {
 		return {
 			...item,
@@ -204,6 +216,9 @@ const createVote = () => {
 				]);
 			}
 		}
+		setSelectCandidateValue("");
+		setSelectRegimeValue("");
+		setGovernmentValue("");
 	};
 
 	const handleRemoveData = (id: string, name: string) => {
@@ -218,18 +233,14 @@ const createVote = () => {
 		}
 	};
 
-	const availableGovernments = governmentsForms?.filter((item) => {
-		return !saveGovernment.find((x) => x.id === item.id);
-	});
-
 	const handleForm = (data: formProps) => {
 		const inviteForm = async () => {
 			const { response } = await mutateAsync({
 				name: data.name,
 				className: data.class,
-				candidates: saveCandidate.map((item) => item.id),
-				govermentSystem: saveGovernment.map((item) => item.id),
-				politicalRegimes: saveRegime.map((item) => item.id),
+				candidates: data.candidate,
+				govermentSystem: data.government,
+				politicalRegimes: data.regime,
 			});
 			if (response) {
 				return true;
@@ -240,14 +251,14 @@ const createVote = () => {
 			duration: 4000,
 			success: () => {
 				router.back();
-				return "Partido Registrado";
+				return "Eleição Registrada";
 			},
 			error: (error) => {
 				switch (error.response.status) {
 					case 500:
 						return "Algum campo não foi preenchido.";
 					default:
-						return "Erro ao registrar o partido.";
+						return "Erro ao registrar a Eleição.";
 				}
 			},
 			style: {
@@ -256,8 +267,28 @@ const createVote = () => {
 		});
 	};
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
-		console.log(saveGovernment.map((item) => item.id));
+		setValue(
+			"regime",
+			saveRegime.map((item) => item.id),
+		);
+	}, [saveRegime]);
+
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+	useEffect(() => {
+		setValue(
+			"candidate",
+			saveCandidate.map((item) => item.id),
+		);
+	}, [saveCandidate]);
+
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+	useEffect(() => {
+		setValue(
+			"government",
+			saveGovernment.map((item) => item.id),
+		);
 	}, [saveGovernment]);
 
 	return (
@@ -379,6 +410,7 @@ const createVote = () => {
 
 								<div className="space-y-2.5 flex justify-end">
 									<Button
+										type="button"
 										className="text-lg hover:text-black/40 text-black hover:bg-black/5 font-normal bg-transparent border border-black hover:border-black/30"
 										onClick={() => setOpenDialog(true)}
 									>
@@ -485,7 +517,7 @@ const createVote = () => {
 											<SelectLabel className="2xl:text-xl">
 												Regime Político
 											</SelectLabel>
-											{regimes?.map((item) => (
+											{availableRegimes?.map((item) => (
 												<SelectItem
 													className="2xl:text-lg"
 													key={item.id}
@@ -531,7 +563,7 @@ const createVote = () => {
 											<SelectLabel className="2xl:text-xl">
 												Candidatos
 											</SelectLabel>
-											{candidates?.map((item) => (
+											{availableCandidates?.map((item) => (
 												<SelectItem
 													className="2xl:text-lg"
 													key={item.id}
@@ -550,69 +582,55 @@ const createVote = () => {
 								)} */}
 							</div>
 						</div>
-						{saveGovernment.map((item, index) => (
-							// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-							<div className="flex justify-between items-center" key={index}>
-								{item.id !== "" && (
-									<>
-										<Input
-											className="w-4/5 disabled:cursor-auto disabled:opacity-80"
-											disabled
-											defaultValue={item.name}
-										/>
-										<Button
-											className="bg-red-500 hover:bg-red-300"
+						<div className="w-full grid grid-cols-4">
+							{saveGovernment?.map(
+								(item) =>
+									// biome-ignore lint/correctness/useJsxKeyInIterable: <explanation>
+									item.id !== "" && (
+										<Card
+											className="group min-w-16 cursor-pointer max-w-32 rounded-xl bg-primary/60 hover:bg-red-400 flex items-center justify-around mt-2"
+											key={item.id}
 											onClick={() => handleRemoveData(item.id, "government")}
 										>
-											<X />
-										</Button>
-									</>
-								)}
-							</div>
-						))}
-						{saveRegime.map((item, index) => (
-							// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-							<div className="flex justify-between items-center" key={index}>
-								{item.id !== "" && (
-									<>
-										<Input
-											className="w-4/5 disabled:cursor-auto disabled:opacity-80"
-											disabled
-											defaultValue={item.name}
-										/>
-										<Button
-											className="bg-red-500 hover:bg-red-300"
+											<p className="text-sm block">{item.name}</p>
+										</Card>
+									),
+							)}
+							{saveRegime?.map(
+								(item) =>
+									// biome-ignore lint/correctness/useJsxKeyInIterable: <explanation>
+									item.id !== "" && (
+										<Card
+											className="group min-w-16 cursor-pointer max-w-32 rounded-xl bg-primary/60 hover:bg-red-400 flex items-center justify-around mt-2"
+											key={item.id}
 											onClick={() => handleRemoveData(item.id, "regime")}
 										>
-											<X />
-										</Button>
-									</>
-								)}
-							</div>
-						))}
-						{saveCandidate.map((item, index) => (
-							// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-							<div className="flex justify-between items-center" key={index}>
-								{item.id !== "" && (
-									<>
-										<Input
-											className="w-4/5 disabled:cursor-auto disabled:opacity-80"
-											disabled
-											defaultValue={item.name}
-										/>
-										<Button
-											className="bg-red-500 hover:bg-red-300"
+											<p className="text-sm block">{item.name}</p>
+										</Card>
+									),
+							)}
+							{saveCandidate?.map(
+								(item) =>
+									// biome-ignore lint/correctness/useJsxKeyInIterable: <explanation>
+									item.id !== "" && (
+										<Card
+											className="group min-w-16 cursor-pointer max-w-32 rounded-xl bg-primary/60 hover:bg-red-400 flex items-center justify-around mt-2"
+											key={item.id}
 											onClick={() => handleRemoveData(item.id, "candidate")}
 										>
-											<X />
-										</Button>
-									</>
-								)}
-							</div>
-						))}
+											<p className="text-sm block">{item.name}</p>
+										</Card>
+									),
+							)}
+						</div>
 					</div>
 					<DialogFooter>
-						<Button type="submit" onClick={handleAddData}>
+						<Button
+							type="submit"
+							onClick={() => {
+								handleAddData();
+							}}
+						>
 							Adicionar
 						</Button>
 					</DialogFooter>

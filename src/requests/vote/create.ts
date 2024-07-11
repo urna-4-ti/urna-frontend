@@ -1,23 +1,17 @@
 import { api, axiosConfig } from "../api";
 
 type voteProps = {
-  
-  governmentVote?: string;
-  governmentId?: string;
+	governmentId?: string;
+	whiteVote?: string;
+	politicalRegimeId?: string;
 
-  politicalRegimeVote?: string;
-  politicalRegimeId?: string;
+	candidateId?: string;
 
-  candidateVote?: string;
-  candidateId?: string;
+	class?: string;
+	votingId: string;
 
-  class: string;
-  Voting: string;
-  votingId: string;
-
-  user: string;
-  userEnrollment: string;
-}
+	userEnrollment: string;
+};
 export async function createVote(props: voteProps) {
 	const formdata = new FormData();
 
@@ -25,5 +19,5 @@ export async function createVote(props: voteProps) {
 		formdata.append(key, value);
 	}
 
-	await api.post("/vote", formdata, axiosConfig);
+	await api.post(`/vote/${props.votingId}`, formdata, axiosConfig);
 }
