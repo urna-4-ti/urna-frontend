@@ -163,7 +163,7 @@ const SettingsTabs = () => {
 							<Card
 								title={"Regime"}
 								fn={"Listar"}
-								linkPage={"/admin/list/regime"}
+								linkPage={""}
 								image={hamburguer}
 							/>
 						</div>
