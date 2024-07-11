@@ -5,5 +5,5 @@ export async function GET(res: Request) {
 
 	cookieStore.delete("token");
 
-	return NextResponse.redirect(new URL("/login", res.url));
+	return NextResponse.redirect(new URL("/about", res.url));
 }

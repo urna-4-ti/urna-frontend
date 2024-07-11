@@ -28,7 +28,7 @@ export async function middleware(request: NextRequest) {
 
 	console.log("all failed, to login");
 
-	return NextResponse.redirect(new URL("/login", request.url));
+	return NextResponse.redirect(new URL("/about", request.url));
 }
 
 export const config = {
