@@ -79,62 +79,94 @@ const SettingsTabs = () => {
 				</div>
 			</Tabs.Content>
 			<Tabs.Content value="create" ref={parent}>
-				<div className="h-[70vh] flex items-center px-20">
-					<div className="w-full space-x-4 flex justify-between">
-						<Card
-							title={"Sistema de Governo"}
-							fn={"Cadastrar"}
-							linkPage={"/admin/create/government"}
-							image={plus}
-						/>
-						<Card
-							title={"Partido"}
-							fn={"Cadastrar"}
-							linkPage={"/admin/create/politicalParty"}
-							image={plus}
-						/>
-						<Card
-							title={"Eleitor"}
-							fn={"Cadastrar"}
-							linkPage={"/admin/create/voter"}
-							image={plus}
-						/>
-						<Card
-							title={"Candidato"}
-							fn={"Cadastrar"}
-							linkPage={"/admin/create/candidate"}
-							image={plus}
-						/>
+				<div className="flex py-20 items-center 2xl:px-20 justify-center">
+					<div className="w-full grid grid-cols-dashboard 2xl:grid-cols-dashboard-2xl">
+						<div className="flex justify-center items-center mt-10">
+							<Card
+								title={"Sistema de Governo"}
+								fn={"Cadastrar"}
+								linkPage={"/admin/create/government"}
+								image={plus}
+							/>
+						</div>
+						<div className="flex justify-center items-center mt-10">
+							<Card
+								title={"Partido"}
+								fn={"Cadastrar"}
+								linkPage={"/admin/create/politicalParty"}
+								image={plus}
+							/>
+						</div>
+						<div className="flex justify-center items-center mt-10">
+							<Card
+								title={"Eleitor"}
+								fn={"Cadastrar"}
+								linkPage={"/admin/create/voter"}
+								image={plus}
+							/>
+						</div>
+						<div className="flex justify-center items-center mt-10">
+							<Card
+								title={"Candidato"}
+								fn={"Cadastrar"}
+								linkPage={"/admin/create/candidate"}
+								image={plus}
+							/>
+						</div>
+						<div className="flex justify-center items-center mt-10">
+							<Card
+								title={"Regime"}
+								fn={"Cadastrar"}
+								linkPage={"/admin/create/regime"}
+								image={plus}
+							/>
+						</div>
 					</div>
 				</div>
 			</Tabs.Content>
 			<Tabs.Content value="list" ref={parent}>
-				<div className="h-[70vh] flex items-center px-20">
-					<div className="w-full flex space-x-4 justify-between">
-						<Card
-							title={"Sistema de Governo"}
-							fn={"Listar"}
-							linkPage={"/admin/list/government"}
-							image={hamburguer}
-						/>
-						<Card
-							title={"Partido"}
-							fn={"Listar"}
-							linkPage={"/admin/list/politicalParty"}
-							image={hamburguer}
-						/>
-						<Card
-							title={"Eleitor"}
-							fn={"Listar"}
-							linkPage={"/admin/list/voter"}
-							image={hamburguer}
-						/>
-						<Card
-							title={"Candidato"}
-							fn={"Listar"}
-							linkPage={"/admin/list/candidate"}
-							image={hamburguer}
-						/>
+				<div className="flex items-center px-20 py-20">
+					<div className="w-full grid grid-cols-dashboard 2xl:grid-cols-dashboard-2xl">
+						<div className="flex justify-center items-center mt-10">
+							<Card
+								title={"Sistema de Governo"}
+								fn={"Listar"}
+								linkPage={"/admin/list/government"}
+								image={hamburguer}
+							/>
+						</div>
+						<div className="flex justify-center items-center mt-10">
+							<Card
+								title={"Partido"}
+								fn={"Listar"}
+								linkPage={"/admin/list/politicalParty"}
+								image={hamburguer}
+							/>
+						</div>
+						<div className="flex justify-center items-center mt-10">
+							<Card
+								title={"Eleitor"}
+								fn={"Listar"}
+								linkPage={"/admin/list/voter"}
+								image={hamburguer}
+							/>
+						</div>
+						<div className="flex justify-center items-center mt-10">
+							<Card
+								title={"Candidato"}
+								fn={"Listar"}
+								linkPage={"/admin/list/candidate"}
+								image={hamburguer}
+							/>
+						</div>
+						<div className="flex justify-center items-center mt-10">
+							<Card
+								title={"Regime"}
+								fn={"Listar"}
+								linkPage={"/admin/list/regime"}
+								image={hamburguer}
+							/>
+						</div>
 					</div>
 				</div>
 			</Tabs.Content>

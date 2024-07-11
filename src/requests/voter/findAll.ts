@@ -2,10 +2,10 @@ import { api } from "../api";
 
 type votersProps = {
 	id: string;
-	class: string;
-	email: string;
-	enrollment: string;
 	name: string;
+	email: string;
+	class: string;
+	enrollment: string;
 };
 
 export async function getVoters(): Promise<votersProps[]> {
@@ -13,8 +13,10 @@ export async function getVoters(): Promise<votersProps[]> {
 	return data;
 }
 
-export async function getVoterId(idVoter: string): Promise<votersProps> {
-	const response = await api.get(`/voter/${idVoter}`);
-	const voters = response.data.data;
-	return voters;
+export async function getVoterId(
+	idVoter: string,
+	electionId?: string | undefined,
+): Promise<votersProps> {
+	const response = (await api.get(`/voter/${idVoter}/${electionId}`)).data.data;
+	return response;
 }

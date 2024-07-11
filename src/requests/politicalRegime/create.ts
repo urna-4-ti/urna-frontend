@@ -11,9 +11,10 @@ export async function createPoliticalRegime({
 }: politicalRegimeProps) {
 	const formdata = new FormData();
 
-	formdata.append("name", name);
 	formdata.append("cod", cod.toString());
+	formdata.append("name", name);
 
-	await api.post("/politicalRegime", formdata, axiosConfig);
+	const response = await api.post("/politicalRegime", formdata, axiosConfig);
+
+	return { response };
 }
-
