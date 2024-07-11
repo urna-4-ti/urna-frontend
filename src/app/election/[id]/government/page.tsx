@@ -2,9 +2,14 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import logoIf from "@/img/logo-if.svg";
+import { getGovernmentForm } from "@/requests/government/findAll";
+import { createVote } from "@/requests/vote/create";
+import { useEnrollmentStore } from "@/store/enrollment";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
 import { z } from "zod";
 
 const schema = z.object({});
@@ -25,6 +30,20 @@ const GovernmentVote = () => {
 		setSlotValue1("");
 		setSlotValue2("");
 	};
+
+	const {
+		state: { enrollment, idElection },
+	} = useEnrollmentStore();
+
+	const { data: governments } = useQuery({
+		queryKey: ["get all governments"],
+		queryFn: getGovernmentForm,
+	});
+
+	const { mutateAsync } = useMutation({
+		mutationKey: ["vote on government"],
+		mutationFn: createVote,
+	});
 
 	return (
 		<>
@@ -134,7 +153,27 @@ const GovernmentVote = () => {
 								<Button className="bg-white text-black 2xl:h-20 2xl:w-36 h-16 w-26 2xl:text-2xl text-xl rounded-xl shadow-md hover:bg-black/10">
 									Branco
 								</Button>
-								<Button className="text-black 2xl:h-20 2xl:w-36 h-16 w-26 2xl:text-2xl text-xl rounded-xl shadow-md">
+								<Button
+									className="text-black 2xl:h-20 2xl:w-36 h-16 w-26 2xl:text-2xl text-xl rounded-xl shadow-md"
+									onClick={() => {
+										const selectedCod = Number(`${slotValue1}${slotValue2}`);
+										const government = governments?.find(
+											(item) => item.cod === selectedCod,
+										);
+										if (!government) {
+											toast.error(
+												"O codigo selecionado não pertence a nenhuma opção disponivel",
+											);
+											("");
+											return;
+										}
+										mutateAsync({
+											votingId: idElection,
+											userEnrollment: enrollment,
+											governmentId: government?.id,
+										});
+									}}
+								>
 									Confirma
 								</Button>
 							</div>

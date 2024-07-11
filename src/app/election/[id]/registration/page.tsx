@@ -45,6 +45,7 @@ const registration = ({ params }: { params: { id: string } }) => {
 
 	const {
 		actions: { insert },
+		state: { enrollment, idElection },
 	} = useEnrollmentStore();
 	const enroll = watch("enroll");
 
@@ -61,6 +62,7 @@ const registration = ({ params }: { params: { id: string } }) => {
 		refetch();
 		console.log(voter);
 		insert(data.enroll, params.id);
+
 		push(`/election/${params.id}/regime`);
 	};
 

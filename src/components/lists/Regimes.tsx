@@ -1,14 +1,13 @@
 "use client";
 
-import { deleteGovernment } from "@/requests/government/delete";
-import { getGovernmentForm } from "@/requests/government/findAll";
+import { deletePoliticalRegime } from "@/requests/politicalRegime/delete";
+import { getPoliticalRegimes } from "@/requests/politicalRegime/findAll";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { EllipsisVertical } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import Spinner from "../Spinner";
-import LimitedParagraph from "../limited-paragraph";
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -32,24 +31,24 @@ type Search = {
 	value: string | undefined;
 };
 
-const Government = ({ value }: Search) => {
+const Regimes = ({ value }: Search) => {
 	const queryClient = useQueryClient();
 	const router = useRouter();
 	const [isAlert, setIsAlert] = useState(false);
 	const [id, setId] = useState("");
 
-	const { data: government, isLoading } = useQuery({
-		queryKey: ["get-government"],
-		queryFn: () => getGovernmentForm(),
+	const { data: regime, isLoading } = useQuery({
+		queryKey: ["get-regime"],
+		queryFn: () => getPoliticalRegimes(),
 		// enabled: false,
 	});
 
-	const { mutateAsync: governmentDelete } = useMutation({
-		mutationKey: ["delete-government", id],
-		mutationFn: () => deleteGovernment(id),
+	const { mutateAsync: regimeDelete } = useMutation({
+		mutationKey: ["delete-regime", id],
+		mutationFn: () => deletePoliticalRegime(id),
 	});
 
-	const filteredGovernment = government?.filter((item) => {
+	const filteredRegime = regime?.filter((item) => {
 		if (value) {
 			return item.name.toLowerCase().includes(value.toLowerCase());
 		}
@@ -57,7 +56,7 @@ const Government = ({ value }: Search) => {
 
 	const handleDelete = async () => {
 		const inviteForm = async () => {
-			const { response } = await governmentDelete();
+			const { response } = await regimeDelete();
 			if (response) {
 				return true;
 			}
@@ -68,11 +67,11 @@ const Government = ({ value }: Search) => {
 			duration: 4000,
 
 			success: () => {
-				queryClient.invalidateQueries({ queryKey: ["get-government"] });
-				return "Sistema de Governo Removido";
+				queryClient.invalidateQueries({ queryKey: ["get-regime"] });
+				return "Regime Político Removido";
 			},
 
-			error: "Erro ao remover o sistema de governo",
+			error: "Erro ao remover o regime político",
 
 			style: {
 				boxShadow: "1px 2px 20px 6px #555",
@@ -88,9 +87,9 @@ const Government = ({ value }: Search) => {
 		<>
 			{!isLoading ? (
 				<>
-					{filteredGovernment !== undefined && filteredGovernment.length > 0 ? (
+					{filteredRegime !== undefined && filteredRegime.length > 0 ? (
 						<>
-							{filteredGovernment.map((item) => (
+							{filteredRegime.map((item) => (
 								<div key={item.id} className="py-4">
 									<div className="grid grid-cols-party px-20 2xl:px-32 h-[75px] 2xl:h-[80px] items-center 2xl:text-xl mplus">
 										<div className="grid grid-cols-nameparty items-center">
@@ -107,12 +106,7 @@ const Government = ({ value }: Search) => {
 												{item.cod}
 											</span>
 										</div>
-										<div className="2xl:px-14">
-											<LimitedParagraph
-												text={item.description}
-												characterLimit={40}
-											/>
-										</div>
+										<div className="2xl:px-14" />
 										<div className="flex justify-end">
 											<div className="flex justify-end items-center">
 												<DropdownMenu>
@@ -149,9 +143,9 @@ const Government = ({ value }: Search) => {
 						</>
 					) : (
 						<>
-							{government && government.length > 0 ? (
+							{regime && regime.length > 0 ? (
 								<>
-									{government?.map((item) => (
+									{regime?.map((item) => (
 										<div key={item.id} className="py-4">
 											<div className="grid grid-cols-party px-20 2xl:px-32 h-[75px] 2xl:h-[80px] items-center 2xl:text-xl mplus">
 												<div className="grid grid-cols-nameparty items-center">
@@ -168,12 +162,7 @@ const Government = ({ value }: Search) => {
 														{item.cod}
 													</span>
 												</div>
-												<div className="2xl:px-14">
-													<LimitedParagraph
-														text={item.description}
-														characterLimit={40}
-													/>
-												</div>
+												<div className="2xl:px-14" />
 												<div className="flex justify-end">
 													<div className="flex justify-end items-center">
 														<DropdownMenu>
@@ -184,15 +173,6 @@ const Government = ({ value }: Search) => {
 															</DropdownMenuTrigger>
 															<DropdownMenuContent className="w-20">
 																<DropdownMenuGroup>
-																	<DropdownMenuItem
-																		onClick={() =>
-																			router.push(
-																				`/admin/edit/${item.id}/government`,
-																			)
-																		}
-																	>
-																		Editar
-																	</DropdownMenuItem>
 																	<DropdownMenuItem
 																		className="text-red-500 focus:text-red-400"
 																		onClick={() => handleClick(item.id)}
@@ -229,8 +209,8 @@ const Government = ({ value }: Search) => {
 							Você realmente tem certeza disso?
 						</AlertDialogTitle>
 						<AlertDialogDescription>
-							Você está prestes a remover um sistema de governo. Deseja
-							realmente continuar?
+							Você está prestes a remover um regime político. Deseja realmente
+							continuar?
 						</AlertDialogDescription>
 					</AlertDialogHeader>
 					<AlertDialogFooter>
@@ -250,4 +230,4 @@ const Government = ({ value }: Search) => {
 	);
 };
 
-export default Government;
+export default Regimes;

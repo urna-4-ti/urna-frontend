@@ -1,5 +1,7 @@
 import { api } from "../api";
 
 export async function deletePoliticalRegime(idPoliticalRegime: string) {
-	await api.delete(`/political/${idPoliticalRegime}`);
+	const response = await api.delete(`/politicalRegime/${idPoliticalRegime}`);
+
+	return { response };
 }

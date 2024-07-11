@@ -3,25 +3,52 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 import logoIf from "@/img/logo-if.svg";
+import { getCandidate } from "@/requests/candidate/findAll";
+import { createVote } from "@/requests/vote/create";
+import { useEnrollmentStore } from "@/store/enrollment";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
+import { toast } from "sonner";
 const PresidentVote = () => {
 	const [slotValue1, setSlotValue1] = useState("");
 	const [slotValue2, setSlotValue2] = useState("");
+	const [slotValue3, setSlotValue3] = useState("");
+	const [slotValue4, setSlotValue4] = useState("");
 
 	const chooseNumbers = (value: number) => {
 		if (slotValue1 === "") {
 			setSlotValue1(value.toString());
 		} else if (slotValue2 === "") {
 			setSlotValue2(value.toString());
+		} else if (slotValue3 === "") {
+			setSlotValue3(value.toString());
+		} else if (slotValue4 === "") {
+			setSlotValue4(value.toString());
 		}
 	};
 
 	const clearNumbers = () => {
 		setSlotValue1("");
 		setSlotValue2("");
+		setSlotValue3("");
+		setSlotValue4("");
 	};
+
+	const {
+		state: { enrollment, idElection },
+	} = useEnrollmentStore();
+
+	const { data: candidates } = useQuery({
+		queryKey: ["get candidate"],
+		queryFn: getCandidate,
+	});
+
+	const { mutateAsync } = useMutation({
+		mutationKey: ["vote on candidate"],
+		mutationFn: createVote,
+	});
 
 	return (
 		<>
@@ -35,7 +62,7 @@ const PresidentVote = () => {
 					<div className="flex justify-between px-4 2xl:px-2">
 						<div className="px-6 py-12">
 							<h1 className="text-3xl font-medium 2xl:text-4xl">
-								Votação President
+								Votação Candidato
 							</h1>
 						</div>
 					</div>
@@ -45,6 +72,16 @@ const PresidentVote = () => {
 								className="flex 2xl:h-32 2xl:w-24 h-28 w-20 items-center justify-center border-y border-r rounded-md border-input 2xl:text-4xl text-3xl shadow-md transition-all disabled:opacity-100 disabled:cursor-auto text-center"
 								disabled
 								value={slotValue1}
+							/>
+							<Input
+								className="flex 2xl:h-32 2xl:w-24 h-28 w-20 items-center justify-center border-y border-r rounded-md border-input 2xl:text-4xl text-3xl shadow-md transition-all disabled:opacity-100 disabled:cursor-auto text-center"
+								disabled
+								value={slotValue2}
+							/>
+							<Input
+								className="flex 2xl:h-32 2xl:w-24 h-28 w-20 items-center justify-center border-y border-r rounded-md border-input 2xl:text-4xl text-3xl shadow-md transition-all disabled:opacity-100 disabled:cursor-auto text-center"
+								disabled
+								value={slotValue2}
 							/>
 							<Input
 								className="flex 2xl:h-32 2xl:w-24 h-28 w-20 items-center justify-center border-y border-r rounded-md border-input 2xl:text-4xl text-3xl shadow-md transition-all disabled:opacity-100 disabled:cursor-auto text-center"
@@ -131,7 +168,28 @@ const PresidentVote = () => {
 								<Button className="bg-white text-black 2xl:h-20 2xl:w-36 h-16 w-26 2xl:text-2xl text-xl rounded-xl shadow-md hover:bg-black/10">
 									Branco
 								</Button>
-								<Button className="text-black 2xl:h-20 2xl:w-36 h-16 w-26 2xl:text-2xl text-xl rounded-xl shadow-md">
+								<Button
+									className="text-black 2xl:h-20 2xl:w-36 h-16 w-26 2xl:text-2xl text-xl rounded-xl shadow-md"
+									onClick={() => {
+										const selectedCod = Number(
+											`${slotValue1}${slotValue2}${slotValue3}${slotValue4}`,
+										);
+										const candidate = candidates?.find(
+											(item) => item.cod === selectedCod.toString(),
+										);
+										if (!candidate) {
+											toast.error(
+												"O codigo selecionado não pertence a nenhuma opção disponivel",
+											);
+											return;
+										}
+										mutateAsync({
+											votingId: idElection,
+											userEnrollment: enrollment,
+											candidateId: candidate?.id,
+										});
+									}}
+								>
 									Confirma
 								</Button>
 							</div>
