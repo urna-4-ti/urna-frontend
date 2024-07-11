@@ -17,18 +17,22 @@ const schema = z.object({});
 const GovernmentVote = () => {
 	const [slotValue1, setSlotValue1] = useState("");
 	const [slotValue2, setSlotValue2] = useState("");
+	const [slotValue3, setSlotValue3] = useState("");
 
 	const chooseNumbers = (value: number) => {
 		if (slotValue1 === "") {
 			setSlotValue1(value.toString());
 		} else if (slotValue2 === "") {
 			setSlotValue2(value.toString());
+		} else if (slotValue3 === "") {
+			setSlotValue3(value.toString());
 		}
 	};
 
 	const clearNumbers = () => {
 		setSlotValue1("");
 		setSlotValue2("");
+		setSlotValue3("");
 	};
 
 	const {
@@ -73,24 +77,29 @@ const GovernmentVote = () => {
 								disabled
 								value={slotValue2}
 							/>
+							<Input
+								className="flex 2xl:h-32 2xl:w-24 h-28 w-20 items-center justify-center border-y border-r rounded-md border-input 2xl:text-4xl text-3xl shadow-md transition-all disabled:opacity-100 disabled:cursor-auto text-center"
+								disabled
+								value={slotValue3}
+							/>
 						</div>
 						<div className="flex flex-col space-y-3 items-center 2xl:py-36 py-8">
 							<div className="space-x-3">
 								<Button
 									className="bg-black w-16 h-16 2xl:w-20 2xl:h-20 2xl:text-3xl text-2xl rounded-xl shadow-md hover:bg-black/60 hover:text-black/50"
-									onClick={() => chooseNumbers(1)}
+									onClick={(e: any) => {e.preventDefault(); chooseNumbers(1)}}
 								>
 									1
 								</Button>
 								<Button
 									className="bg-black w-16 h-16 2xl:w-20 2xl:h-20 2xl:text-3xl text-2xl rounded-xl shadow-md hover:bg-black/60 hover:text-black/50"
-									onClick={() => chooseNumbers(2)}
+									onClick={(e: any) => {e.preventDefault(); chooseNumbers(2)}}
 								>
 									2
 								</Button>
 								<Button
 									className="bg-black w-16 h-16 2xl:w-20 2xl:h-20 2xl:text-3xl text-2xl rounded-xl shadow-md hover:bg-black/60 hover:text-black/50"
-									onClick={() => chooseNumbers(3)}
+									onClick={(e: any) => {e.preventDefault(); chooseNumbers(3)}}
 								>
 									3
 								</Button>
@@ -98,19 +107,19 @@ const GovernmentVote = () => {
 							<div className="space-x-3">
 								<Button
 									className="bg-black w-16 h-16 2xl:w-20 2xl:h-20 2xl:text-3xl text-2xl rounded-xl shadow-md hover:bg-black/60 hover:text-black/50"
-									onClick={() => chooseNumbers(4)}
+									onClick={(e: any) => {e.preventDefault(); chooseNumbers(4)}}
 								>
 									4
 								</Button>
 								<Button
 									className="bg-black w-16 h-16 2xl:w-20 2xl:h-20 2xl:text-3xl text-2xl rounded-xl shadow-md hover:bg-black/60 hover:text-black/50"
-									onClick={() => chooseNumbers(5)}
+									onClick={(e: any) => {e.preventDefault(); chooseNumbers(5)}}
 								>
 									5
 								</Button>
 								<Button
 									className="bg-black w-16 h-16 2xl:w-20 2xl:h-20 2xl:text-3xl text-2xl rounded-xl shadow-md hover:bg-black/60 hover:text-black/50"
-									onClick={() => chooseNumbers(6)}
+									onClick={(e: any) => {e.preventDefault(); chooseNumbers(6)}}
 								>
 									6
 								</Button>
@@ -118,19 +127,19 @@ const GovernmentVote = () => {
 							<div className="space-x-3">
 								<Button
 									className="bg-black w-16 h-16 2xl:w-20 2xl:h-20 2xl:text-3xl text-2xl rounded-xl shadow-md hover:bg-black/60 hover:text-black/50"
-									onClick={() => chooseNumbers(7)}
+									onClick={(e: any) => {e.preventDefault(); chooseNumbers(7)}}
 								>
 									7
 								</Button>
 								<Button
 									className="bg-black w-16 h-16 2xl:w-20 2xl:h-20 2xl:text-3xl text-2xl rounded-xl shadow-md hover:bg-black/60 hover:text-black/50"
-									onClick={() => chooseNumbers(8)}
+									onClick={(e: any) => {e.preventDefault(); chooseNumbers(8)}}
 								>
 									8
 								</Button>
 								<Button
 									className="bg-black w-16 h-16 2xl:w-20 2xl:h-20 2xl:text-3xl text-2xl rounded-xl shadow-md hover:bg-black/60 hover:text-black/50"
-									onClick={() => chooseNumbers(9)}
+									onClick={(e: any) => {e.preventDefault(); chooseNumbers(9)}}
 								>
 									9
 								</Button>
@@ -138,7 +147,7 @@ const GovernmentVote = () => {
 							<div className="space-x-3">
 								<Button
 									className="bg-black w-16 h-16 2xl:w-20 2xl:h-20 2xl:text-3xl text-2xl rounded-xl shadow-md hover:bg-black/60 hover:text-black/50"
-									onClick={() => chooseNumbers(0)}
+									onClick={(e: any) => {e.preventDefault(); chooseNumbers(0)}}
 								>
 									0
 								</Button>
@@ -146,7 +155,7 @@ const GovernmentVote = () => {
 							<div className="space-x-10 py-4">
 								<Button
 									className="bg-[#EA0000] text-black 2xl:h-20 2xl:w-36 h-16 w-26 2xl:text-2xl text-xl rounded-xl shadow-md hover:bg-[#EA0000]/50 hover:text-white"
-									onClick={clearNumbers}
+									onClick={(e: any) => {e.preventDefault(); clearNumbers();}}
 								>
 									Corrige
 								</Button>
@@ -155,7 +164,8 @@ const GovernmentVote = () => {
 								</Button>
 								<Button
 									className="text-black 2xl:h-20 2xl:w-36 h-16 w-26 2xl:text-2xl text-xl rounded-xl shadow-md"
-									onClick={() => {
+									onClick={(e: any) => {
+										e.preventDefault();
 										const selectedCod = Number(`${slotValue1}${slotValue2}`);
 										const government = governments?.find(
 											(item) => item.cod === selectedCod,
@@ -167,6 +177,9 @@ const GovernmentVote = () => {
 											("");
 											return;
 										}
+										console.log(idElection);
+										console.log(enrollment);
+										console.log(government.id);
 										mutateAsync({
 											votingId: idElection,
 											userEnrollment: enrollment,

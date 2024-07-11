@@ -172,14 +172,17 @@ const RegimeVote = () => {
 										);
 										if (!regime) {
 											toast.error(
-												"O codigo selecionado não pertence a nenhuma opção disponivel",
+												"O código selecionado não pertence a nenhuma opção disponível.",
 											);
 											return;
 										}
+										console.log(idElection);
+										console.log(enrollment);
+										console.log(regime.id);
 										mutateAsync({
 											votingId: idElection,
 											userEnrollment: enrollment,
-											politicalRegimeId: regime?.id,
+											politicalRegimeId: regime.id,
 										});
 									}}
 									className="text-black 2xl:h-20 2xl:w-36 h-16 w-26 2xl:text-2xl text-xl rounded-xl shadow-md"
