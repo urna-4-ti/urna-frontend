@@ -212,7 +212,7 @@ const pageCreateGovernment = () => {
 									value={valueInput}
 									{...register("cod", { valueAsNumber: true })}
 									onChange={(e) => {
-										const maxLength = 2;
+										const maxLength = 3;
 										const newValue = e.target.value.replace(/\D+/g, ""); // remove non-numeric characters
 										if (newValue.length <= maxLength) {
 											setValueInput(newValue);

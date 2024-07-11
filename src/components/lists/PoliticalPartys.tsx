@@ -111,7 +111,7 @@ const PoliticalPartys = ({ value }: Search) => {
 										</div>
 										<div className="px-14">
 											<LimitedParagraph
-												text={item.politicalType.name}
+												text={item.government.name}
 												characterLimit={14}
 											/>
 										</div>
@@ -178,7 +178,7 @@ const PoliticalPartys = ({ value }: Search) => {
 												</div>
 												<div className="px-14">
 													<LimitedParagraph
-														text={item.politicalType.name}
+														text={item.government.name}
 														characterLimit={14}
 													/>
 												</div>
