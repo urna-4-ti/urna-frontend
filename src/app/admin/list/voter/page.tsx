@@ -24,7 +24,6 @@ const pageListVoter = () => {
 	const [search, setSearch] = useState<string | undefined>(undefined);
 
 	const {
-		actions: { logout },
 		state: { user },
 	} = AuthStore();
 	return (

@@ -14,23 +14,18 @@ import {
 import filter from "@/img/filter.svg";
 import iconBack from "@/img/icon-back.svg";
 import logoIf from "@/img/logo-if.svg";
-import { deleteGovernment } from "@/requests/government/delete";
-import { getGovernmentForm } from "@/requests/government/findAll";
 import { AuthStore } from "@/store/auth";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { CirclePlus, EllipsisVertical, UserRound } from "lucide-react";
+import { CirclePlus, UserRound } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { toast } from "sonner";
 
 const pageListRegime = () => {
 	const router = useRouter();
 	const [isOpen, setIsOpen] = useState(false);
 	const [search, setSearch] = useState<string | undefined>(undefined);
 	const {
-		actions: { logout },
 		state: { user },
 	} = AuthStore();
 
@@ -104,7 +99,7 @@ const pageListRegime = () => {
 						<div className="2xl:px-10" />
 						<div className="flex justify-end px-6">
 							<div className="flex items-center justify-end">
-								<Link href="/admin/create/government">
+								<Link href="/admin/create/regime">
 									<CirclePlus className="h-[25px] w-[25px] 2xl:h-[32px] 2xl:w-[32px]" />
 								</Link>
 							</div>

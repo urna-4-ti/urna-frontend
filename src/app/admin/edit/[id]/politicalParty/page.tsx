@@ -37,10 +37,9 @@ import { getPoliticalPartyId } from "@/requests/politicalPart/findAll";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Trash2 } from "lucide-react";
-import image from "next/image";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import react, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -166,9 +165,9 @@ const pageEditPoliticalParty = ({ params }: { params: { id: string } }) => {
 	};
 
 	useEffect(() => {
-		if (politicalParty?.class && politicalParty?.politicalTypeId) {
+		if (politicalParty?.class && politicalParty?.governmentId) {
 			setSelectValue(politicalParty.class);
-			setSelectTypeValue(politicalParty.politicalTypeId);
+			setSelectTypeValue(politicalParty.governmentId);
 		}
 	}, [politicalParty]);
 
@@ -176,7 +175,7 @@ const pageEditPoliticalParty = ({ params }: { params: { id: string } }) => {
 		if (politicalParty) {
 			setValue("name", politicalParty.name);
 			setValue("class", politicalParty.class);
-			setValue("politicalTypeId", politicalParty.politicalTypeId);
+			setValue("politicalTypeId", politicalParty.governmentId);
 		}
 	}, [politicalParty, setValue]);
 	return (

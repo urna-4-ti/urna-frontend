@@ -1,24 +1,7 @@
 "use client";
 import Governments from "@/components/lists/Governments";
-import {
-	AlertDialog,
-	AlertDialogAction,
-	AlertDialogCancel,
-	AlertDialogContent,
-	AlertDialogDescription,
-	AlertDialogFooter,
-	AlertDialogHeader,
-	AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
 /* eslint-disable react-hooks/rules-of-hooks */
 import { Button } from "@/components/ui/button";
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuGroup,
-	DropdownMenuItem,
-	DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import {
 	Sheet,
@@ -29,23 +12,18 @@ import {
 import filter from "@/img/filter.svg";
 import iconBack from "@/img/icon-back.svg";
 import logoIf from "@/img/logo-if.svg";
-import { deleteGovernment } from "@/requests/government/delete";
-import { getGovernmentForm } from "@/requests/government/findAll";
 import { AuthStore } from "@/store/auth";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { CirclePlus, EllipsisVertical, UserRound } from "lucide-react";
+import { CirclePlus, UserRound } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { toast } from "sonner";
 
 const pageListGovernment = () => {
 	const router = useRouter();
 	const [isOpen, setIsOpen] = useState(false);
 	const [search, setSearch] = useState<string | undefined>(undefined);
 	const {
-		actions: { logout },
 		state: { user },
 	} = AuthStore();
 
@@ -116,9 +94,8 @@ const pageListGovernment = () => {
 						<div className="flex justify-center">
 							<span className="text-[#8E8E8E] pl-6">Código</span>
 						</div>
-						<div className="2xl:px-10">
-							<span className="text-[#8E8E8E] pl-4">Descrição</span>
-						</div>
+						<div className="2xl:px-10" />
+
 						<div className="flex justify-end px-6">
 							<div className="flex items-center justify-end">
 								<Link href="/admin/create/government">
