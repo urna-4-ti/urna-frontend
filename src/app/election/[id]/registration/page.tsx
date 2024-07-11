@@ -54,7 +54,7 @@ const registration = ({ params }: { params: { id: string } }) => {
 		enabled: false,
 	});
 	const handleForm = async (data: formProps) => {
-		console.log(data);
+		console.log(data.enroll, params.id);
 		await queryClient.invalidateQueries({
 			queryKey: ["validate user", data.enroll],
 		});

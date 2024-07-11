@@ -163,7 +163,7 @@ const RegimeVote = () => {
 									Branco
 								</Button>
 								<Button
-									onClick={() => {
+									onClick={async () => {
 										const selectedCod = Number(
 											`${slotValue1}${slotValue2}${slotValue2}`,
 										);
