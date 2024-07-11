@@ -35,7 +35,7 @@ const PresidentVote = () => {
 					<div className="flex justify-between px-4 2xl:px-2">
 						<div className="px-6 py-12">
 							<h1 className="text-3xl font-medium 2xl:text-4xl">
-								Votação President
+								Votação Candidato Representante
 							</h1>
 						</div>
 					</div>
