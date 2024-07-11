@@ -166,7 +166,7 @@ const pageCreateGovernment = () => {
 									>
 										<SelectValue
 											className="2xl:placeholder:text-lg"
-											placeholder="Selecione um Partido"
+											placeholder="Selecione um Sistema"
 										/>
 									</SelectTrigger>
 									<SelectContent>

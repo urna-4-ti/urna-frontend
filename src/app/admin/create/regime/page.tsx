@@ -31,7 +31,7 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 const schema = z.object({
-	name: z.string().min(3, "*Informe um nome de sistema válido."),
+	name: z.string().min(3, "*Informe um regime político válido."),
 	cod: z
 		.number({ message: "*O campo deve ser um número." })
 		.min(2, "*O campo deve conter 2 digitos."),
@@ -80,7 +80,7 @@ const pageCreateRegime = () => {
 
 			success: () => {
 				router.back();
-				return "Sistema de Governo Registrado";
+				return "Regime Político Registrado";
 			},
 
 			error: (error) => {
