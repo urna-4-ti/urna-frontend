@@ -1,55 +1,20 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-
 import logoIf from "@/img/logo-if.svg";
-import { getCandidate } from "@/requests/candidate/findAll";
-import { createVote } from "@/requests/vote/create";
+import { getOneElection } from "@/requests/election/findAll";
 import { useEnrollmentStore } from "@/store/enrollment";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
-import { toast } from "sonner";
-const ResultElection = () => {
-	const [slotValue1, setSlotValue1] = useState("");
-	const [slotValue2, setSlotValue2] = useState("");
-	const [slotValue3, setSlotValue3] = useState("");
-	const [slotValue4, setSlotValue4] = useState("");
-
-	const chooseNumbers = (value: number) => {
-		if (slotValue1 === "") {
-			setSlotValue1(value.toString());
-		} else if (slotValue2 === "") {
-			setSlotValue2(value.toString());
-		} else if (slotValue3 === "") {
-			setSlotValue3(value.toString());
-		} else if (slotValue4 === "") {
-			setSlotValue4(value.toString());
-		}
-	};
-
-	const clearNumbers = () => {
-		setSlotValue1("");
-		setSlotValue2("");
-		setSlotValue3("");
-		setSlotValue4("");
-	};
-
-	const {
-		state: { enrollment, idElection },
-	} = useEnrollmentStore();
-
-	const { data: candidates } = useQuery({
-		queryKey: ["get candidate"],
-		queryFn: getCandidate,
+import { useEffect } from "react";
+const ResultElection = ({ params }: { params: { id: string } }) => {
+	const { data: elections } = useQuery({
+		queryKey: ["get candidate", params.id],
+		queryFn: () => getOneElection(params.id),
 	});
 
-	const { mutateAsync } = useMutation({
-		mutationKey: ["vote on candidate"],
-		mutationFn: createVote,
-	});
+	useEffect(() => {
+		console.log(elections);
+	}, [elections]);
 
 	return (
 		<>
@@ -72,7 +37,7 @@ const ResultElection = () => {
 							<h1 className="text-4xl font-medium mplus">Total de votos:</h1>
 							<h3 className="text-2xl font-medium mplus">Votos em branco:</h3>
 						</div>
-						<Card className="flex 2xl:w-4/6 2xl:px-6 2xl:py-6 w-4/6 text-xl px-4 py-4 justify-between items-center 2xl:text-2xl mplus font-bold mt-10">
+						<Card className="flex 2xl:w-4/6 2xl:px-10 2xl:py-6 w-4/6 text-xl px-4 py-4 justify-between items-center 2xl:text-2xl mplus font-bold mt-10">
 							<h2>Posição</h2>
 							<h2>Nome</h2>
 							<h2>Votos</h2>
