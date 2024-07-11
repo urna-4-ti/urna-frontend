@@ -7,6 +7,7 @@ type electionProps = {
 	candidates?: string[];
 	politicalRegimes?: string[];
 	govermentSystem?: string[];
+	status: string;
 };
 
 export async function getAllElection(): Promise<electionProps[]> {
