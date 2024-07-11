@@ -14,15 +14,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-	Select,
-	SelectContent,
-	SelectGroup,
-	SelectItem,
-	SelectLabel,
-	SelectTrigger,
-	SelectValue,
-} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import cloudBottomMid from "@/img/cloud-bottom-mid.svg";
 import cloudBottomRight from "@/img/cloud-bottom-right.svg";
@@ -30,12 +21,9 @@ import cloudTopRight from "@/img/cloud-top-right.svg";
 import iconBack from "@/img/icon-back.svg";
 import input from "@/img/input.svg";
 import logo from "@/img/logo-name.svg";
-import { classes } from "@/lib/Classes";
-import { createCandidate } from "@/requests/candidate/create";
 import { deleteCandidate } from "@/requests/candidate/delete";
 import { editCandidate } from "@/requests/candidate/edit";
 import { getCandidateId } from "@/requests/candidate/findAll";
-import { getPoliticalParty } from "@/requests/politicalPart/findAll";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Trash2 } from "lucide-react";

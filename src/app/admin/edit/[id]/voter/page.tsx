@@ -30,8 +30,6 @@ import cloudTopRight from "@/img/cloud-top-right.svg";
 import iconBack from "@/img/icon-back.svg";
 import logo from "@/img/logo-name.svg";
 import { classes } from "@/lib/Classes";
-import { getFromLocalStorage } from "@/requests/api";
-import { createVoter } from "@/requests/voter/create";
 import { deleteVoter } from "@/requests/voter/delete";
 import { editVoter } from "@/requests/voter/edit";
 import { getVoterId } from "@/requests/voter/findAll";

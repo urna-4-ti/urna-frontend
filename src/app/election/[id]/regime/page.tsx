@@ -165,7 +165,7 @@ const RegimeVote = () => {
 								<Button
 									onClick={() => {
 										const selectedCod = Number(
-											`${slotValue1}${slotValue2}${slotValue2}`,
+											`${slotValue1}${slotValue2}${slotValue3}`,
 										);
 										const regime = regimes?.find(
 											(item) => item.cod === selectedCod,

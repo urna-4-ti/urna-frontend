@@ -14,15 +14,12 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
 import cloudBottomMid from "@/img/cloud-bottom-mid.svg";
 import cloudBottomRight from "@/img/cloud-bottom-right.svg";
 import cloudTopRight from "@/img/cloud-top-right.svg";
 import iconBack from "@/img/icon-back.svg";
 import logo from "@/img/logo-name.svg";
-import { createGovernment } from "@/requests/government/create";
 import { createPoliticalRegime } from "@/requests/politicalRegime/create";
-import { AuthStore } from "@/store/auth";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
@@ -219,7 +216,7 @@ const pageCreateRegime = () => {
 									value={valueInput}
 									{...register("cod", { valueAsNumber: true })}
 									onChange={(e) => {
-										const maxLength = 2;
+										const maxLength = 3;
 										const newValue = e.target.value.replace(/\D+/g, ""); // remove non-numeric characters
 										if (newValue.length <= maxLength) {
 											setValueInput(newValue);

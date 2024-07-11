@@ -45,6 +45,7 @@ const registration = ({ params }: { params: { id: string } }) => {
 
 	const {
 		actions: { insert },
+		state: { enrollment, idElection },
 	} = useEnrollmentStore();
 	const enroll = watch("enroll");
 
@@ -54,13 +55,14 @@ const registration = ({ params }: { params: { id: string } }) => {
 		enabled: false,
 	});
 	const handleForm = async (data: formProps) => {
-		console.log(data);
+		console.log(data.enroll, params.id);
 		await queryClient.invalidateQueries({
 			queryKey: ["validate user", data.enroll],
 		});
 		refetch();
 		console.log(voter);
 		insert(data.enroll, params.id);
+
 		push(`/election/${params.id}/regime`);
 	};
 

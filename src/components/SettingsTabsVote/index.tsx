@@ -40,6 +40,19 @@ const SettingsTabsVote = () => {
 		setTab(value);
 	};
 
+	//FILTROS: CREATED, IN_PROGRESS, DONE
+	const created = elections?.filter((election) => {
+		return election.status === "CREATED";
+	});
+
+	const progress = elections?.filter((election) => {
+		return election.status === "IN_PROGRESS";
+	});
+
+	const done = elections?.filter((election) => {
+		return election.status === "DONE";
+	});
+
 	return (
 		<Tabs.Root
 			value={currentTab}
@@ -109,7 +122,7 @@ const SettingsTabsVote = () => {
 					</div>
 					<div className="w-full flex justify-center py-16">
 						<div className="grid grid-cols-bodyVote">
-							{elections?.map((item) => (
+							{created?.map((item) => (
 								<div className="flex justify-center items-center" key={item.id}>
 									<Card
 										title={item.name}
@@ -159,55 +172,17 @@ const SettingsTabsVote = () => {
 					</div>
 					<div className="w-full flex justify-center py-16">
 						<div className="grid grid-cols-bodyVote">
-							<div className="flex justify-center items-center">
-								<Card
-									title={"Sistema de a"}
-									fn={"Ver Andamento"}
-									linkPage={"/admin/create/government"}
-								/>
-							</div>
-							<div className="flex justify-center items-center my-2">
-								<Card
-									title={"Sistema de b"}
-									fn={"Ver Andamento"}
-									linkPage={"/admin/create/government"}
-								/>
-							</div>
-							<div className="flex justify-center items-center my-2">
-								<Card
-									title={"Sistema de b"}
-									fn={"Ver Andamento"}
-									linkPage={"/admin/create/government"}
-								/>
-							</div>
-							<div className="flex justify-center items-center my-2">
-								<Card
-									title={"Sistema de b"}
-									fn={"Ver Andamento"}
-									linkPage={"/admin/create/government"}
-								/>
-							</div>
-							<div className="flex justify-center items-center my-2">
-								<Card
-									title={"Sistema de b"}
-									fn={"Ver Andamento"}
-									linkPage={"/admin/create/government"}
-								/>
-							</div>
-							<div className="flex justify-center items-center my-2">
-								<Card
-									title={"Sistema de b"}
-									fn={"Ver Andamento"}
-									linkPage={"/admin/create/government"}
-								/>
-							</div>
-							<div className="flex justify-center items-center my-2">
-								<Card
-									title={"Sistema de b"}
-									fn={"Ver Andamento"}
-									linkPage={"/admin/create/government"}
-								/>
-							</div>
+							{progress?.map((item) => (
+								<div className="flex justify-center items-center" key={item.id}>
+									<Card
+										title={item.name}
+										fn2="Finalizar"
+										fn={"Votar"}
+										itemId={item.id}
+										linkPage={`/election/${item.id}/registration`}
+									/>
+								</div>
+							))}
 						</div>
 					</div>
 				</div>
@@ -248,55 +223,16 @@ const SettingsTabsVote = () => {
 					</div>
 					<div className="w-full flex justify-center py-16">
 						<div className="grid grid-cols-bodyVote">
-							<div className="flex justify-center items-center">
-								<Card
-									title={"Sistema de a"}
-									fn={"Ver Resultado"}
-									linkPage={"/admin/create/government"}
-								/>
-							</div>
-							<div className="flex justify-center items-center my-2">
-								<Card
-									title={"Sistema de b"}
-									fn={"Ver Resultado"}
-									linkPage={"/admin/create/government"}
-								/>
-							</div>
-							<div className="flex justify-center items-center my-2">
-								<Card
-									title={"Sistema de b"}
-									fn={"Ver Resultado"}
-									linkPage={"/admin/create/government"}
-								/>
-							</div>
-							<div className="flex justify-center items-center my-2">
-								<Card
-									title={"Sistema de b"}
-									fn={"Ver Resultado"}
-									linkPage={"/admin/create/government"}
-								/>
-							</div>
-							<div className="flex justify-center items-center my-2">
-								<Card
-									title={"Sistema de b"}
-									fn={"Ver Resultado"}
-									linkPage={"/admin/create/government"}
-								/>
-							</div>
-							<div className="flex justify-center items-center my-2">
-								<Card
-									title={"Sistema de b"}
-									fn={"Ver Resultado"}
-									linkPage={"/admin/create/government"}
-								/>
-							</div>
-							<div className="flex justify-center items-center my-2">
-								<Card
-									title={"Sistema de b"}
-									fn={"Ver Resultado"}
-									linkPage={"/admin/create/government"}
-								/>
-							</div>
+							{done?.map((item) => (
+								<div className="flex justify-center items-center" key={item.id}>
+									<Card
+										title={item.name}
+										fn={"Ver resultados"}
+										itemId={item.id}
+										linkPage={`/election/${item.id}/registration`}
+									/>
+								</div>
+							))}
 						</div>
 					</div>
 				</div>

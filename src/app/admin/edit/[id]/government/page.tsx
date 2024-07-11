@@ -14,7 +14,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import cloudBottomMid from "@/img/cloud-bottom-mid.svg";
 import cloudBottomRight from "@/img/cloud-bottom-right.svg";
 import cloudTopRight from "@/img/cloud-top-right.svg";
@@ -37,7 +36,6 @@ import { z } from "zod";
 const schema = z.object({
 	name: z.string(),
 	cod: z.number().min(3),
-	description: z.string().min(3),
 });
 
 type formProps = z.infer<typeof schema>;
@@ -65,8 +63,6 @@ const pageEditGovernment = ({ params }: { params: { id: string } }) => {
 	});
 	const storage = JSON.parse(getFromLocalStorage() as string);
 	const token = storage?.state?.state?.user?.token;
-	console.log(token);
-	console.log(storage);
 
 	if (!token) {
 		console.error("Authorization token not found in local storage");
@@ -114,7 +110,6 @@ const pageEditGovernment = ({ params }: { params: { id: string } }) => {
 					id: params.id,
 					name: data.name,
 					cod: Number(data.cod),
-					description: data.description,
 				});
 			} catch (error) {
 				console.error(error);
@@ -228,7 +223,7 @@ const pageEditGovernment = ({ params }: { params: { id: string } }) => {
 										value={valueInput}
 										{...register("cod", { valueAsNumber: true })}
 										onChange={(e) => {
-											const maxLength = 2;
+											const maxLength = 3;
 											const newValue = e.target.value.replace(/\D+/g, ""); // remove non-numeric characters
 											if (newValue.length <= maxLength) {
 												setValueInput(newValue);
@@ -237,21 +232,7 @@ const pageEditGovernment = ({ params }: { params: { id: string } }) => {
 										required
 									/>
 								</div>
-								<div className="space-y-1.5">
-									<Label
-										className="text-base font-normal 2xl:text-lg text-muted-foreground"
-										htmlFor="description"
-									>
-										Descrição
-									</Label>
-									<Textarea
-										id="description"
-										defaultValue={government?.description}
-										{...register("description")}
-										placeholder="Digite a descrição do candidato..."
-										className="border-black 2xl:text-xl 2xl:h-24 focus:border-primary resize-none text-base font-base 2xl:placeholder:text-lg"
-									/>
-								</div>
+
 								<div className="flex justify-center 2xl:py-8 py-4">
 									<Button className="w-full 2xl:h-[48px] h-[42px] rounded-2xl text-lg font-bold bg-primary">
 										Salvar

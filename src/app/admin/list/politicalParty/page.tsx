@@ -1,25 +1,7 @@
 "use client";
-import LimitedParagraph from "@/components/limited-paragraph";
 import PoliticalPartys from "@/components/lists/PoliticalPartys";
-import {
-	AlertDialog,
-	AlertDialogAction,
-	AlertDialogCancel,
-	AlertDialogContent,
-	AlertDialogDescription,
-	AlertDialogFooter,
-	AlertDialogHeader,
-	AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
 /* eslint-disable react-hooks/rules-of-hooks */
 import { Button } from "@/components/ui/button";
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuGroup,
-	DropdownMenuItem,
-	DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import {
 	Sheet,
@@ -30,16 +12,12 @@ import {
 import filter from "@/img/filter.svg";
 import iconBack from "@/img/icon-back.svg";
 import logoIf from "@/img/logo-if.svg";
-import { deletePoliticalParty } from "@/requests/politicalPart/delete";
-import { getAllPoliticalParty } from "@/requests/politicalPart/findAll";
 import { AuthStore } from "@/store/auth";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { CirclePlus, EllipsisVertical, UserRound } from "lucide-react";
+import { CirclePlus, UserRound } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { toast } from "sonner";
 
 const pageListPoliticalParty = () => {
 	const router = useRouter();
@@ -47,7 +25,6 @@ const pageListPoliticalParty = () => {
 	const [search, setSearch] = useState<string | undefined>(undefined);
 
 	const {
-		actions: { logout },
 		state: { user },
 	} = AuthStore();
 

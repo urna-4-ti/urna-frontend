@@ -1,7 +1,9 @@
 "use client";
-import Governments from "@/components/lists/Governments";
+
+import Regimes from "@/components/lists/Regimes";
 /* eslint-disable react-hooks/rules-of-hooks */
 import { Button } from "@/components/ui/button";
+
 import { Input } from "@/components/ui/input";
 import {
 	Sheet,
@@ -19,7 +21,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-const pageListGovernment = () => {
+const pageListRegime = () => {
 	const router = useRouter();
 	const [isOpen, setIsOpen] = useState(false);
 	const [search, setSearch] = useState<string | undefined>(undefined);
@@ -39,7 +41,7 @@ const pageListGovernment = () => {
 					<div className="flex justify-between px-4 2xl:px-2">
 						<div className="px-6 py-12">
 							<h1 className="text-3xl font-medium 2xl:text-4xl">
-								Listagem de Sistemas de Governos
+								Listagem de Regimes Políticos
 							</h1>
 						</div>
 						<div className="mt-6">
@@ -95,16 +97,15 @@ const pageListGovernment = () => {
 							<span className="text-[#8E8E8E] pl-6">Código</span>
 						</div>
 						<div className="2xl:px-10" />
-
 						<div className="flex justify-end px-6">
 							<div className="flex items-center justify-end">
-								<Link href="/admin/create/government">
+								<Link href="/admin/create/regime">
 									<CirclePlus className="h-[25px] w-[25px] 2xl:h-[32px] 2xl:w-[32px]" />
 								</Link>
 							</div>
 						</div>
 					</div>
-					<Governments value={search} />
+					<Regimes value={search} />
 				</div>
 			</main>
 			<Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -138,4 +139,4 @@ const pageListGovernment = () => {
 	);
 };
 
-export default pageListGovernment;
+export default pageListRegime;
