@@ -83,7 +83,7 @@ const SettingsTabs = () => {
 					<div className="w-full grid grid-cols-dashboard 2xl:grid-cols-dashboard-2xl">
 						<div className="flex justify-center items-center mt-10">
 							<Card
-								title={"Sistema de Governo"}
+								title={"Forma de Governo"}
 								fn={"Cadastrar"}
 								linkPage={"/admin/create/government"}
 								image={plus}
@@ -115,7 +115,7 @@ const SettingsTabs = () => {
 						</div>
 						<div className="flex justify-center items-center mt-10">
 							<Card
-								title={"Regime"}
+								title={"Sistema de Governo"}
 								fn={"Cadastrar"}
 								linkPage={"/admin/create/regime"}
 								image={plus}

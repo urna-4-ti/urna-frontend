@@ -121,7 +121,7 @@ const pageCreateRegime = () => {
 					alt="Nuvem direita-baixo"
 				/>
 
-				<div className="flex items-center px-5 absolute 2xl:top-28 top-14 left-24 2xl:left-52 select-none">
+				{/* <div className="flex items-center px-5 absolute 2xl:top-28 top-14 left-24 2xl:left-52 select-none">
 					<Button
 						className="hover:bg-transparent"
 						variant="ghost"
@@ -133,12 +133,12 @@ const pageCreateRegime = () => {
 							alt="Ícone voltar"
 						/>
 					</Button>
-				</div>
+				</div> */}
 
 				<Card className="2xl:w-[38rem] w-[30rem]  shadow-xl fixed">
 					<CardHeader>
 						<CardTitle className="text-4xl 2xl:text-5xl px-2 2xl:pt-10 2xl:pb-6 pt-6 font-normal">
-							Cadastrar Regime Político
+							Cadastrar Sistema de Governo
 						</CardTitle>
 					</CardHeader>
 					<CardContent>
@@ -167,7 +167,7 @@ const pageCreateRegime = () => {
 									>
 										<SelectValue
 											className="2xl:placeholder:text-lg"
-											placeholder="Selecione um Regime Político"
+											placeholder="Selecione um sistema de governo"
 										/>
 									</SelectTrigger>
 									<SelectContent>
@@ -212,7 +212,7 @@ const pageCreateRegime = () => {
 									className="2xl:h-[48px] h-[40px] 2xl:text-xl border-black focus:border-primary 2xl:placeholder:text-lg"
 									id="cod"
 									type="number"
-									placeholder="Digite o código do regime político.."
+									placeholder="Digite o código do sistema de governo.."
 									value={valueInput}
 									{...register("cod", { valueAsNumber: true })}
 									onChange={(e) => {

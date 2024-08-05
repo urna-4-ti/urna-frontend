@@ -70,11 +70,22 @@ const CardElection = ({
 									});
 								}
 							}}
-							href={linkPage}
+							href={linkPage2 || ""}
 							className=" p-2 hover:bg-zinc-500/15 rounded-md"
 						>
 							{fn2}
 						</Link>
+						<Link
+							href={linkPage}
+							className="p-2 hover:bg-zinc-500/15 rounded-md"
+						>
+							{fn}
+						</Link>
+					</div>
+				)}
+
+				{fn === "Resultados" && (
+					<div className="flex items-center justify-end">
 						<Link
 							href={linkPage}
 							className="p-2 hover:bg-zinc-500/15 rounded-md"

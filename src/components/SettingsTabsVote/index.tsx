@@ -185,6 +185,7 @@ const SettingsTabsVote = () => {
 										fn={"Votar"}
 										itemId={item.id}
 										linkPage={`/election/${item.id}/registration`}
+										linkPage2="/admin/list/vote?table=completed"
 									/>
 								</div>
 							))}
@@ -232,7 +233,7 @@ const SettingsTabsVote = () => {
 								<div className="flex justify-center items-center" key={item.id}>
 									<Card
 										title={item.name}
-										fn={"Ver resultados"}
+										fn={"Resultados"}
 										itemId={item.id}
 										linkPage={`/election/${item.id}/registration`}
 									/>

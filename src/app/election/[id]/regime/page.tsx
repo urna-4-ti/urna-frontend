@@ -1,4 +1,13 @@
 "use client";
+import {
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -12,6 +21,7 @@ import { getPoliticalRegimes } from "@/requests/politicalRegime/findAll";
 import { createVote } from "@/requests/vote/create";
 import { AuthStore } from "@/store/auth";
 import { useEnrollmentStore } from "@/store/enrollment";
+import { AlertDialogContent } from "@radix-ui/react-alert-dialog";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -21,6 +31,7 @@ const RegimeVote = () => {
 	const [slotValue1, setSlotValue1] = useState("");
 	const [slotValue2, setSlotValue2] = useState("");
 	const [slotValue3, setSlotValue3] = useState("");
+	const [isAlert, setIsAlert] = useState(false);
 
 	const chooseNumbers = (value: number) => {
 		if (slotValue1 === "") {
@@ -49,19 +60,18 @@ const RegimeVote = () => {
 		mutationKey: ["vote on regime"],
 		mutationFn: createVote,
 	});
-	const {push} = useRouter();
-	const {data:electionData} = useQuery({
-		queryKey: ["get election data",idElection],
+	const { push } = useRouter();
+	const { data: electionData } = useQuery({
+		queryKey: ["get election data", idElection],
 		queryFn: () => getOneElection(idElection),
-	})
-	if(electionData?.politicalRegimes?.length === 0 ){
-		return null
-	}
-
+	});
+	// if(electionData?.politicalRegimes?.length === 0 ){
+	// 	return null
+	// }
 
 	return (
 		<>
-			<main className="grid grid-cols-10 mx-auto min-h-screen">
+			<div className="grid grid-cols-10 mx-auto min-h-screen">
 				<div className="bg-secondary/65">
 					<div className="w-full flex justify-center mt-12">
 						<Image src={logoIf} alt="Logo do IFRS" />
@@ -173,29 +183,9 @@ const RegimeVote = () => {
 									Branco
 								</Button>
 								<Button
-									onClick={async () => {
-										const selectedCod = Number(
-											`${slotValue1}${slotValue2}${slotValue3}`,
-										);
-										console.log(regimes);
-										
-										const regime = regimes?.find(
-											(item) => item.cod === selectedCod,
-										);
-										if (!regime) {
-											toast.error(
-												"O codigo selecionado não pertence a nenhuma opção disponivel",
-											);
-											return;
-										}
-										await mutateAsync({
-											votingId: idElection,
-											userEnrollment: enrollment,
-											politicalRegimeId: regime?.id,
-										});
-										push(`/election/${idElection}/result`);
-									}}
+									type="button"
 									className="text-black 2xl:h-20 2xl:w-36 h-16 w-26 2xl:text-2xl text-xl rounded-xl shadow-md"
+									onClick={() => setIsAlert(true)}
 								>
 									Confirma
 								</Button>
@@ -203,7 +193,30 @@ const RegimeVote = () => {
 						</div>
 					</div>
 				</div>
-			</main>
+			</div>
+			<AlertDialog open={isAlert} onOpenChange={setIsAlert}>
+				<AlertDialogContent className="bg-white">
+					<AlertDialogHeader>
+						<AlertDialogTitle>
+							Você realmente tem certeza disso?
+						</AlertDialogTitle>
+						<AlertDialogDescription>
+							Você está prestes a remover um sistema de governo. Deseja
+							realmente continuar?
+						</AlertDialogDescription>
+					</AlertDialogHeader>
+					<AlertDialogFooter>
+						<AlertDialogCancel>Cancelar</AlertDialogCancel>
+						<AlertDialogAction
+							onClick={() => {
+								setIsAlert(false);
+							}}
+						>
+							Continuar
+						</AlertDialogAction>
+					</AlertDialogFooter>
+				</AlertDialogContent>
+			</AlertDialog>
 		</>
 	);
 };

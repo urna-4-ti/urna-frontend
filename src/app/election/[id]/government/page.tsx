@@ -9,7 +9,7 @@ import { useEnrollmentStore } from "@/store/enrollment";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
 
@@ -18,12 +18,15 @@ const schema = z.object({});
 const GovernmentVote = () => {
 	const [slotValue1, setSlotValue1] = useState("");
 	const [slotValue2, setSlotValue2] = useState("");
+	const [slotValue3, setSlotValue3] = useState("");
 
 	const chooseNumbers = (value: number) => {
 		if (slotValue1 === "") {
 			setSlotValue1(value.toString());
 		} else if (slotValue2 === "") {
 			setSlotValue2(value.toString());
+		} else if (slotValue3 === "") {
+			setSlotValue3(value.toString());
 		}
 	};
 
@@ -55,6 +58,10 @@ const GovernmentVote = () => {
 		return null
 	}
 
+	useEffect(() => {
+		console.log(idElection)
+	}, [idElection]);
+
 	return (
 		<>
 			<main className="grid grid-cols-10 mx-auto min-h-screen">
@@ -83,24 +90,32 @@ const GovernmentVote = () => {
 								disabled
 								value={slotValue2}
 							/>
+							<Input
+								className="flex 2xl:h-32 2xl:w-24 h-28 w-20 items-center justify-center border-y border-r rounded-md border-input 2xl:text-4xl text-3xl shadow-md transition-all disabled:opacity-100 disabled:cursor-auto text-center"
+								disabled
+								value={slotValue3}
+							/>
 						</div>
 						<div className="flex flex-col space-y-3 items-center 2xl:py-36 py-8">
 							<div className="space-x-3">
 								<Button
 									className="bg-black w-16 h-16 2xl:w-20 2xl:h-20 2xl:text-3xl text-2xl rounded-xl shadow-md hover:bg-black/60 hover:text-black/50"
 									onClick={() => chooseNumbers(1)}
+									type="button"
 								>
 									1
 								</Button>
 								<Button
 									className="bg-black w-16 h-16 2xl:w-20 2xl:h-20 2xl:text-3xl text-2xl rounded-xl shadow-md hover:bg-black/60 hover:text-black/50"
 									onClick={() => chooseNumbers(2)}
+									type="button"
 								>
 									2
 								</Button>
 								<Button
 									className="bg-black w-16 h-16 2xl:w-20 2xl:h-20 2xl:text-3xl text-2xl rounded-xl shadow-md hover:bg-black/60 hover:text-black/50"
 									onClick={() => chooseNumbers(3)}
+									type="button"
 								>
 									3
 								</Button>
@@ -109,18 +124,21 @@ const GovernmentVote = () => {
 								<Button
 									className="bg-black w-16 h-16 2xl:w-20 2xl:h-20 2xl:text-3xl text-2xl rounded-xl shadow-md hover:bg-black/60 hover:text-black/50"
 									onClick={() => chooseNumbers(4)}
+									type="button"
 								>
 									4
 								</Button>
 								<Button
 									className="bg-black w-16 h-16 2xl:w-20 2xl:h-20 2xl:text-3xl text-2xl rounded-xl shadow-md hover:bg-black/60 hover:text-black/50"
 									onClick={() => chooseNumbers(5)}
+									type="button"
 								>
 									5
 								</Button>
 								<Button
 									className="bg-black w-16 h-16 2xl:w-20 2xl:h-20 2xl:text-3xl text-2xl rounded-xl shadow-md hover:bg-black/60 hover:text-black/50"
 									onClick={() => chooseNumbers(6)}
+									type="button"
 								>
 									6
 								</Button>
@@ -129,18 +147,21 @@ const GovernmentVote = () => {
 								<Button
 									className="bg-black w-16 h-16 2xl:w-20 2xl:h-20 2xl:text-3xl text-2xl rounded-xl shadow-md hover:bg-black/60 hover:text-black/50"
 									onClick={() => chooseNumbers(7)}
+									type="button"
 								>
 									7
 								</Button>
 								<Button
 									className="bg-black w-16 h-16 2xl:w-20 2xl:h-20 2xl:text-3xl text-2xl rounded-xl shadow-md hover:bg-black/60 hover:text-black/50"
 									onClick={() => chooseNumbers(8)}
+									type="button"
 								>
 									8
 								</Button>
 								<Button
 									className="bg-black w-16 h-16 2xl:w-20 2xl:h-20 2xl:text-3xl text-2xl rounded-xl shadow-md hover:bg-black/60 hover:text-black/50"
 									onClick={() => chooseNumbers(9)}
+									type="button"
 								>
 									9
 								</Button>
@@ -149,6 +170,7 @@ const GovernmentVote = () => {
 								<Button
 									className="bg-black w-16 h-16 2xl:w-20 2xl:h-20 2xl:text-3xl text-2xl rounded-xl shadow-md hover:bg-black/60 hover:text-black/50"
 									onClick={() => chooseNumbers(0)}
+									type="button"
 								>
 									0
 								</Button>
@@ -166,7 +188,7 @@ const GovernmentVote = () => {
 								<Button
 									className="text-black 2xl:h-20 2xl:w-36 h-16 w-26 2xl:text-2xl text-xl rounded-xl shadow-md"
 									onClick={() => {
-										const selectedCod = Number(`${slotValue1}${slotValue2}`);
+										const selectedCod = Number(`${slotValue1}${slotValue2}${slotValue3}`);
 										const government = governments?.find(
 											(item) => item.cod === selectedCod,
 										);
@@ -177,11 +199,14 @@ const GovernmentVote = () => {
 											("");
 											return;
 										}
+
+										console.log(government.id, 'test')
 										mutateAsync({
 											votingId: idElection,
 											userEnrollment: enrollment,
 											governmentId: government?.id,
 										});
+										push(`/election/${idElection}/candidate`);
 									}}
 								>
 									Confirma

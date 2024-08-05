@@ -167,7 +167,7 @@ const addCandidate = () => {
 					alt="Nuvem direita-baixo"
 				/>
 
-				<div className="flex items-center px-5 absolute 2xl:top-28 top-14 left-24 2xl:left-52">
+				{/* <div className="flex items-center px-5 absolute 2xl:top-28 top-14 left-24 2xl:left-52">
 					<Button
 						className="hover:bg-transparent"
 						variant="ghost"
@@ -179,7 +179,7 @@ const addCandidate = () => {
 							alt="Ícone voltar"
 						/>
 					</Button>
-				</div>
+				</div> */}
 
 				<Card className="2xl:w-[38rem] w-[30rem]  shadow-xl fixed">
 					<CardHeader>
