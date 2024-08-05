@@ -22,7 +22,7 @@ const CardElection = ({
 	fn,
 	fn2,
 	itemId,
-	linkPage = "/eleitor/Matricula",
+	linkPage,
 	linkPage2,
 	bgTailWind = "bg-[rgba(0,227,39,0.6)]",
 }: cardProps) => {
@@ -52,7 +52,7 @@ const CardElection = ({
 									});
 								}
 							}}
-							href={linkPage}
+							href={linkPage || ""}
 							className=" p-2 hover:bg-zinc-500/15 rounded-md"
 						>
 							{fn}
@@ -76,7 +76,7 @@ const CardElection = ({
 							{fn2}
 						</Link>
 						<Link
-							href={linkPage}
+							href={linkPage || ""}
 							className="p-2 hover:bg-zinc-500/15 rounded-md"
 						>
 							{fn}
@@ -87,7 +87,7 @@ const CardElection = ({
 				{fn === "Resultados" && (
 					<div className="flex items-center justify-end">
 						<Link
-							href={linkPage}
+							href={linkPage || ""}
 							className="p-2 hover:bg-zinc-500/15 rounded-md"
 						>
 							{fn}

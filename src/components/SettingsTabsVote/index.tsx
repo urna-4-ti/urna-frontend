@@ -235,7 +235,7 @@ const SettingsTabsVote = () => {
 										title={item.name}
 										fn={"Resultados"}
 										itemId={item.id}
-										linkPage={`/election/${item.id}/registration`}
+										linkPage={`/election/${item.id}/result`}
 									/>
 								</div>
 							))}
