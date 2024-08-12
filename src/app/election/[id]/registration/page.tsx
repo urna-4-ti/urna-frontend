@@ -10,6 +10,7 @@ import cloudTop from "@/img/decoration-top-right.svg";
 import logo from "@/img/logo-name.svg";
 import { queryClient } from "@/lib/queryClient";
 import { getAllElection } from "@/requests/election/findAll";
+import { getOneVoting } from "@/requests/election/findOne";
 import { getVoterId, getVoters } from "@/requests/voter/findAll";
 import { useEnrollmentStore } from "@/store/enrollment";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -44,15 +45,28 @@ const registration = ({ params }: { params: { id: string } }) => {
 		resolver: zodResolver(schema),
 	});
 
+	const { data: elections } = useQuery({
+		queryKey: ["get-elections", params.id],
+		queryFn: () => getOneVoting(params.id),
+	});
+
 	const {
 		actions: { insert },
 	} = useEnrollmentStore();
 
-
 	const handleForm = async (data: formProps) => {
-		insert(data.enroll, params.id)
-		
-		push(`/election/${params.id}/regime`)
+		insert(data.enroll, params.id);
+
+		if (elections?.politicalRegimes && elections.politicalRegimes.length > 0) {
+			push(`/election/${params.id}/regime`);
+		} else if (
+			elections?.governmentSystem &&
+			elections.governmentSystem.length > 0
+		) {
+			push(`/election/${params.id}/government`);
+		} else if (elections?.candidates && elections.candidates.length > 0) {
+			push(`/election/${params.id}/candidate`);
+		}
 	};
 
 	return (

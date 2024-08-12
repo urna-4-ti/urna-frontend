@@ -128,7 +128,10 @@ const SettingsTabsVote = () => {
 					<div className="w-full flex justify-center py-16">
 						<div className="grid grid-cols-bodyVote">
 							{created?.map((item) => (
-								<div className="flex justify-center items-center" key={item.id}>
+								<div
+									className="flex justify-center items-center py-4"
+									key={item.id}
+								>
 									<Card
 										title={item.name}
 										fn={"Iniciar"}
@@ -178,7 +181,10 @@ const SettingsTabsVote = () => {
 					<div className="w-full flex justify-center py-16">
 						<div className="grid grid-cols-bodyVote">
 							{progress?.map((item) => (
-								<div className="flex justify-center items-center" key={item.id}>
+								<div
+									className="flex justify-center items-center py-4"
+									key={item.id}
+								>
 									<Card
 										title={item.name}
 										fn2="Finalizar"
@@ -230,7 +236,10 @@ const SettingsTabsVote = () => {
 					<div className="w-full flex justify-center py-16">
 						<div className="grid grid-cols-bodyVote">
 							{done?.map((item) => (
-								<div className="flex justify-center items-center" key={item.id}>
+								<div
+									className="flex justify-center items-center py-4"
+									key={item.id}
+								>
 									<Card
 										title={item.name}
 										fn={"Resultados"}

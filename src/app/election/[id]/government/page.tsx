@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import logoIf from "@/img/logo-if.svg";
-import { getOneElection } from "@/requests/election/findAll";
+import { getOneVoting } from "@/requests/election/findOne";
 import { getGovernmentForm } from "@/requests/government/findAll";
 import { createVote } from "@/requests/vote/create";
 import { useEnrollmentStore } from "@/store/enrollment";
@@ -49,17 +49,37 @@ const GovernmentVote = () => {
 		mutationFn: createVote,
 	});
 
-	const {push} = useRouter();
-	const {data:electionData} = useQuery({
-		queryKey: ["get election data",idElection],
-		queryFn: () => getOneElection(idElection),
-	})
-	if(electionData?.politicalRegimes?.length === 0 ){
-		return null
+	const { push } = useRouter();
+	const { data: electionData } = useQuery({
+		queryKey: ["get election data", idElection],
+		queryFn: () => getOneVoting(idElection),
+	});
+	if (electionData?.politicalRegimes?.length === 0) {
+		return null;
 	}
 
+	const voteIn = async () => {
+		const selectedCod = Number(`${slotValue1}${slotValue2}${slotValue3}`);
+		const government = governments?.find((item) => item.cod === selectedCod);
+		if (!government) {
+			toast.error(
+				"O codigo selecionado não pertence a nenhuma opção disponivel",
+			);
+			("");
+			return;
+		}
+
+		console.log(government.id, "test");
+		mutateAsync({
+			votingId: idElection,
+			userEnrollment: enrollment,
+			governmentId: government?.id,
+		});
+		push(`/election/${idElection}/candidate`);
+	};
+
 	useEffect(() => {
-		console.log(idElection)
+		console.log(idElection);
 	}, [idElection]);
 
 	return (
@@ -187,27 +207,7 @@ const GovernmentVote = () => {
 								</Button>
 								<Button
 									className="text-black 2xl:h-20 2xl:w-36 h-16 w-26 2xl:text-2xl text-xl rounded-xl shadow-md"
-									onClick={() => {
-										const selectedCod = Number(`${slotValue1}${slotValue2}${slotValue3}`);
-										const government = governments?.find(
-											(item) => item.cod === selectedCod,
-										);
-										if (!government) {
-											toast.error(
-												"O codigo selecionado não pertence a nenhuma opção disponivel",
-											);
-											("");
-											return;
-										}
-
-										console.log(government.id, 'test')
-										mutateAsync({
-											votingId: idElection,
-											userEnrollment: enrollment,
-											governmentId: government?.id,
-										});
-										push(`/election/${idElection}/candidate`);
-									}}
+									onClick={() => voteIn()}
 								>
 									Confirma
 								</Button>
