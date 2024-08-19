@@ -28,7 +28,15 @@ const ResultElection = ({ params }: { params: { id: string } }) => {
 					</div>
 					<div className="flex flex-col items-center mt-4 w-full py-10">
 						<div className="flex flex-col items-center space-y-4">
-							<h1 className="text-4xl font-medium mplus">Total de votos:</h1>
+							<h1 className="text-4xl font-medium mplus">
+								Total de votos:{" "}
+								{elections
+									? elections.votes.governmentVotes.Absolutista +
+										elections.votes.governmentVotes.Constitucional +
+										elections.votes.politicalRegimeVotes.Parlamentarismo +
+										elections.votes.politicalRegimeVotes.Presedencialismo
+									: ""}
+							</h1>
 							<h3 className="text-2xl font-medium mplus">Votos em branco:</h3>
 						</div>
 

@@ -64,22 +64,22 @@ const PresidentVote = () => {
 		const selectedCod = Number(
 			`${slotValue1}${slotValue2}${slotValue3}${slotValue4}`,
 		);
-		const candidate = candidates?.find(
-			(item) => item.cod === selectedCod.toString(),
-		);
-		if (!candidate) {
-			toast.error(
-				"O codigo selecionado não pertence a nenhuma opção disponivel",
-			);
-			return;
-		}
-		mutateAsync({
-			votingId: idElection,
-			userEnrollment: enrollment,
-			candidateId: candidate?.id,
-		});
 
-		push("/admin/list/vote");
+		const candidate = candidates?.find(
+			(item) => item.cod.toString() === selectedCod.toString(),
+		);
+		if (candidate) {
+			await mutateAsync({
+				votingId: idElection,
+				userEnrollment: enrollment,
+				candidateId: candidate?.id,
+			});
+
+			push("/admin/list/vote");
+			toast.success("Voto registrado.");
+		} else {
+			toast.error("Voto inválido.");
+		}
 	};
 
 	const voteWHite = async () => {
@@ -98,7 +98,7 @@ const PresidentVote = () => {
 						<Image src={logoIf} alt="Logo do IFRS" />
 					</div>
 				</div>
-				<div className="col-span-9 bg-white 2xl:mx-10">
+				<div className="col-span-9 bg-white 2xl:mx-10 overflow-auto">
 					<div className="flex justify-between px-4 2xl:px-2">
 						<div className="px-6 py-12">
 							<h1 className="text-3xl font-medium 2xl:text-4xl">

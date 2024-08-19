@@ -11,7 +11,7 @@ import logo from "@/img/logo-name.svg";
 import { queryClient } from "@/lib/queryClient";
 import { getAllElection } from "@/requests/election/findAll";
 import { getOneVoting } from "@/requests/election/findOne";
-import { getVoterId, getVoters } from "@/requests/voter/findAll";
+import { getVoters } from "@/requests/voter/findAll";
 import { useEnrollmentStore } from "@/store/enrollment";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -50,22 +50,43 @@ const registration = ({ params }: { params: { id: string } }) => {
 		queryFn: () => getOneVoting(params.id),
 	});
 
+	const { data: voters } = useQuery({
+		queryKey: ["get-elections"],
+		queryFn: getVoters,
+	});
+
 	const {
 		actions: { insert },
 	} = useEnrollmentStore();
 
 	const handleForm = async (data: formProps) => {
-		insert(data.enroll, params.id);
+		const filterVoter = voters?.filter(
+			(voter) => voter.enrollment === data.enroll,
+		);
+		if (filterVoter?.length === 0) {
+			toast.error("Matrícula inválida");
+		}
 
-		if (elections?.politicalRegimes && elections.politicalRegimes.length > 0) {
-			push(`/election/${params.id}/regime`);
-		} else if (
-			elections?.governmentSystem &&
-			elections.governmentSystem.length > 0
-		) {
-			push(`/election/${params.id}/government`);
-		} else if (elections?.candidates && elections.candidates.length > 0) {
-			push(`/election/${params.id}/candidate`);
+		if (filterVoter && filterVoter?.length > 0) {
+			if (filterVoter[0].class === elections?.class) {
+				insert(data.enroll, params.id);
+				if (
+					elections?.politicalRegimes &&
+					elections.politicalRegimes.length > 0
+				) {
+					push(`/election/${params.id}/regime`);
+				} else if (
+					elections?.governmentSystem &&
+					elections.governmentSystem.length > 0
+				) {
+					push(`/election/${params.id}/government`);
+				} else if (elections?.candidates && elections.candidates.length > 0) {
+					push(`/election/${params.id}/candidate`);
+				}
+				toast.success("Mátricula encontrada.");
+			} else {
+				toast.error("Não existe votação vínculada a está matrícula.");
+			}
 		}
 	};
 
@@ -74,7 +95,7 @@ const registration = ({ params }: { params: { id: string } }) => {
 			<div className="bg-secondary/65 py-16 p-16">
 				<Image src={logo} alt="Logo da IFUrna" />
 			</div>
-			<div className="col-span-2 relative flex justify-center items-center">
+			<div className="col-span-2 relative flex justify-center items-center overflow-auto">
 				<Image
 					className="absolute top-0 right-0 select-none"
 					src={cloudTop}

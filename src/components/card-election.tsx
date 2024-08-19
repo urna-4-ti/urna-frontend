@@ -38,7 +38,7 @@ const CardElection = ({
 				className={`2xl:w-96 w-80 min-h-20 p-5 ${bgTailWind} drop-shadow-lg space-y-4 rounded-[18px]`}
 			>
 				<div className="flex justify-start">
-					<span className="text-xl">{title}</span>
+					<span className="text-xl truncate">{title}</span>
 				</div>
 
 				{fn === "Iniciar" && (

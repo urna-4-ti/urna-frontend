@@ -10,6 +10,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
 const RegimeVote = () => {
 	const [slotValue1, setSlotValue1] = useState("");
 	const [slotValue2, setSlotValue2] = useState("");
@@ -34,10 +35,6 @@ const RegimeVote = () => {
 	const {
 		state: { enrollment, idElection },
 	} = useEnrollmentStore();
-	const { data: regimes } = useQuery({
-		queryKey: ["get all regimes"],
-		queryFn: getPoliticalRegimes,
-	});
 
 	const { mutateAsync } = useMutation({
 		mutationKey: ["vote on regime"],
@@ -55,21 +52,27 @@ const RegimeVote = () => {
 		if (politicalRegimeId) {
 			await mutateAsync({
 				votingId: idElection,
-				whiteVote: "false",
 				politicalRegimeId: politicalRegimeId,
 				userEnrollment: enrollment,
 			});
-		}
 
-		if (
-			electionData?.governmentSystem &&
-			electionData.governmentSystem.length > 0
-		) {
-			push(`/election/${idElection}/government`);
-		} else if (electionData?.candidates && electionData.candidates.length > 0) {
-			push(`/election/${idElection}/candidate`);
+			if (
+				electionData?.governmentSystem &&
+				electionData.governmentSystem.length > 0
+			) {
+				push(`/election/${idElection}/government`);
+			} else if (
+				electionData?.candidates &&
+				electionData.candidates.length > 0
+			) {
+				push(`/election/${idElection}/candidate`);
+			} else {
+				push("/admin/list/vote");
+			}
+
+			toast.success("Voto registrado.");
 		} else {
-			push("/admin/list/vote");
+			toast.error("Voto inválido.");
 		}
 	};
 

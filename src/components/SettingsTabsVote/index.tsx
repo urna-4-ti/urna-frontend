@@ -94,19 +94,7 @@ const SettingsTabsVote = () => {
 			<Tabs.Content value="peding" ref={parent}>
 				<div className="flex flex-col justify-start items-center py-10 px-12">
 					<div className="grid grid-cols-navVote 2xl:px-0 w-full">
-						<div className="flex justify-start items-center px-5">
-							<Button
-								className="hover:bg-transparent"
-								variant="ghost"
-								onClick={() => router.back()}
-							>
-								<Image
-									className="h-12 2xl:h-14 2xl:w-14 w-12"
-									src={iconBack}
-									alt="Ícone voltar"
-								/>
-							</Button>
-						</div>
+						<div />
 						<div className="flex justify-beetween items-center 2xl:px-36">
 							<div className="flex items-center justify-center">
 								<Button className="hover:bg-transparent" variant="ghost">
@@ -147,19 +135,7 @@ const SettingsTabsVote = () => {
 			<Tabs.Content value="in-progress" ref={parent}>
 				<div className="flex flex-col justify-start items-center py-10 px-12">
 					<div className="grid grid-cols-navVote 2xl:px-0 w-full">
-						<div className="flex justify-start items-center px-5">
-							<Button
-								className="hover:bg-transparent"
-								variant="ghost"
-								onClick={() => router.back()}
-							>
-								<Image
-									className="h-12 2xl:h-14 2xl:w-14 w-12"
-									src={iconBack}
-									alt="Ícone voltar"
-								/>
-							</Button>
-						</div>
+						<div />
 						<div className="flex justify-beetween items-center 2xl:px-36">
 							<div className="flex items-center justify-center">
 								<Button className="hover:bg-transparent" variant="ghost">
@@ -202,19 +178,7 @@ const SettingsTabsVote = () => {
 			<Tabs.Content value="completed" ref={parent}>
 				<div className="flex flex-col justify-start items-center py-10 px-12">
 					<div className="grid grid-cols-navVote 2xl:px-0 w-full">
-						<div className="flex justify-start items-center px-5">
-							<Button
-								className="hover:bg-transparent"
-								variant="ghost"
-								onClick={() => router.back()}
-							>
-								<Image
-									className="h-12 2xl:h-14 2xl:w-14 w-12"
-									src={iconBack}
-									alt="Ícone voltar"
-								/>
-							</Button>
-						</div>
+						<div />
 						<div className="flex justify-beetween items-center 2xl:px-36">
 							<div className="flex items-center justify-center">
 								<Button className="hover:bg-transparent" variant="ghost">

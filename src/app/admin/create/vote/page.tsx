@@ -239,8 +239,10 @@ const createVote = () => {
 				className: data.class,
 				politicalRegimes: data?.regime,
 				candidates: data?.candidate,
-				govermentSystem: data?.government,
+				governmentSystems: data?.government,
 			});
+			console.log(response);
+
 			if (response) {
 				return true;
 			}
@@ -264,6 +266,7 @@ const createVote = () => {
 				boxShadow: "1px 2px 20px 6px #555",
 			},
 		});
+		// console.log(data.government)
 	};
 
 	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
