@@ -17,7 +17,6 @@ import { Textarea } from "@/components/ui/textarea";
 import cloudBottomMid from "@/img/cloud-bottom-mid.svg";
 import cloudBottomRight from "@/img/cloud-bottom-right.svg";
 import cloudTopRight from "@/img/cloud-top-right.svg";
-import iconBack from "@/img/icon-back.svg";
 import input from "@/img/input.svg";
 import logo from "@/img/logo-name.svg";
 import { classes } from "@/lib/Classes";
