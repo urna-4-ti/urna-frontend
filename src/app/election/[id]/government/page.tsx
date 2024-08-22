@@ -2,8 +2,8 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import logoIf from "@/img/logo-if.svg";
-import { getOneElection } from "@/requests/election/findAll";
-import { getGovernmentForm } from "@/requests/government/findAll";
+import { getOneVoting } from "@/requests/election/findOne";
+import { getPoliticalRegimes } from "@/requests/politicalRegime/findAll";
 import { createVote } from "@/requests/vote/create";
 import { useEnrollmentStore } from "@/store/enrollment";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -11,67 +11,89 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
-import { z } from "zod";
-
-const schema = z.object({});
-
-const GovernmentVote = () => {
+const RegimeVote = () => {
 	const [slotValue1, setSlotValue1] = useState("");
 	const [slotValue2, setSlotValue2] = useState("");
+	const [slotValue3, setSlotValue3] = useState("");
+	const [isAlert, setIsAlert] = useState(false);
 
 	const chooseNumbers = (value: number) => {
 		if (slotValue1 === "") {
 			setSlotValue1(value.toString());
 		} else if (slotValue2 === "") {
 			setSlotValue2(value.toString());
+		} else if (slotValue3 === "") {
+			setSlotValue3(value.toString());
 		}
 	};
 
 	const clearNumbers = () => {
 		setSlotValue1("");
 		setSlotValue2("");
+		setSlotValue3("");
 	};
-
 	const {
 		state: { enrollment, idElection },
 	} = useEnrollmentStore();
 
-	const { data: governments } = useQuery({
-		queryKey: ["get all governments"],
-		queryFn: getGovernmentForm,
-	});
-
 	const { mutateAsync } = useMutation({
-		mutationKey: ["vote on government"],
+		mutationKey: ["vote on regime"],
 		mutationFn: createVote,
 	});
+	const { push } = useRouter();
+	const { data: electionData } = useQuery({
+		queryKey: ["get election data", idElection],
+		queryFn: () => getOneVoting(idElection),
+	});
+	const voteIn = async () => {
+		const selectedCod = Number(`${slotValue1}${slotValue2}${slotValue3}`);
+		const government = electionData?.governmentSystem?.find(
+			(item) => item.cod.toString() === selectedCod.toString(),
+		);
 
-	const {push} = useRouter();
-	const {data:electionData} = useQuery({
-		queryKey: ["get election data",idElection],
-		queryFn: () => getOneElection(idElection),
-	})
-	if(electionData?.politicalRegimes?.length === 0 ){
-		return null
-	}
+		if (government) {
+			await mutateAsync({
+				votingId: idElection,
+				userEnrollment: enrollment,
+				governmentId: government?.id,
+			});
+			if (electionData?.candidates && electionData.candidates.length > 0) {
+				push(`/election/${idElection}/candidate`);
+			} else {
+				push("/admin/list/vote");
+			}
+
+			toast.success("Voto registrado.");
+		} else {
+			toast.error("Voto inválido.");
+		}
+	};
+
+	const voteWHite = async () => {
+		await mutateAsync({
+			votingId: idElection,
+			whiteVote: "true",
+			userEnrollment: enrollment,
+		});
+	};
 
 	return (
 		<>
-			<main className="grid grid-cols-10 mx-auto min-h-screen">
+			<div className="grid grid-cols-10 mx-auto min-h-screen">
 				<div className="bg-secondary/65">
 					<div className="w-full flex justify-center mt-12">
 						<Image src={logoIf} alt="Logo do IFRS" />
 					</div>
 				</div>
-				<div className="col-span-9 bg-white 2xl:mx-10">
+				<div className="col-span-9 bg-white 2xl:mx-10 overflow-auto">
 					<div className="flex justify-between px-4 2xl:px-2">
 						<div className="px-6 py-12">
 							<h1 className="text-3xl font-medium 2xl:text-4xl">
-								Votação Forma de Governo
+								Votação Sistema de Governo
 							</h1>
 						</div>
 					</div>
-					<form className="grid grid-cols-2">
+					<div className="grid grid-cols-2">
 						<div className="px-24 py-16 flex space-x-2">
 							<Input
 								className="flex 2xl:h-32 2xl:w-24 h-28 w-20 items-center justify-center border-y border-r rounded-md border-input 2xl:text-4xl text-3xl shadow-md transition-all disabled:opacity-100 disabled:cursor-auto text-center"
@@ -82,6 +104,11 @@ const GovernmentVote = () => {
 								className="flex 2xl:h-32 2xl:w-24 h-28 w-20 items-center justify-center border-y border-r rounded-md border-input 2xl:text-4xl text-3xl shadow-md transition-all disabled:opacity-100 disabled:cursor-auto text-center"
 								disabled
 								value={slotValue2}
+							/>
+							<Input
+								className="flex 2xl:h-32 2xl:w-24 h-28 w-20 items-center justify-center border-y border-r rounded-md border-input 2xl:text-4xl text-3xl shadow-md transition-all disabled:opacity-100 disabled:cursor-auto text-center"
+								disabled
+								value={slotValue3}
 							/>
 						</div>
 						<div className="flex flex-col space-y-3 items-center 2xl:py-36 py-8">
@@ -160,39 +187,27 @@ const GovernmentVote = () => {
 								>
 									Corrige
 								</Button>
-								<Button className="bg-white text-black 2xl:h-20 2xl:w-36 h-16 w-26 2xl:text-2xl text-xl rounded-xl shadow-md hover:bg-black/10">
+								<Button
+									type="button"
+									onClick={() => voteWHite()}
+									className="bg-white text-black 2xl:h-20 2xl:w-36 h-16 w-26 2xl:text-2xl text-xl rounded-xl shadow-md hover:bg-black/10"
+								>
 									Branco
 								</Button>
 								<Button
+									type="button"
 									className="text-black 2xl:h-20 2xl:w-36 h-16 w-26 2xl:text-2xl text-xl rounded-xl shadow-md"
-									onClick={() => {
-										const selectedCod = Number(`${slotValue1}${slotValue2}`);
-										const government = governments?.find(
-											(item) => item.cod === selectedCod,
-										);
-										if (!government) {
-											toast.error(
-												"O codigo selecionado não pertence a nenhuma opção disponivel",
-											);
-											("");
-											return;
-										}
-										mutateAsync({
-											votingId: idElection,
-											userEnrollment: enrollment,
-											governmentId: government?.id,
-										});
-									}}
+									onClick={() => voteIn()}
 								>
 									Confirma
 								</Button>
 							</div>
 						</div>
-					</form>
+					</div>
 				</div>
-			</main>
+			</div>
 		</>
 	);
 };
 
-export default GovernmentVote;
+export default RegimeVote;

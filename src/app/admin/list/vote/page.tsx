@@ -31,7 +31,7 @@ const voteList = () => {
 					</div>
 				</div>
 
-				<div className="bg-white">
+				<div className="bg-white overflow-auto">
 					{/* HEADER */}
 					<div className="flex justify-between px-4 2xl:px-2">
 						<div className="px-6 pt-12 pb-6">

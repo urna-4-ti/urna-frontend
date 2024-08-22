@@ -237,10 +237,12 @@ const createVote = () => {
 			const { response } = await mutateAsync({
 				name: data.name,
 				className: data.class,
-				candidates: data.candidate,
-				govermentSystem: data.government,
-				politicalRegimes: data.regime,
+				politicalRegimes: data?.regime,
+				candidates: data?.candidate,
+				governmentSystems: data?.government,
 			});
+			console.log(response);
+
 			if (response) {
 				return true;
 			}
@@ -264,6 +266,7 @@ const createVote = () => {
 				boxShadow: "1px 2px 20px 6px #555",
 			},
 		});
+		// console.log(data.government)
 	};
 
 	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
@@ -313,7 +316,7 @@ const createVote = () => {
 						alt="Nuvem direita-baixo"
 					/>
 
-					<div className="flex items-center px-5 absolute 2xl:top-28 top-14 left-24 2xl:left-52 select-none">
+					{/* <div className="flex items-center px-5 absolute 2xl:top-28 top-14 left-24 2xl:left-52 select-none">
 						<Button
 							className="hover:bg-transparent"
 							variant="ghost"
@@ -325,7 +328,7 @@ const createVote = () => {
 								alt="Ícone voltar"
 							/>
 						</Button>
-					</div>
+					</div> */}
 
 					<Card className="2xl:w-[38rem] w-[30rem]  shadow-xl fixed">
 						<CardHeader>
@@ -434,10 +437,12 @@ const createVote = () => {
 				<DialogContent className="sm:max-w-xl bg-white">
 					<DialogHeader>
 						<DialogTitle className="text-2xl mplus">
-							Adicionar Candidato
+							Adicionar Opções
 						</DialogTitle>
 						<DialogDescription>
-							{"Adicione um ou mais candidatos(as) para criar uma votação."}
+							{
+								"Adicione candidatos(as), formas de governo e sistemas de governo para criar uma votação."
+							}
 						</DialogDescription>
 					</DialogHeader>
 					<div className="flex flex-col space-y-4">
@@ -447,7 +452,7 @@ const createVote = () => {
 									className="text-base 2xl:text-lg font-normal text-muted-foreground"
 									htmlFor="select1"
 								>
-									Forma de Governo
+									Sistema de Governo
 								</Label>
 								<Select
 									onValueChange={(value) => {
@@ -462,13 +467,13 @@ const createVote = () => {
 									>
 										<SelectValue
 											className="2xl:placeholder:text-base placeholder:text-xs"
-											placeholder="Formas de Governo"
+											placeholder="Sistema de Governo"
 										/>
 									</SelectTrigger>
 									<SelectContent>
 										<SelectGroup className="h-28 text-sm 2xl:h-32">
 											<SelectLabel className="2xl:text-xl">
-												Forma de Governo
+												Sistema de Governo
 											</SelectLabel>
 											{availableGovernments?.map((item) => (
 												<SelectItem
@@ -493,7 +498,7 @@ const createVote = () => {
 									className="text-base 2xl:text-lg font-normal text-muted-foreground"
 									htmlFor="select1"
 								>
-									Regime Político
+									Forma de Governo
 								</Label>
 								<Select
 									onValueChange={(value) => {
@@ -508,13 +513,13 @@ const createVote = () => {
 									>
 										<SelectValue
 											className="2xl:placeholder:text-base placeholder:text-sm"
-											placeholder="Regime Politico"
+											placeholder="Forma de Governo"
 										/>
 									</SelectTrigger>
 									<SelectContent>
 										<SelectGroup className="h-28 text-sm 2xl:h-32">
 											<SelectLabel className="2xl:text-xl">
-												Regime Político
+												Forma de Governo
 											</SelectLabel>
 											{availableRegimes?.map((item) => (
 												<SelectItem

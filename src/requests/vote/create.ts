@@ -13,11 +13,11 @@ type voteProps = {
 	userEnrollment: string;
 };
 export async function createVote(props: voteProps) {
-	const formdata = new FormData();
-
-	for (const [key, value] of Object.entries(props)) {
-		formdata.append(key, value);
-	}
-
-	await api.post(`/vote/${props.votingId}`, formdata, axiosConfig);
+	// console.log(props);
+	const response = await api.post(
+		`/vote/${props.votingId}`,
+		props, // Envia o objeto JSON diretamente
+		axiosConfig,
+	);
+	return { response };
 }

@@ -31,7 +31,7 @@ const DashBoard = () => {
 					</div>
 				</div>
 
-				<div className="col-span-9 bg-white">
+				<div className="col-span-9 bg-white overflow-auto">
 					{/* HEADER */}
 					<div className="flex justify-end mt-6 px-4 2xl:px-2">
 						<Button

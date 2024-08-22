@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 
 import logoIf from "@/img/logo-if.svg";
 import { getCandidate } from "@/requests/candidate/findAll";
-import { getOneElection } from "@/requests/election/findAll";
+import { getOneVoting } from "@/requests/election/findOne";
 import { createVote } from "@/requests/vote/create";
 import { useEnrollmentStore } from "@/store/enrollment";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
 const PresidentVote = () => {
+	const { push } = useRouter();
 	const [slotValue1, setSlotValue1] = useState("");
 	const [slotValue2, setSlotValue2] = useState("");
 	const [slotValue3, setSlotValue3] = useState("");
@@ -50,25 +51,54 @@ const PresidentVote = () => {
 		mutationKey: ["vote on candidate"],
 		mutationFn: createVote,
 	});
-	
-	const {data:electionData} = useQuery({
-		queryKey: ["get election data",idElection],
-		queryFn: () => getOneElection(idElection),
-	})
-	if(electionData?.candidates?.length === 0 ){
-		return null
+
+	const { data: electionData } = useQuery({
+		queryKey: ["get election data", idElection],
+		queryFn: () => getOneVoting(idElection),
+	});
+	if (electionData?.candidates?.length === 0) {
+		return null;
 	}
 
+	const voteIn = async () => {
+		const selectedCod = Number(
+			`${slotValue1}${slotValue2}${slotValue3}${slotValue4}`,
+		);
+
+		const candidate = candidates?.find(
+			(item) => item.cod.toString() === selectedCod.toString(),
+		);
+		if (candidate) {
+			await mutateAsync({
+				votingId: idElection,
+				userEnrollment: enrollment,
+				candidateId: candidate?.id,
+			});
+
+			push("/admin/list/vote");
+			toast.success("Voto registrado.");
+		} else {
+			toast.error("Voto inválido.");
+		}
+	};
+
+	const voteWHite = async () => {
+		await mutateAsync({
+			votingId: idElection,
+			whiteVote: "true",
+			userEnrollment: enrollment,
+		});
+	};
+
 	return (
-		
 		<>
-		<main className="grid grid-cols-10 mx-auto min-h-screen">
+			<main className="grid grid-cols-10 mx-auto min-h-screen">
 				<div className="bg-secondary/65">
 					<div className="w-full flex justify-center mt-12">
 						<Image src={logoIf} alt="Logo do IFRS" />
 					</div>
 				</div>
-				<div className="col-span-9 bg-white 2xl:mx-10">
+				<div className="col-span-9 bg-white 2xl:mx-10 overflow-auto">
 					<div className="flex justify-between px-4 2xl:px-2">
 						<div className="px-6 py-12">
 							<h1 className="text-3xl font-medium 2xl:text-4xl">
@@ -91,12 +121,12 @@ const PresidentVote = () => {
 							<Input
 								className="flex 2xl:h-32 2xl:w-24 h-28 w-20 items-center justify-center border-y border-r rounded-md border-input 2xl:text-4xl text-3xl shadow-md transition-all disabled:opacity-100 disabled:cursor-auto text-center"
 								disabled
-								value={slotValue2}
+								value={slotValue3}
 							/>
 							<Input
 								className="flex 2xl:h-32 2xl:w-24 h-28 w-20 items-center justify-center border-y border-r rounded-md border-input 2xl:text-4xl text-3xl shadow-md transition-all disabled:opacity-100 disabled:cursor-auto text-center"
 								disabled
-								value={slotValue2}
+								value={slotValue4}
 							/>
 						</div>
 						<div className="flex flex-col space-y-3 items-center 2xl:py-36 py-8">
@@ -180,25 +210,7 @@ const PresidentVote = () => {
 								</Button>
 								<Button
 									className="text-black 2xl:h-20 2xl:w-36 h-16 w-26 2xl:text-2xl text-xl rounded-xl shadow-md"
-									onClick={() => {
-										const selectedCod = Number(
-											`${slotValue1}${slotValue2}${slotValue3}${slotValue4}`,
-										);
-										const candidate = candidates?.find(
-											(item) => item.cod === selectedCod.toString(),
-										);
-										if (!candidate) {
-											toast.error(
-												"O codigo selecionado não pertence a nenhuma opção disponivel",
-											);
-											return;
-										}
-										mutateAsync({
-											votingId: idElection,
-											userEnrollment: enrollment,
-											candidateId: candidate?.id,
-										});
-									}}
+									onClick={() => voteIn()}
 								>
 									Confirma
 								</Button>
@@ -208,7 +220,6 @@ const PresidentVote = () => {
 				</div>
 			</main>
 		</>
-	
 	);
 };
 

@@ -1,26 +1,21 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-	InputOTP,
-	InputOTPGroup,
-	InputOTPSlot,
-} from "@/components/ui/input-otp";
 import logoIf from "@/img/logo-if.svg";
-import { getOneElection } from "@/requests/election/findAll";
+import { getOneVoting } from "@/requests/election/findOne";
 import { getPoliticalRegimes } from "@/requests/politicalRegime/findAll";
 import { createVote } from "@/requests/vote/create";
-import { AuthStore } from "@/store/auth";
 import { useEnrollmentStore } from "@/store/enrollment";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
 const RegimeVote = () => {
 	const [slotValue1, setSlotValue1] = useState("");
 	const [slotValue2, setSlotValue2] = useState("");
 	const [slotValue3, setSlotValue3] = useState("");
+	const [isAlert, setIsAlert] = useState(false);
 
 	const chooseNumbers = (value: number) => {
 		if (slotValue1 === "") {
@@ -40,28 +35,58 @@ const RegimeVote = () => {
 	const {
 		state: { enrollment, idElection },
 	} = useEnrollmentStore();
-	const { data: regimes } = useQuery({
-		queryKey: ["get all regimes"],
-		queryFn: getPoliticalRegimes,
-	});
 
 	const { mutateAsync } = useMutation({
 		mutationKey: ["vote on regime"],
 		mutationFn: createVote,
 	});
-	const {push} = useRouter();
-	const {data:electionData} = useQuery({
-		queryKey: ["get election data",idElection],
-		queryFn: () => getOneElection(idElection),
-	})
-	if(electionData?.politicalRegimes?.length === 0 ){
-		return null
-	}
+	const { push } = useRouter();
+	const { data: electionData } = useQuery({
+		queryKey: ["get election data", idElection],
+		queryFn: () => getOneVoting(idElection),
+	});
+	const voteIn = async () => {
+		const politicalRegimeId = electionData?.politicalRegimes.filter(
+			(item) => item.cod === Number(`${slotValue1}${slotValue2}${slotValue3}`),
+		)[0]?.id;
+		if (politicalRegimeId) {
+			await mutateAsync({
+				votingId: idElection,
+				politicalRegimeId: politicalRegimeId,
+				userEnrollment: enrollment,
+			});
 
+			if (
+				electionData?.governmentSystem &&
+				electionData.governmentSystem.length > 0
+			) {
+				push(`/election/${idElection}/government`);
+			} else if (
+				electionData?.candidates &&
+				electionData.candidates.length > 0
+			) {
+				push(`/election/${idElection}/candidate`);
+			} else {
+				push("/admin/list/vote");
+			}
+
+			toast.success("Voto registrado.");
+		} else {
+			toast.error("Voto inválido.");
+		}
+	};
+
+	const voteWHite = async () => {
+		await mutateAsync({
+			votingId: idElection,
+			whiteVote: "true",
+			userEnrollment: enrollment,
+		});
+	};
 
 	return (
 		<>
-			<main className="grid grid-cols-10 mx-auto min-h-screen">
+			<div className="grid grid-cols-10 mx-auto min-h-screen">
 				<div className="bg-secondary/65">
 					<div className="w-full flex justify-center mt-12">
 						<Image src={logoIf} alt="Logo do IFRS" />
@@ -71,7 +96,7 @@ const RegimeVote = () => {
 					<div className="flex justify-between px-4 2xl:px-2">
 						<div className="px-6 py-12">
 							<h1 className="text-3xl font-medium 2xl:text-4xl">
-								Votação Regime Político
+								Votação Forma de Governo
 							</h1>
 						</div>
 					</div>
@@ -169,33 +194,17 @@ const RegimeVote = () => {
 								>
 									Corrige
 								</Button>
-								<Button className="bg-white text-black 2xl:h-20 2xl:w-36 h-16 w-26 2xl:text-2xl text-xl rounded-xl shadow-md hover:bg-black/10">
+								<Button
+									type="button"
+									onClick={() => voteWHite()}
+									className="bg-white text-black 2xl:h-20 2xl:w-36 h-16 w-26 2xl:text-2xl text-xl rounded-xl shadow-md hover:bg-black/10"
+								>
 									Branco
 								</Button>
 								<Button
-									onClick={async () => {
-										const selectedCod = Number(
-											`${slotValue1}${slotValue2}${slotValue3}`,
-										);
-										console.log(regimes);
-										
-										const regime = regimes?.find(
-											(item) => item.cod === selectedCod,
-										);
-										if (!regime) {
-											toast.error(
-												"O codigo selecionado não pertence a nenhuma opção disponivel",
-											);
-											return;
-										}
-										await mutateAsync({
-											votingId: idElection,
-											userEnrollment: enrollment,
-											politicalRegimeId: regime?.id,
-										});
-										push(`/election/${idElection}/result`);
-									}}
+									type="button"
 									className="text-black 2xl:h-20 2xl:w-36 h-16 w-26 2xl:text-2xl text-xl rounded-xl shadow-md"
+									onClick={() => voteIn()}
 								>
 									Confirma
 								</Button>
@@ -203,7 +212,7 @@ const RegimeVote = () => {
 						</div>
 					</div>
 				</div>
-			</main>
+			</div>
 		</>
 	);
 };

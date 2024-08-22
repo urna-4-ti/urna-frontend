@@ -5,7 +5,7 @@ type electionProps = {
 	className: string;
 	candidates?: string[] | undefined;
 	politicalRegimes?: string[] | undefined;
-	govermentSystem?: string[] | undefined;
+	governmentSystems?: string[] | undefined;
 };
 
 export async function createElection({
@@ -13,7 +13,7 @@ export async function createElection({
 	className,
 	candidates,
 	politicalRegimes,
-	govermentSystem,
+	governmentSystems,
 }: electionProps) {
 	const formdata = new FormData();
 
@@ -24,9 +24,9 @@ export async function createElection({
 		formdata.append("politicalRegimes", regime),
 	);
 
-	govermentSystem?.map((system) => formdata.append("govermentSystem", system));
-
-	console.log(formdata);
+	governmentSystems?.map((system) =>
+		formdata.append("governmentSystems", system),
+	);
 
 	const response = await api.post("/election", formdata, axiosConfig);
 
