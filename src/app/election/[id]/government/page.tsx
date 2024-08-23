@@ -47,7 +47,7 @@ const RegimeVote = () => {
 	});
 	const voteIn = async () => {
 		const selectedCod = Number(`${slotValue1}${slotValue2}${slotValue3}`);
-		const government = electionData?.governmentSystem?.find(
+		const government = electionData?.politicalRegimes?.find(
 			(item) => item.cod.toString() === selectedCod.toString(),
 		);
 
@@ -55,7 +55,7 @@ const RegimeVote = () => {
 			await mutateAsync({
 				votingId: idElection,
 				userEnrollment: enrollment,
-				governmentId: government?.id,
+				politicalRegimeId: government?.id,
 			});
 			if (electionData?.candidates && electionData.candidates.length > 0) {
 				push(`/election/${idElection}/candidate`);

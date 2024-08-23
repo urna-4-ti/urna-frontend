@@ -46,13 +46,13 @@ const RegimeVote = () => {
 		queryFn: () => getOneVoting(idElection),
 	});
 	const voteIn = async () => {
-		const politicalRegimeId = electionData?.politicalRegimes.filter(
+		const politicalRegimeId = electionData?.governmentSystem.filter(
 			(item) => item.cod === Number(`${slotValue1}${slotValue2}${slotValue3}`),
 		)[0]?.id;
 		if (politicalRegimeId) {
 			await mutateAsync({
 				votingId: idElection,
-				politicalRegimeId: politicalRegimeId,
+				governmentId: politicalRegimeId,
 				userEnrollment: enrollment,
 			});
 
