@@ -88,13 +88,13 @@ const RegimeVote = () => {
 			electionData.governmentSystem.length > 0
 		) {
 			push(`/election/${idElection}/government`);
-			toast.success("Voto registrado.");
+			toast.success("Voto em branco registrado.");
 		} else if (electionData?.candidates && electionData.candidates.length > 0) {
 			push(`/election/${idElection}/candidate`);
-			toast.success("Voto registrado.");
+			toast.success("Voto em branco registrado.");
 		} else {
 			push("/admin/list/vote");
-			toast.success("Voto registrado.");
+			toast.success("Voto em branco registrado.");
 		}
 	};
 
