@@ -71,15 +71,15 @@ const registration = ({ params }: { params: { id: string } }) => {
 			if (filterVoter[0].class === elections?.class) {
 				insert(data.enroll, params.id);
 				if (
-					elections?.governmentSystem &&
-					elections.governmentSystem.length > 0
-				) {
-					push(`/election/${params.id}/government`);
-				} else if (
 					elections?.politicalRegimes &&
 					elections.politicalRegimes.length > 0
 				) {
 					push(`/election/${params.id}/regime`);
+				} else if (
+					elections?.governmentSystem &&
+					elections.governmentSystem.length > 0
+				) {
+					push(`/election/${params.id}/government`);
 				} else if (elections?.candidates && elections.candidates.length > 0) {
 					push(`/election/${params.id}/candidate`);
 				}
