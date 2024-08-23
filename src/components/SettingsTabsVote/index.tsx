@@ -22,7 +22,7 @@ const SettingsTabsVote = () => {
 	const [currentTab, setCurrentTab] = useState("peding");
 	const [tab = "voting", setTab] = useQueryState("table");
 
-	const { data: elections, refetch } = useQuery({
+	const { data: elections } = useQuery({
 		queryKey: ["get-elections"],
 		queryFn: getAllElection,
 	});
@@ -31,7 +31,6 @@ const SettingsTabsVote = () => {
 	useEffect(() => {
 		if (tab) {
 			setCurrentTab(tab);
-			console.log(currentTab);
 		}
 	}, []);
 

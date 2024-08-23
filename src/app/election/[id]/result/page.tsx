@@ -28,16 +28,9 @@ const ResultElection = ({ params }: { params: { id: string } }) => {
 					</div>
 					<div className="flex flex-col items-center mt-4 w-full py-10">
 						<div className="flex flex-col items-center space-y-4">
-							<h1 className="text-4xl font-medium mplus">
-								Total de votos:{" "}
-								{elections
-									? elections.votes.governmentVotes.Absolutista +
-										elections.votes.governmentVotes.Constitucional +
-										elections.votes.politicalRegimeVotes.Parlamentarismo +
-										elections.votes.politicalRegimeVotes.Presedencialismo
-									: ""}
-							</h1>
-							<h3 className="text-2xl font-medium mplus">Votos em branco:</h3>
+							<h3 className="text-2xl font-medium mplus">
+								Votos em branco: {elections?.votes.whiteVotes}
+							</h3>
 						</div>
 
 						{elections && elections.politicalRegimes.length > 0 && (
@@ -59,7 +52,9 @@ const ResultElection = ({ params }: { params: { id: string } }) => {
 											<h2>{index + 1}º</h2>
 											<h2>{item.name}</h2>
 											<h2>
-												{elections.votes?.politicalRegimeVotes[item.name]}
+												{elections.votes?.politicalRegimeVotes[item.name]
+													? elections.votes?.politicalRegimeVotes[item.name]
+													: "0"}
 											</h2>
 										</div>
 									))}
@@ -84,7 +79,11 @@ const ResultElection = ({ params }: { params: { id: string } }) => {
 										>
 											<h2>{index + 1}º</h2>
 											<h2>{item.name}</h2>
-											<h2>{elections.votes?.governmentVotes[item.name]}</h2>
+											<h2>
+												{elections.votes?.governmentVotes[item.name]
+													? elections.votes?.governmentVotes[item.name]
+													: "0"}
+											</h2>
 										</div>
 									))}
 								</Card>
@@ -109,7 +108,11 @@ const ResultElection = ({ params }: { params: { id: string } }) => {
 										>
 											<h2>{index + 1}º</h2>
 											<h2>{item.name}</h2>
-											<h2>{elections.votes?.candidateVotes[item.name]}</h2>
+											<h2>
+												{elections.votes?.candidateVotes[item.name]
+													? elections.votes?.candidateVotes[item.name]
+													: "0"}
+											</h2>
 										</div>
 									))}
 								</Card>

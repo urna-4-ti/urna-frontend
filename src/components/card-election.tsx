@@ -1,7 +1,8 @@
 import plus from "@/img/plus.svg";
 import dotsOpt from "@/img/three-dots.svg";
 import { editElection } from "@/requests/election/edit";
-import { useMutation } from "@tanstack/react-query";
+import { getAllElection } from "@/requests/election/findAll";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -30,6 +31,11 @@ const CardElection = ({
 	const { mutateAsync } = useMutation({
 		mutationKey: ["update eletion status"],
 		mutationFn: editElection,
+	});
+
+	const { refetch } = useQuery({
+		queryKey: ["get-elections"],
+		queryFn: getAllElection,
 	});
 
 	return (
@@ -68,6 +74,7 @@ const CardElection = ({
 										status: "DONE",
 										electionId: itemId ?? "",
 									});
+									await refetch();
 								}
 							}}
 							href={linkPage2 || ""}
