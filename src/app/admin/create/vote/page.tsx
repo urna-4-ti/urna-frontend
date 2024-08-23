@@ -452,7 +452,7 @@ const createVote = () => {
 									className="text-base 2xl:text-lg font-normal text-muted-foreground"
 									htmlFor="select1"
 								>
-									Sistema de Governo
+									Forma de Governo
 								</Label>
 								<Select
 									onValueChange={(value) => {
@@ -467,13 +467,13 @@ const createVote = () => {
 									>
 										<SelectValue
 											className="2xl:placeholder:text-base placeholder:text-xs"
-											placeholder="Sistema de Governo"
+											placeholder="Forma de Governo"
 										/>
 									</SelectTrigger>
 									<SelectContent>
 										<SelectGroup className="h-28 text-sm 2xl:h-32">
 											<SelectLabel className="2xl:text-xl">
-												Sistema de Governo
+												Forma de Governo
 											</SelectLabel>
 											{availableGovernments?.map((item) => (
 												<SelectItem
@@ -498,7 +498,7 @@ const createVote = () => {
 									className="text-base 2xl:text-lg font-normal text-muted-foreground"
 									htmlFor="select1"
 								>
-									Forma de Governo
+									Sistema de Governo
 								</Label>
 								<Select
 									onValueChange={(value) => {
@@ -513,13 +513,13 @@ const createVote = () => {
 									>
 										<SelectValue
 											className="2xl:placeholder:text-base placeholder:text-sm"
-											placeholder="Forma de Governo"
+											placeholder="Sistema de Governo"
 										/>
 									</SelectTrigger>
 									<SelectContent>
 										<SelectGroup className="h-28 text-sm 2xl:h-32">
 											<SelectLabel className="2xl:text-xl">
-												Forma de Governo
+												Sistema de Governo
 											</SelectLabel>
 											{availableRegimes?.map((item) => (
 												<SelectItem

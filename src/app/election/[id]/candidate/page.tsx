@@ -85,9 +85,12 @@ const PresidentVote = () => {
 	const voteWHite = async () => {
 		await mutateAsync({
 			votingId: idElection,
-			whiteVote: "true",
+			whiteVote: false,
 			userEnrollment: enrollment,
 		});
+
+		push("/admin/list/vote");
+		toast.success("Voto registrado.");
 	};
 
 	return (
@@ -205,7 +208,10 @@ const PresidentVote = () => {
 								>
 									Corrige
 								</Button>
-								<Button className="bg-white text-black 2xl:h-20 2xl:w-36 h-16 w-26 2xl:text-2xl text-xl rounded-xl shadow-md hover:bg-black/10">
+								<Button
+									className="bg-white text-black 2xl:h-20 2xl:w-36 h-16 w-26 2xl:text-2xl text-xl rounded-xl shadow-md hover:bg-black/10"
+									onClick={voteWHite}
+								>
 									Branco
 								</Button>
 								<Button

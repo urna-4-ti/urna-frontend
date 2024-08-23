@@ -2,7 +2,7 @@ import { api, axiosConfig } from "../api";
 
 type voteProps = {
 	governmentId?: string;
-	whiteVote?: string;
+	whiteVote?: boolean;
 	politicalRegimeId?: string;
 
 	candidateId?: string;

@@ -62,6 +62,10 @@ const pageCreateRegime = () => {
 	});
 
 	const handleForm = async (data: formProps) => {
+		if (data.cod.toString().length !== 3) {
+			toast.error("O código deve conter 3 digitos.");
+			return;
+		}
 		// console.log(data);
 		const inviteForm = async () => {
 			const { response } = await mutateAsync({

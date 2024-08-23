@@ -101,6 +101,10 @@ const addCandidate = () => {
 	});
 
 	const handleForm = async (data: formProps) => {
+		if (data.codNum.toString().length !== 4) {
+			toast.error("O código deve conter 4 digitos.");
+			return;
+		}
 		const inviteForm = async () => {
 			const { response } = await mutateAsync({
 				cod: Number(data.codNum),

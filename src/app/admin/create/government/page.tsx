@@ -34,7 +34,7 @@ const schema = z.object({
 	name: z.string().min(3, "*Informe um nome de sistema válido."),
 	cod: z
 		.number({ message: "*O campo deve ser um número." })
-		.min(2, "*O campo deve conter 2 digitos."),
+		.min(3, "*O campo deve conter 3 digitos."),
 });
 
 type formProps = z.infer<typeof schema>;
@@ -62,6 +62,10 @@ const pageCreateGovernment = () => {
 
 	const handleForm = async (data: formProps) => {
 		// console.log(data);
+		if (data.cod.toString().length !== 3) {
+			toast.error("O código deve conter 3 digitos.");
+			return;
+		}
 		const inviteForm = async () => {
 			const { response } = await mutateAsync({
 				name: data.name,

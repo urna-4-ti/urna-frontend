@@ -79,9 +79,23 @@ const RegimeVote = () => {
 	const voteWHite = async () => {
 		await mutateAsync({
 			votingId: idElection,
-			whiteVote: "true",
+			whiteVote: false,
 			userEnrollment: enrollment,
 		});
+
+		if (
+			electionData?.governmentSystem &&
+			electionData.governmentSystem.length > 0
+		) {
+			push(`/election/${idElection}/government`);
+			toast.success("Voto registrado.");
+		} else if (electionData?.candidates && electionData.candidates.length > 0) {
+			push(`/election/${idElection}/candidate`);
+			toast.success("Voto registrado.");
+		} else {
+			push("/admin/list/vote");
+			toast.success("Voto registrado.");
+		}
 	};
 
 	return (

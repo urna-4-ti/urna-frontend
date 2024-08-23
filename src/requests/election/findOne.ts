@@ -28,6 +28,7 @@ type Votes = {
 	candidateVotes: Record<string, number>;
 	governmentVotes: Record<string, number>;
 	politicalRegimeVotes: Record<string, number>;
+	whiteVotes: number;
 };
 
 type VotingProps = {
