@@ -45,50 +45,56 @@ const registration = ({ params }: { params: { id: string } }) => {
     resolver: zodResolver(schema),
   });
 
-	const { data: elections } = useQuery({
-		queryKey: ["get-elections", params.id],
-		queryFn: () => getOneVoting(params.id),
-	});
+  const { data: elections } = useQuery({
+    queryKey: ["get-elections", params.id],
+    queryFn: () => getOneVoting(params.id),
+  });
 
-	const { data: voters } = useQuery({
-		queryKey: ["get-elections"],
-		queryFn: getVoters,
-	});
+  const { data: voters } = useQuery({
+    queryKey: ["get-elections"],
+    queryFn: getVoters,
+  });
 
   const {
     actions: { insert },
   } = useEnrollmentStore();
 
-	const handleForm = async (data: formProps) => {
-		const filterVoter = voters?.filter(
-			(voter) => voter.enrollment === data.enroll,
-		);
-		if (filterVoter?.length === 0) {
-			toast.error("Matrícula inválida");
-		}
+  const handleForm = async (data: formProps) => {
+    const filterVoter = voters?.filter(
+      (voter) => {
 
-		if (filterVoter && filterVoter?.length > 0) {
-			if (filterVoter[0].class === elections?.class) {
-				insert(data.enroll, params.id);
-				if (
-					elections?.politicalRegimes &&
-					elections.politicalRegimes.length > 0
-				) {
-					push(`/election/${params.id}/regime`);
-				} else if (
-					elections?.governmentSystem &&
-					elections.governmentSystem.length > 0
-				) {
-					push(`/election/${params.id}/government`);
-				} else if (elections?.candidates && elections.candidates.length > 0) {
-					push(`/election/${params.id}/candidate`);
-				}
-				toast.success("Mátricula encontrada.");
-			} else {
-				toast.error("Não existe votação vínculada a está matrícula.");
-			}
-		}
-	};
+        console.log(voter.enrollment, data.enroll);
+
+
+        return voter.enrollment === data.enroll
+      },
+    );
+    if (filterVoter?.length === 0) {
+      toast.error("Matrícula inválida");
+    }
+
+    if (filterVoter && filterVoter?.length > 0) {
+      if (filterVoter[0].class === elections?.class) {
+        insert(data.enroll, params.id);
+        if (
+          elections?.politicalRegimes &&
+          elections.politicalRegimes.length > 0
+        ) {
+          push(`/election/${params.id}/regime`);
+        } else if (
+          elections?.governmentSystem &&
+          elections.governmentSystem.length > 0
+        ) {
+          push(`/election/${params.id}/government`);
+        } else if (elections?.candidates && elections.candidates.length > 0) {
+          push(`/election/${params.id}/candidate`);
+        }
+        toast.success("Mátricula encontrada.");
+      } else {
+        toast.error("Não existe votação vínculada a está matrícula.");
+      }
+    }
+  };
 
   return (
     <main className="grid grid-cols-3 mx-auto min-h-screen">
