@@ -39,7 +39,7 @@ const pageListGovernment = () => {
 					<div className="flex justify-between px-4 2xl:px-2">
 						<div className="px-6 py-12">
 							<h1 className="text-3xl font-medium 2xl:text-4xl">
-								Listagem de Sistemas de Governos
+								Listagem de Forma de Governo
 							</h1>
 						</div>
 						<div className="mt-6">
