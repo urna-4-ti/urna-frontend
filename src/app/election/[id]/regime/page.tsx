@@ -56,15 +56,7 @@ const RegimeVote = () => {
 				userEnrollment: enrollment,
 			});
 
-			if (
-				electionData?.governmentSystem &&
-				electionData.governmentSystem.length > 0
-			) {
-				push(`/election/${idElection}/government`);
-			} else if (
-				electionData?.candidates &&
-				electionData.candidates.length > 0
-			) {
+			if (electionData?.candidates && electionData.candidates.length > 0) {
 				push(`/election/${idElection}/candidate`);
 			} else {
 				push("/admin/list/vote");
@@ -83,13 +75,7 @@ const RegimeVote = () => {
 			userEnrollment: enrollment,
 		});
 
-		if (
-			electionData?.governmentSystem &&
-			electionData.governmentSystem.length > 0
-		) {
-			push(`/election/${idElection}/government`);
-			toast.success("Voto em branco registrado.");
-		} else if (electionData?.candidates && electionData.candidates.length > 0) {
+		if (electionData?.candidates && electionData.candidates.length > 0) {
 			push(`/election/${idElection}/candidate`);
 			toast.success("Voto em branco registrado.");
 		} else {
@@ -110,7 +96,7 @@ const RegimeVote = () => {
 					<div className="flex justify-between px-4 2xl:px-2">
 						<div className="px-6 py-12">
 							<h1 className="text-3xl font-medium 2xl:text-4xl">
-								Votação Forma de Governo
+								Votação Sistema de Governo
 							</h1>
 						</div>
 					</div>
