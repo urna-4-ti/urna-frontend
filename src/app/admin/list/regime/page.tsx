@@ -41,7 +41,7 @@ const pageListRegime = () => {
 					<div className="flex justify-between px-4 2xl:px-2">
 						<div className="px-6 py-12">
 							<h1 className="text-3xl font-medium 2xl:text-4xl">
-								Listagem de Forma de Governos
+								Listagem de Sistema de Governos
 							</h1>
 						</div>
 						<div className="mt-6">
